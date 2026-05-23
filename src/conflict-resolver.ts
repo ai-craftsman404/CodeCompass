@@ -81,14 +81,14 @@ export function resolveConflict(
 
   // Rule 3: THREAT_LEVEL (85) overrides RESOURCE_CONSTRAINT (60)
   if (context.THREAT_LEVEL === 'critical') {
-    // If one rule addresses threat and other addresses resources, threat wins
-    const ruleAIsThreat = ruleA.category === 'security';
-    const ruleBIsThreat = ruleB.category === 'security';
+    // If one rule addresses threat (compliance/process) and other is structural, threat-related wins
+    const ruleAIsThreatRelated = ruleA.category === 'compliance' || ruleA.category === 'process';
+    const ruleBIsThreatRelated = ruleB.category === 'compliance' || ruleB.category === 'process';
 
-    if (ruleAIsThreat && !ruleBIsThreat) {
+    if (ruleAIsThreatRelated && !ruleBIsThreatRelated) {
       return ruleA.id;
     }
-    if (ruleBIsThreat && !ruleAIsThreat) {
+    if (ruleBIsThreatRelated && !ruleAIsThreatRelated) {
       return ruleB.id;
     }
   }
@@ -117,8 +117,8 @@ export function applyPrecedenceMatrix(rule: AuditRule, context: PrecedenceContex
     score *= 1.5;
   }
 
-  // Boost score if rule matches THREAT_LEVEL
-  if (context.THREAT_LEVEL === 'critical' && rule.category === 'security') {
+  // Boost score if rule matches THREAT_LEVEL (compliance/process categories address security threats)
+  if (context.THREAT_LEVEL === 'critical' && (rule.category === 'compliance' || rule.category === 'process')) {
     score *= 1.3;
   }
 

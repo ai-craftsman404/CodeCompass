@@ -81,6 +81,10 @@ export interface PrecedenceContext {
   DEPLOYMENT_TARGET?: 'local-dev' | 'cloud' | 'on-prem' | 'edge' | 'hybrid' | 'air-gapped';
   CI_MATURITY?: 'none' | 'basic' | 'full' | 'GitOps' | 'ADO';
   OBSERVABILITY_LEVEL?: 'none' | 'basic logging' | 'structured logs' | 'metrics+alerts' | 'full APM+tracing';
+  RESOURCE_CONSTRAINT?: 'none' | 'minimal' | 'moderate' | 'severe';
+
+  // Allow additional context variables for extensibility
+  [key: string]: unknown;
 }
 
 /**
@@ -221,6 +225,9 @@ export interface Tier3Answers {
   docExpectation?: string;
   testMaturity?: string;
   threatLevelOverride?: string;
+  securityWeight?: number;
+  complianceWeight?: number;
+  threatWeight?: number;
 }
 
 /**
