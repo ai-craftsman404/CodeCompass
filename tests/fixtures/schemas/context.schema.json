@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Audit Skill Context Variables Schema",
+  "description": "JSON schema for validating context variables derived from user input and repo inference",
+  "type": "object",
+  "required": ["PROFILE_STAGE", "COMPLIANCE_FRAMEWORK", "THREAT_LEVEL", "TEAM_SCALE"],
+  "properties": {
+    "PROFILE_STAGE": {
+      "type": "string",
+      "enum": ["sandbox", "PoC", "MVP", "beta", "production", "sunset-legacy"],
+      "description": "Project lifecycle stage"
+    },
+    "COMPLIANCE_FRAMEWORK": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["none", "GDPR", "ISO27001", "Cyber Essentials", "SOC2", "FedRAMP", "HIPAA", "NIST AI RMF", "EU AI Act", "PCI DSS"]
+      },
+      "description": "Applicable compliance frameworks (array allows multiple)"
+    },
+    "THREAT_LEVEL": {
+      "type": "string",
+      "enum": ["none", "low", "medium", "high", "critical"],
+      "description": "Current threat level assessment"
+    },
+    "TEAM_SCALE": {
+      "type": "string",
+      "enum": ["solo", "pair-trio", "small", "multi-team", "enterprise"],
+      "description": "Team size and organizational scope"
+    },
+    "AI_PATTERN": {
+      "type": "string",
+      "enum": ["none", "LLM API", "RAG", "fine-tuning", "agentic", "model training"],
+      "description": "Primary AI/ML involvement pattern"
+    },
+    "CRITICALITY_TIER": {
+      "type": "string",
+      "enum": ["none", "low", "medium", "high", "critical"],
+      "description": "Business criticality/impact tier"
+    },
+    "SECURITY_WEIGHT": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Security priority weighting (0-100)"
+    },
+    "COMPLIANCE_WEIGHT": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Compliance priority weighting (0-100)"
+    },
+    "THREAT_WEIGHT": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Threat assessment weighting (0-100)"
+    },
+    "TEST_MATURITY": {
+      "type": "string",
+      "enum": ["none", "unit", "unit+integration", "unit+integration+E2E", "contract", "chaos"],
+      "description": "Testing strategy maturity level"
+    },
+    "DOC_EXPECTATION": {
+      "type": "string",
+      "enum": ["minimal-informal", "inline comments", "ADRs", "runbooks", "full audit trail"],
+      "description": "Documentation expectations"
+    },
+    "REUSE_INTENT": {
+      "type": "string",
+      "enum": ["throwaway", "project-scoped", "shared library", "open-source", "product platform"],
+      "description": "Intended reusability scope"
+    },
+    "DEPLOYMENT_TARGET": {
+      "type": "string",
+      "enum": ["local-dev", "cloud", "on-prem", "edge", "hybrid", "air-gapped"],
+      "description": "Primary deployment environment"
+    },
+    "CI_MATURITY": {
+      "type": "string",
+      "enum": ["none", "basic", "full", "GitOps", "ADO"],
+      "description": "CI/CD pipeline maturity"
+    },
+    "OBSERVABILITY_LEVEL": {
+      "type": "string",
+      "enum": ["none", "basic logging", "structured logs", "metrics+alerts", "full APM+tracing"],
+      "description": "Observability and monitoring depth"
+    }
+  }
+}

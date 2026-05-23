@@ -1,0 +1,25 @@
+{
+  "version": "1.0.0",
+  "description": "Claude Code configuration for CodeCompass project",
+
+  "skills": {
+    "audit": {
+      "enabled": true,
+      "rulesPath": ".claude/audit-rules/",
+      "rulesVersion": "1.0.0",
+      "cacheRulesTtlMinutes": 60,
+      "allowDirectFlagInjection": true,
+      "description": "Project structure, naming, tooling, and compliance audit with parameterized recommendations"
+    }
+  },
+
+  "hooks": {
+    "Setup": [
+      {
+        "description": "One-time audit skill onboarding reminder",
+        "condition": "FirstProjectSetup",
+        "message": "Tip: Run `/audit` to scan this project for security, structure, and compliance issues."
+      }
+    ]
+  }
+}

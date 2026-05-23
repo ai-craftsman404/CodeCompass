@@ -1,0 +1,133 @@
+{
+  "version": "1.0.0",
+  "description": "Precedence weights for audit skill context variables. Used in scoring recommendations and resolving conflicts.",
+  "lastModified": "2026-05-23",
+
+  "absolutePrecedence": {
+    "CRITICALITY_TIER": {
+      "weight": 100,
+      "description": "Direct security impact; highest business risk. Overrides all other variables.",
+      "overrides": ["PROFILE_STAGE", "THREAT_LEVEL", "RESOURCE_CONSTRAINT", "TIMELINE"]
+    },
+    "COMPLIANCE_FRAMEWORK": {
+      "weight": 90,
+      "description": "Regulatory exposure; legal/financial consequences. Overrides lifecycle stage.",
+      "overrides": ["PROFILE_STAGE", "TEAM_SCALE"]
+    },
+    "THREAT_LEVEL": {
+      "weight": 85,
+      "description": "Active risk; immediate attack surface. Overrides resource constraints and timeline.",
+      "overrides": ["RESOURCE_CONSTRAINT", "TIMELINE", "REMEDIATION_URGENCY"]
+    }
+  },
+
+  "scopingPrecedence": {
+    "PROFILE_STAGE": {
+      "weight": 75,
+      "description": "Organizational maturity; determines minimum audit depth and coverage."
+    },
+    "TEAM_SCALE": {
+      "weight": 60,
+      "description": "Team size and organizational scope. Drives folder granularity."
+    },
+    "AI_PATTERN": {
+      "weight": 40,
+      "description": "AI/ML involvement pattern. Determines folder structure (agents, embeddings, etc.)."
+    }
+  },
+
+  "numericScoringWeights": {
+    "SECURITY_WEIGHT": {
+      "weight": 0.35,
+      "description": "Security priority; applied to overall recommendation score."
+    },
+    "COMPLIANCE_WEIGHT": {
+      "weight": 0.25,
+      "description": "Compliance priority; applied to overall recommendation score."
+    },
+    "THREAT_WEIGHT": {
+      "weight": 0.20,
+      "description": "Threat assessment; applied to overall recommendation score."
+    },
+    "TEAM_SCALE_FACTOR": {
+      "weight": 0.10,
+      "description": "Team organizational factor; applied to overall score."
+    },
+    "PROFILE_STAGE_FACTOR": {
+      "weight": 0.05,
+      "description": "Lifecycle stage factor; applied to overall score."
+    },
+    "TEST_MATURITY_FACTOR": {
+      "weight": 0.03,
+      "description": "Testing maturity factor; applied to overall score."
+    },
+    "AI_PATTERN_FACTOR": {
+      "weight": 0.02,
+      "description": "AI pattern factor; applied to overall score."
+    }
+  },
+
+  "conflictResolutionRules": {
+    "rule1_security_compliance_override": {
+      "description": "Security (CRITICALITY_TIER) always overrides compliance if contradiction.",
+      "rule": "if (CRITICALITY_TIER == 'critical') then CRITICALITY_TIER wins"
+    },
+    "rule2_compliance_cascades": {
+      "description": "Compliance framework cannot be overridden by lifecycle stage.",
+      "rule": "if (COMPLIANCE_FRAMEWORK != 'none') then apply all compliance rules even if PROFILE_STAGE='PoC'"
+    },
+    "rule3_threat_urgency_alignment": {
+      "description": "Threat level and remediation urgency must align; threat wins.",
+      "rule": "if (THREAT_LEVEL='critical' and REMEDIATION_URGENCY='deferred') then escalate urgency to 'immediate'"
+    },
+    "rule4_stage_scope": {
+      "description": "Lifecycle stage determines minimum audit depth and coverage.",
+      "rule": "sandbox: depth >= 'shallow', coverage >= 50%; production: depth >= 'comprehensive', coverage >= 85%"
+    },
+    "rule5_resource_constraints": {
+      "description": "Resource constraints trade depth for speed, but never override compliance.",
+      "rule": "if (RESOURCE_CONSTRAINT='severe') then reduce AUDIT_DEPTH by one level, BUT maintain COMPLIANCE_FRAMEWORK requirements"
+    }
+  },
+
+  "scoringFormula": {
+    "description": "Numeric scoring for recommendation priority",
+    "formula": "(SECURITY_WEIGHT × 0.35) + (COMPLIANCE_WEIGHT × 0.25) + (THREAT_WEIGHT × 0.20) + (TEAM_SCALE_FACTOR × 0.10) + (PROFILE_STAGE_FACTOR × 0.05) + (TEST_MATURITY_FACTOR × 0.03) + (AI_PATTERN_FACTOR × 0.02)",
+    "scale": "0-100",
+    "interpretation": {
+      "90-100": "Critical: Recommend immediately",
+      "75-89": "High: Recommend strongly",
+      "50-74": "Medium: Recommend with rationale",
+      "25-49": "Low: Suggest as optional enhancement",
+      "0-24": "Minimal: Skip unless user explicitly requests"
+    }
+  },
+
+  "phasingTriggerFormula": {
+    "description": "Weighted formula for suggesting triage + full audit phasing",
+    "formula": "(threat_score × 0.40) + (codebase_size_score × 0.30) + (resource_constraint_score × 0.30)",
+    "suggest_phasing_if": "> 0.65",
+    "components": {
+      "threat_score": {
+        "critical": 1.0,
+        "high": 0.7,
+        "medium": 0.4,
+        "low": 0.1,
+        "none": 0.0
+      },
+      "codebase_size_score": {
+        "over_500k_lines": 1.0,
+        "over_100k_lines": 0.7,
+        "over_50k_lines": 0.5,
+        "under_50k_lines": 0.2
+      },
+      "resource_constraint_score": {
+        "severe": 1.0,
+        "moderate": 0.6,
+        "standard": 0.3,
+        "unlimited": 0.0
+      }
+    },
+    "example": "threat=critical (1.0) + size=100k (0.7) + resource=severe (1.0) => (1.0×0.40 + 0.7×0.30 + 1.0×0.30) = 0.81 > 0.65 => suggest phasing"
+  }
+}

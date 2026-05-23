@@ -1,0 +1,122 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Audit Skill Rule Definition Schema",
+  "description": "JSON schema for validating audit rules used in the Claude Code audit skill",
+  "type": "object",
+  "required": ["id", "description", "category", "condition", "action", "rationale"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Unique rule identifier, kebab-case"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 200,
+      "description": "Short human-readable description of the rule"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["structure", "naming", "tooling", "compliance", "process", "testing"],
+      "description": "Category of recommendation (structure, naming, tooling, compliance, process, testing)"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "default": "1.0.0",
+      "description": "Semantic version of this rule"
+    },
+    "lastModified": {
+      "type": "string",
+      "format": "date",
+      "description": "ISO 8601 date of last modification"
+    },
+    "deprecated": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this rule is deprecated"
+    },
+    "replacedBy": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "ID of the rule that replaces this one (if deprecated)"
+    },
+    "condition": {
+      "type": "object",
+      "required": ["contextVars"],
+      "properties": {
+        "contextVars": {
+          "type": "object",
+          "description": "Context variables that must match for this rule to apply",
+          "additionalProperties": {
+            "oneOf": [
+              { "type": "string" },
+              { "type": "array", "items": { "type": "string" } }
+            ]
+          }
+        },
+        "precedenceWeight": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "description": "Weight for precedence scoring (1-100; higher = applies first)"
+        }
+      }
+    },
+    "action": {
+      "type": "object",
+      "required": ["type", "recommendation", "enforcementLevel"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["scaffold", "audit", "hardening", "reporting"],
+          "description": "Type of action recommended"
+        },
+        "recommendation": {
+          "type": "string",
+          "minLength": 20,
+          "description": "Plain English recommendation text (rendered as markdown)"
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["path", "template"],
+            "properties": {
+              "path": {
+                "type": "string",
+                "description": "File path to create (relative to project root)"
+              },
+              "template": {
+                "type": "string",
+                "description": "Template ID or inline content for scaffolding"
+              }
+            }
+          },
+          "description": "Optional files to scaffold or generate"
+        },
+        "enforcementLevel": {
+          "type": "string",
+          "enum": ["advisory", "soft-mandatory", "hard-mandatory"],
+          "description": "Enforcement level: advisory (suggestion), soft-mandatory (strongly recommend), hard-mandatory (non-negotiable)"
+        }
+      }
+    },
+    "conflictsWith": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+      "description": "List of rule IDs this rule conflicts with"
+    },
+    "overrides": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+      "description": "List of rule IDs this rule always supersedes"
+    },
+    "rationale": {
+      "type": "string",
+      "minLength": 20,
+      "description": "Why this rule exists; used in conflict resolution explanations"
+    }
+  }
+}

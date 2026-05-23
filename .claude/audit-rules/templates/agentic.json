@@ -1,0 +1,118 @@
+[
+  {
+    "id": "folder-structure-agentic",
+    "description": "Create /agents, /tools, /memory, /evals for agentic systems",
+    "category": "structure",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "AI_PATTERN": "agentic"
+      },
+      "precedenceWeight": 85
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Create /agents directory with subdirectories for each agent (security-scanner, test-writer, etc.). Create /tools for MCP tool definitions. Create /memory for context storage and vector stores. Create /evals for evaluation harnesses and test datasets. Create /prompts for prompt templates and system instructions.",
+      "files": [
+        { "path": "/agents/README.md", "template": "agents-readme.md" },
+        { "path": "/tools/README.md", "template": "tools-readme.md" },
+        { "path": "/memory/README.md", "template": "memory-readme.md" },
+        { "path": "/evals/README.md", "template": "evals-readme.md" },
+        { "path": "/prompts/README.md", "template": "prompts-readme.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": ["folder-structure-generic"],
+    "overrides": [],
+    "rationale": "Agentic systems have agent-centric folder structure with specialized subdirectories for agents, tools, memory, and evaluations. Generic structure rules conflict with this pattern."
+  },
+
+  {
+    "id": "mcp-integration-required",
+    "description": "MCP (Model Context Protocol) integration for agent tool definitions",
+    "category": "tooling",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "AI_PATTERN": "agentic"
+      },
+      "precedenceWeight": 80
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Implement MCP SDK integration in /tools directory. Define tool interface contracts, tool server startup, and tool invocation routing. Include tests for tool invocation patterns and error handling.",
+      "files": [
+        { "path": "/tools/server.ts", "template": "mcp-server.ts" },
+        { "path": "/tools/types.ts", "template": "tool-types.ts" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "MCP is foundational for agentic systems; tools are stateless, tool server manages invocation, agent reasoning calls tools via MCP protocol."
+  },
+
+  {
+    "id": "agent-orchestration-pattern",
+    "description": "Multi-agent orchestration and routing logic",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "AI_PATTERN": "agentic",
+        "TEAM_SCALE": ["small", "multi-team", "enterprise"]
+      },
+      "precedenceWeight": 75
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Implement agent orchestration layer (routing, request dispatch, multi-turn coordination). Document agent interaction patterns (sequential, parallel, hierarchical). Implement escalation logic for handling privilege boundaries.",
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Multi-agent systems require explicit orchestration to avoid deadlock and ensure predictable behavior."
+  },
+
+  {
+    "id": "agentic-testing-strategy",
+    "description": "Adversarial testing for multi-agent systems",
+    "category": "testing",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "AI_PATTERN": "agentic"
+      },
+      "precedenceWeight": 70
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Implement adversarial testing pattern: Test Writer agent produces comprehensive test suite (TDD approach). Adversarial Evaluator agent challenges tests on coverage, quality, implementation weaknesses, and security logic. Iterate until no further challenges.",
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Agentic systems require multi-agent testing due to non-deterministic reasoning and long-horizon interactions."
+  },
+
+  {
+    "id": "agent-memory-persistence",
+    "description": "Context storage and retrieval for agent reasoning",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "AI_PATTERN": "agentic"
+      },
+      "precedenceWeight": 60
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Implement memory layer: scan history snapshots, result caching, retrieval for context injection. Document memory refresh policies and invalidation rules.",
+      "enforcementLevel": "advisory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Agentic systems often need persistent state for multi-turn interactions and result trending."
+  }
+]

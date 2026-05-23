@@ -1,0 +1,113 @@
+[
+  {
+    "id": "folder-structure-rag",
+    "description": "Create /embeddings, /retrieval, /ingestion, /knowledge-base for RAG systems",
+    "category": "structure",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "AI_PATTERN": "RAG"
+      },
+      "precedenceWeight": 85
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Create /embeddings for embedding pipeline and model selection. Create /retrieval for search and ranking logic (indexing, ranking, query processing). Create /ingestion for document processing, chunking, validation, and normalization. Create /knowledge-base for processed document store and metadata. Create /prompts for RAG-specific prompt templates.",
+      "files": [
+        { "path": "/embeddings/README.md", "template": "embeddings-readme.md" },
+        { "path": "/retrieval/README.md", "template": "retrieval-readme.md" },
+        { "path": "/ingestion/README.md", "template": "ingestion-readme.md" },
+        { "path": "/knowledge-base/README.md", "template": "kb-readme.md" },
+        { "path": "/prompts/README.md", "template": "rag-prompts-readme.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": ["folder-structure-generic", "folder-structure-agentic"],
+    "overrides": [],
+    "rationale": "RAG systems separate data retrieval (vector search, ranking) from text generation (LLM reasoning). Folder structure reflects this separation."
+  },
+
+  {
+    "id": "vector-db-selection",
+    "description": "Choose and configure vector database for embedding storage",
+    "category": "tooling",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "AI_PATTERN": "RAG"
+      },
+      "precedenceWeight": 80
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Select vector database: Pinecone (managed), Chroma (local/self-hosted), Weaviate, or PostgreSQL+pgvector. Document choice with trade-offs (latency, cost, scalability). Configure indexing strategy (full-text, vector, hybrid).",
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Vector database is foundational to RAG; choice affects search quality, latency, and operational complexity."
+  },
+
+  {
+    "id": "retrieval-evaluation-metrics",
+    "description": "Measure retrieval quality separately from generation quality",
+    "category": "testing",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "AI_PATTERN": "RAG"
+      },
+      "precedenceWeight": 75
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Implement separate retrieval metrics (NDCG, MRR, Precision/Recall) and generation metrics (BLEU, ROUGE, F1). Create test dataset with ground-truth QA pairs. Document that retrieval and generation failures have different root causes.",
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "RAG systems have two independent quality layers; conflating them masks optimization opportunities."
+  },
+
+  {
+    "id": "document-ingestion-pipeline",
+    "description": "Document processing, chunking, and validation for knowledge base",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "AI_PATTERN": "RAG"
+      },
+      "precedenceWeight": 70
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Implement document loaders (PDF, web, database), chunking strategies (semantic/sliding-window), schema validation, and deduplication. Document staleness handling and cache invalidation policies.",
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "RAG quality depends heavily on ingestion; poor chunking or validation leads to retrieval failures."
+  },
+
+  {
+    "id": "rag-prompt-optimization",
+    "description": "Prompt templates for context injection and generation",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "AI_PATTERN": "RAG"
+      },
+      "precedenceWeight": 60
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Create prompt templates for retrieval context injection. Test few-shot examples for domain-specific generation. Document prompt engineering decisions and performance impact.",
+      "enforcementLevel": "advisory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "RAG generation quality depends on prompt quality; template management is part of production maintenance."
+  }
+]

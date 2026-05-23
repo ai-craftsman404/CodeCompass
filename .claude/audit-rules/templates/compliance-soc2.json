@@ -1,0 +1,125 @@
+[
+  {
+    "id": "soc2-cc6-access-control",
+    "description": "SOC2 Trust Service Criterion CC6.1: Entity restricts physical and logical access",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "SOC2"
+      },
+      "precedenceWeight": 95
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Implement access control matrix (role-based, attribute-based, or principle of least privilege). Document user provisioning and deprovisioning procedures. Implement MFA for production access. Create CODEOWNERS file to restrict code review and merge permissions by domain.",
+      "files": [
+        { "path": "/docs/access-control-matrix.md", "template": "access-control-matrix.md" },
+        { "path": "/.github/CODEOWNERS", "template": "codeowners.txt" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "CC6.1 is foundational to SOC2; access control must be documented and enforced."
+  },
+
+  {
+    "id": "soc2-cc7-monitoring",
+    "description": "SOC2 Trust Service Criterion CC7.2: Monitoring and incident detection",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "SOC2"
+      },
+      "precedenceWeight": 95
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Implement structured logging (JSON format with consistent fields). Set up monitoring dashboards for security-relevant events (authentication failures, permission changes, data access). Create alerts for suspicious patterns (brute force, anomalous queries). Document log retention policies (minimum 90 days).",
+      "files": [
+        { "path": "/docs/logging-strategy.md", "template": "logging-strategy.md" },
+        { "path": "/docs/alerting-rules.md", "template": "alerting-rules.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "CC7.2 requires evidence of monitoring; logs are the primary evidence."
+  },
+
+  {
+    "id": "soc2-cc8-change-management",
+    "description": "SOC2 Trust Service Criterion CC8.1: Changes are identified, recorded, assessed, authorized",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "SOC2"
+      },
+      "precedenceWeight": 90
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Implement CI/CD pipeline with automated testing and approval gates. Require pull request reviews with documented approval. Track all deployments with timestamps, authors, and changes. Document rollback procedures. Implement feature flags for risky changes.",
+      "files": [
+        { "path": "/docs/change-management-process.md", "template": "change-management.md" },
+        { "path": "/.github/workflows/ci.yml", "template": "soc2-ci-workflow.yml" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "CC8.1 is essential for production integrity; CI/CD provides automated evidence."
+  },
+
+  {
+    "id": "soc2-cc9-risk-assessment",
+    "description": "SOC2 Trust Service Criterion CC9.1: Objectives are identified and risks are analyzed",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "SOC2"
+      },
+      "precedenceWeight": 80
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Document security objectives and risk assessment results. Maintain a risk register with identified threats, likelihood, and mitigation strategies. Update risk register quarterly.",
+      "files": [
+        { "path": "/docs/security-objectives.md", "template": "security-objectives.md" },
+        { "path": "/docs/risk-register.md", "template": "risk-register.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "CC9.1 requires documented risk management; risk register is primary evidence."
+  },
+
+  {
+    "id": "soc2-audit-trail-requirement",
+    "description": "Maintain complete audit trail of SOC2 control evidence",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "SOC2"
+      },
+      "precedenceWeight": 75
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Create /docs/soc2/ directory for control evidence: access logs, change logs, monitoring reports, risk assessments. Update evidence monthly. Prepare SOC2 Type II audit schedule (annual audits recommended).",
+      "files": [
+        { "path": "/docs/soc2/README.md", "template": "soc2-evidence-readme.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Auditors require evidence trail; centralized documentation accelerates audit process."
+  }
+]

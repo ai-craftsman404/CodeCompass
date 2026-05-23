@@ -1,0 +1,167 @@
+{
+  "version": "1.0.0",
+  "lastModified": "2026-05-23",
+  "description": "Audit Rules Catalog - Searchable registry of all available audit rules",
+
+  "rules": [
+    {
+      "id": "folder-structure-agentic",
+      "file": "templates/agentic.json",
+      "category": "structure",
+      "applicablePatterns": ["agentic"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-23",
+      "description": "Create /agents, /tools, /memory, /evals for agentic systems"
+    },
+    {
+      "id": "mcp-integration-required",
+      "file": "templates/agentic.json",
+      "category": "tooling",
+      "applicablePatterns": ["agentic"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-23",
+      "description": "MCP (Model Context Protocol) integration for agent tool definitions"
+    },
+    {
+      "id": "agent-orchestration-pattern",
+      "file": "templates/agentic.json",
+      "category": "process",
+      "applicablePatterns": ["agentic"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-23",
+      "description": "Multi-agent orchestration and routing logic"
+    },
+    {
+      "id": "agentic-testing-strategy",
+      "file": "templates/agentic.json",
+      "category": "testing",
+      "applicablePatterns": ["agentic"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-23",
+      "description": "Adversarial testing for multi-agent systems"
+    },
+    {
+      "id": "agent-memory-persistence",
+      "file": "templates/agentic.json",
+      "category": "process",
+      "applicablePatterns": ["agentic"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-23",
+      "description": "Context storage and retrieval for agent reasoning"
+    },
+
+    {
+      "id": "folder-structure-rag",
+      "file": "templates/rag.json",
+      "category": "structure",
+      "applicablePatterns": ["RAG"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-23",
+      "description": "Create /embeddings, /retrieval, /ingestion, /knowledge-base for RAG systems"
+    },
+    {
+      "id": "vector-db-selection",
+      "file": "templates/rag.json",
+      "category": "tooling",
+      "applicablePatterns": ["RAG"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-23",
+      "description": "Choose and configure vector database for embedding storage"
+    },
+    {
+      "id": "retrieval-evaluation-metrics",
+      "file": "templates/rag.json",
+      "category": "testing",
+      "applicablePatterns": ["RAG"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-23",
+      "description": "Measure retrieval quality separately from generation quality"
+    },
+    {
+      "id": "document-ingestion-pipeline",
+      "file": "templates/rag.json",
+      "category": "process",
+      "applicablePatterns": ["RAG"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-23",
+      "description": "Document processing, chunking, and validation for knowledge base"
+    },
+    {
+      "id": "rag-prompt-optimization",
+      "file": "templates/rag.json",
+      "category": "process",
+      "applicablePatterns": ["RAG"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-23",
+      "description": "Prompt templates for context injection and generation"
+    },
+
+    {
+      "id": "soc2-cc6-access-control",
+      "file": "templates/compliance-soc2.json",
+      "category": "compliance",
+      "applicableFrameworks": ["SOC2"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-23",
+      "description": "SOC2 Trust Service Criterion CC6.1: Entity restricts physical and logical access"
+    },
+    {
+      "id": "soc2-cc7-monitoring",
+      "file": "templates/compliance-soc2.json",
+      "category": "compliance",
+      "applicableFrameworks": ["SOC2"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-23",
+      "description": "SOC2 Trust Service Criterion CC7.2: Monitoring and incident detection"
+    },
+    {
+      "id": "soc2-cc8-change-management",
+      "file": "templates/compliance-soc2.json",
+      "category": "compliance",
+      "applicableFrameworks": ["SOC2"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-23",
+      "description": "SOC2 Trust Service Criterion CC8.1: Changes are identified, recorded, assessed, authorized"
+    },
+    {
+      "id": "soc2-cc9-risk-assessment",
+      "file": "templates/compliance-soc2.json",
+      "category": "compliance",
+      "applicableFrameworks": ["SOC2"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-23",
+      "description": "SOC2 Trust Service Criterion CC9.1: Objectives are identified and risks are analyzed"
+    },
+    {
+      "id": "soc2-audit-trail-requirement",
+      "file": "templates/compliance-soc2.json",
+      "category": "compliance",
+      "applicableFrameworks": ["SOC2"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-23",
+      "description": "Maintain complete audit trail of SOC2 control evidence"
+    }
+  ],
+
+  "categories": {
+    "structure": "Folder organization and naming conventions",
+    "naming": "Naming standards for files, variables, functions",
+    "tooling": "Technology choices and dependencies",
+    "compliance": "Regulatory and compliance requirements",
+    "process": "Development, deployment, and operational processes",
+    "testing": "Testing strategy and evaluation approaches"
+  },
+
+  "filters": {
+    "by_pattern": {
+      "agentic": ["folder-structure-agentic", "mcp-integration-required", "agent-orchestration-pattern", "agentic-testing-strategy", "agent-memory-persistence"],
+      "RAG": ["folder-structure-rag", "vector-db-selection", "retrieval-evaluation-metrics", "document-ingestion-pipeline", "rag-prompt-optimization"],
+      "LLM API": []
+    },
+    "by_framework": {
+      "SOC2": ["soc2-cc6-access-control", "soc2-cc7-monitoring", "soc2-cc8-change-management", "soc2-cc9-risk-assessment", "soc2-audit-trail-requirement"],
+      "ISO27001": [],
+      "GDPR": []
+    }
+  }
+}
