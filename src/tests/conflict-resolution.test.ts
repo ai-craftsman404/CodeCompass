@@ -406,9 +406,10 @@ describe('Conflict Resolution', () => {
 
       const { resolved } = resolveAllConflicts(rules, {});
 
-      // Only winning rule should be in resolved
-      expect(resolved.length).toBeLessThanOrEqual(1);
-      const rule = resolved[0];
+      // Only winning rule should have status 'applied'
+      const appliedRules = resolved.filter(r => r.status === 'applied');
+      expect(appliedRules.length).toBeLessThanOrEqual(1);
+      const rule = appliedRules[0];
       expect(rule.id).toBe('A');
       expect(rule.status).toBe('applied');
     });
@@ -796,3 +797,4 @@ describe('Conflict Resolution', () => {
     });
   });
 });
+

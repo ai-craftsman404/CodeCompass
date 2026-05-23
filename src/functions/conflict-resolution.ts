@@ -151,9 +151,9 @@ export function resolveAllConflicts(
     }
   }
 
-  // Return only applied rules in the resolved array
+  // Return all rules (applied and overridden) so validation can detect hard-mandatory violations
   return {
-    resolved: resolved.filter(r => r.status === 'applied'),
+    resolved: resolved,
     conflicts: conflictLog
   };
 }

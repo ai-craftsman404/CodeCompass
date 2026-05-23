@@ -22,7 +22,7 @@ import {
 } from './functions/conflict-resolution';
 import {
   applyPrecedenceMatrix
-} from './conflict-resolver';
+} from './functions/precedence-scoring';
 
 /**
  * Load all rules from .claude/audit-rules/templates/
@@ -300,3 +300,4 @@ export async function generateRecommendations(
     }
   };
 }
+
