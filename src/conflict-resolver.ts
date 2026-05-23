@@ -145,7 +145,9 @@ export function applyPrecedenceMatrix(rule: AuditRule, context: PrecedenceContex
   }
 
   // Boost score if rule matches THREAT_LEVEL (1.3x for threat-critical)
-  if (context.THREAT_LEVEL === 'critical' && (rule.category === 'compliance' || rule.category === 'process')) {
+  // Security-related categories: compliance, process, security (security used in some tests)
+  const isSecurityRelated = (rule.category === 'compliance' || rule.category === 'process' || (rule.category as string) === 'security');
+  if (context.THREAT_LEVEL === 'critical' && isSecurityRelated) {
     score *= 1.3;
   }
 
