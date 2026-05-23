@@ -4,7 +4,7 @@
  * Coverage: Direct flag injection, Tier 3 customization, complete variable override = 15 tests
  */
 
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
 import fs from 'fs';
 import path from 'path';
 import os from 'os';

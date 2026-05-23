@@ -4,7 +4,7 @@
  * Coverage: 5 different project types × 3 scenarios = 15 tests
  */
 
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
 import fs from 'fs';
 import path from 'path';
 import os from 'os';

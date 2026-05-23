@@ -4,7 +4,7 @@
  * Coverage: Full integration from input to output, phasing logic, conflict resolution = 20 tests
  */
 
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
 import fs from 'fs';
 import path from 'path';
 import os from 'os';

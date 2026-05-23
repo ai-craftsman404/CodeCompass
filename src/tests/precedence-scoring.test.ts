@@ -6,7 +6,7 @@
  * Test Count: 65+
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach } from '@jest/globals';
 import { applyPrecedenceMatrix } from '../functions/precedence-scoring';
 
 function createRule(overrides: any = {}) {

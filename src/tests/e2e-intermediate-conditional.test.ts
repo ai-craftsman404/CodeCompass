@@ -4,7 +4,7 @@
  * Coverage: All Tier 2 unlock conditions tested, context variables mapped correctly = 15 tests
  */
 
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
 import fs from 'fs';
 import path from 'path';
 import os from 'os';

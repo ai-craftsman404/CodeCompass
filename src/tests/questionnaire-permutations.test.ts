@@ -6,7 +6,7 @@
  * Test Count: 155+
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach } from '@jest/globals';
 import { mapTierAnswersToContext } from '../functions/context-mapping';
 
 // Mock rule loader

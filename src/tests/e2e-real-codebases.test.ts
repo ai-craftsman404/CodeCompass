@@ -4,7 +4,7 @@
  * Creates temp fixtures for each project type, verifies auto-inference and rule matching = 15 tests
  */
 
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from '@jest/globals';
 import fs from 'fs';
 import path from 'path';
 import os from 'os';

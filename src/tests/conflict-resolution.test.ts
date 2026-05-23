@@ -6,7 +6,7 @@
  * Test Count: 52+
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach } from '@jest/globals';
 import {
   detectConflictsBetweenRules,
   resolveConflict,

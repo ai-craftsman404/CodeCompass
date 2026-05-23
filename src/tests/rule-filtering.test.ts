@@ -6,7 +6,7 @@
  * Test Count: 85+
  */
 
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach } from '@jest/globals';
 import { filterRulesByContext } from '../functions/rule-filtering';
 
 // Mock rule creation helper
