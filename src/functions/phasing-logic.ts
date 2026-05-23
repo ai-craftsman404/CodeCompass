@@ -111,7 +111,7 @@ export interface Phase {
   duration: string;
   objectives: string[];
   output: string;
-  rules: Array<{ id: string; category: string }>;
+  rules: Array<{ id: string; category: string; enforcementLevel?: string }>;
 }
 
 /**
@@ -145,7 +145,7 @@ export function determinePhasedRecommendations(
         'Create quick-fix action list',
         'Risk prioritization for Phase 2'
       ],
-      rules: hardMandatoryRules.map(r => ({ id: r.id, category: r.category }))
+      rules: hardMandatoryRules.map(r => ({ id: r.id, category: r.category, enforcementLevel: r.action?.enforcementLevel }))
     };
 
     // Phase 2: All applied rules (Comprehensive: 1-3 days)
