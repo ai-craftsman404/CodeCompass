@@ -19,12 +19,12 @@ export function applyPrecedenceMatrix(rule: AuditRule, context: PrecedenceContex
   // Formula: weighted combination of factors
   score = score * (securityFactor * 0.35 + complianceFactor * 0.25 + threatFactor * 0.2);
 
-  // Boost score if rule matches COMPLIANCE_FRAMEWORK
-  if (context.COMPLIANCE_FRAMEWORK && context.COMPLIANCE_FRAMEWORK.length > 0 && rule.category === 'compliance') {
+  // Boost score if rule matches COMPLIANCE_FRAMEWORK (1.5x)
+  if (context.COMPLIANCE_FRAMEWORK && context.COMPLIANCE_FRAMEWORK.length > 0 && context.COMPLIANCE_FRAMEWORK[0] !== 'none' && rule.category === 'compliance') {
     score *= 1.5;
   }
 
-  // Boost score if rule matches THREAT_LEVEL (compliance/process categories address security threats)
+  // Boost score if rule matches THREAT_LEVEL (1.3x for threat-critical)
   if (context.THREAT_LEVEL === 'critical' && (rule.category === 'compliance' || rule.category === 'process')) {
     score *= 1.3;
   }

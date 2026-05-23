@@ -43,11 +43,53 @@ export function parseAndValidateFlags(flags) {
     return { valid: errors.length === 0, errors, parsed };
 }
 /**
- * Apply flag overrides to context
+ * Apply flag overrides (validates and returns object)
+ * Throws on invalid values
  */
-export function applyFlagOverrides(context, flags) {
-    // TODO: Implement flag override application
-    const merged = { ...context };
-    Object.assign(merged, flags);
-    return merged;
+export function applyFlagOverrides(flags = {}) {
+    if (!flags)
+        return {};
+    const result = {};
+    // Whitelist of allowed flags with validation rules
+    const allowedFlags = {
+        PROFILE_STAGE: (val) => ['sandbox', 'PoC', 'MVP', 'beta', 'production', 'sunset-legacy'].includes(String(val)),
+        COMPLIANCE_FRAMEWORK: (val) => typeof val === 'string' || Array.isArray(val),
+        THREAT_LEVEL: (val) => ['none', 'low', 'medium', 'high', 'critical'].includes(String(val)),
+        TEAM_SCALE: (val) => ['solo', 'pair-trio', 'small', 'multi-team', 'enterprise'].includes(String(val)),
+        AI_PATTERN: (val) => ['none', 'LLM API', 'RAG', 'fine-tuning', 'agentic', 'model training'].includes(String(val)),
+        SECURITY_WEIGHT: (val) => {
+            const num = Number(val);
+            return !isNaN(num) && num >= 0 && num <= 100;
+        },
+        COMPLIANCE_WEIGHT: (val) => {
+            const num = Number(val);
+            return !isNaN(num) && num >= 0 && num <= 100;
+        },
+        THREAT_WEIGHT: (val) => {
+            const num = Number(val);
+            return !isNaN(num) && num >= 0 && num <= 100;
+        }
+    };
+    for (const [key, value] of Object.entries(flags)) {
+        if (!(key in allowedFlags)) {
+            throw new Error(`Flag not recognized: ${key}`);
+        }
+        const validator = allowedFlags[key];
+        if (!validator(value)) {
+            if (key.endsWith('_WEIGHT')) {
+                throw new Error(`${key}: must be a number between 0-100, got '${value}'`);
+            }
+            else {
+                throw new Error(`${key}: invalid value '${value}', not in allowed list`);
+            }
+        }
+        // Convert numeric strings to numbers for weight fields
+        if (key.endsWith('_WEIGHT')) {
+            result[key] = Number(value);
+        }
+        else {
+            result[key] = value;
+        }
+    }
+    return result;
 }

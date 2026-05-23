@@ -9,8 +9,10 @@ import { AuditRule, PrecedenceContext } from '../types/audit';
  * Returns only rules whose contextVars match the provided context
  */
 export function filterRulesByContext(rules: AuditRule[], context: PrecedenceContext): AuditRule[] {
-  // TODO: Implement rule filtering logic
   return rules.filter(rule => {
+    // Handle null/undefined condition
+    if (!rule || !rule.condition) return true;
+
     const { contextVars } = rule.condition;
     if (!contextVars) return true;
 

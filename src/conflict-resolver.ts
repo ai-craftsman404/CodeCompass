@@ -8,8 +8,14 @@ import { AuditRule, PrecedenceContext, ScoredRule, ResolvedRule, RuleConflict } 
 /**
  * Detect conflicts between two rules: do they recommend contradictory actions?
  */
-export function detectConflictsBetweenRules(rules: ScoredRule[]): Map<string, RuleConflict> {
-  const conflicts = new Map<string, RuleConflict>();
+export interface ScoredRuleConflict {
+  ruleA: ScoredRule;
+  ruleB: ScoredRule;
+  reason: string;
+}
+
+export function detectConflictsBetweenRules(rules: ScoredRule[]): Map<string, ScoredRuleConflict> {
+  const conflicts = new Map<string, ScoredRuleConflict>();
 
   for (let i = 0; i < rules.length; i++) {
     for (let j = i + 1; j < rules.length; j++) {
@@ -33,6 +39,26 @@ export function detectConflictsBetweenRules(rules: ScoredRule[]): Map<string, Ru
           ruleA,
           ruleB,
           reason: `${ruleA.id} declares conflict with ${ruleB.id}`
+        });
+      }
+
+      // Check if ruleA overrides ruleB (implicit conflict)
+      if (ruleA.overrides?.includes(ruleB.id)) {
+        const conflictKey = `${ruleA.id}--${ruleB.id}`;
+        conflicts.set(conflictKey, {
+          ruleA,
+          ruleB,
+          reason: `${ruleA.id} overrides ${ruleB.id}`
+        });
+      }
+
+      // Check if ruleB overrides ruleA (implicit conflict)
+      if (ruleB.overrides?.includes(ruleA.id)) {
+        const conflictKey = `${ruleA.id}--${ruleB.id}`;
+        conflicts.set(conflictKey, {
+          ruleA,
+          ruleB,
+          reason: `${ruleB.id} overrides ${ruleA.id}`
         });
       }
     }
@@ -99,12 +125,13 @@ export function resolveConflict(
 
 /**
  * Apply the precedence matrix to score rules
- * Lower precedence rules can be overridden by higher precedence variables
+ * Formula: security*0.35 + compliance*0.25 + threat*0.2
+ * Boosts: compliance (1.5x), threat-critical (1.3x)
  */
 export function applyPrecedenceMatrix(rule: AuditRule, context: PrecedenceContext): number {
   let score = rule.condition.precedenceWeight || 50;
 
-  // Apply context variable weighting (numeric factors)
+  // Apply context variable weighting (numeric factors) 0-100
   const securityFactor = (context.SECURITY_WEIGHT || 60) / 100;
   const complianceFactor = (context.COMPLIANCE_WEIGHT || 50) / 100;
   const threatFactor = (context.THREAT_WEIGHT || 40) / 100;
@@ -112,12 +139,12 @@ export function applyPrecedenceMatrix(rule: AuditRule, context: PrecedenceContex
   // Formula: weighted combination of factors
   score = score * (securityFactor * 0.35 + complianceFactor * 0.25 + threatFactor * 0.2);
 
-  // Boost score if rule matches COMPLIANCE_FRAMEWORK
-  if (context.COMPLIANCE_FRAMEWORK && context.COMPLIANCE_FRAMEWORK.length > 0 && rule.category === 'compliance') {
+  // Boost score if rule matches COMPLIANCE_FRAMEWORK (1.5x)
+  if (context.COMPLIANCE_FRAMEWORK && context.COMPLIANCE_FRAMEWORK.length > 0 && context.COMPLIANCE_FRAMEWORK[0] !== 'none' && rule.category === 'compliance') {
     score *= 1.5;
   }
 
-  // Boost score if rule matches THREAT_LEVEL (compliance/process categories address security threats)
+  // Boost score if rule matches THREAT_LEVEL (1.3x for threat-critical)
   if (context.THREAT_LEVEL === 'critical' && (rule.category === 'compliance' || rule.category === 'process')) {
     score *= 1.3;
   }
@@ -134,13 +161,14 @@ export function resolveAllConflicts(
   context: PrecedenceContext
 ): {
   resolved: ResolvedRule[];
-  conflicts: Array<{ winner: string; loser: string; reason: string }>;
+  conflicts: Array<{ winner: ScoredRule; loser: ScoredRule; reason: string }>;
 } {
   const conflicts = detectConflictsBetweenRules(rules);
   const resolved: ResolvedRule[] = [];
-  const conflictLog: Array<{ winner: string; loser: string; reason: string }> = [];
+  const conflictLog: Array<{ winner: ScoredRule; loser: ScoredRule; reason: string }> = [];
 
   const resolvedIds = new Set<string>();
+  const ruleMap = new Map<string, ScoredRule>(rules.map(r => [r.id, r]));
 
   // Process each rule
   for (const rule of rules) {
@@ -160,16 +188,17 @@ export function resolveAllConflicts(
             explanation: `Applied (won conflict vs ${other.id} due to ${conflict.reason})`
           });
           resolvedIds.add(rule.id);
-          conflictLog.push({ winner: rule.id, loser: other.id, reason: conflict.reason });
+          conflictLog.push({ winner: rule, loser: other, reason: conflict.reason });
         } else {
           // This rule loses the conflict
+          const winnerRule = ruleMap.get(winner)!;
           resolved.push({
             ...rule,
             status: 'overridden',
             overriddenBy: winner,
             explanation: `Overridden by ${winner} due to ${conflict.reason}`
           });
-          conflictLog.push({ winner, loser: rule.id, reason: conflict.reason });
+          conflictLog.push({ winner: winnerRule, loser: rule, reason: conflict.reason });
         }
         break;
       }

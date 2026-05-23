@@ -18,8 +18,10 @@ import {
 } from './types/audit';
 import {
   resolveAllConflicts,
-  applyPrecedenceMatrix,
   validateConflictResolution
+} from './functions/conflict-resolution';
+import {
+  applyPrecedenceMatrix
 } from './conflict-resolver';
 
 /**
@@ -287,9 +289,9 @@ export async function generateRecommendations(
     explanation: {
       contextVars: context,
       conflictsResolved: conflicts.map(c => ({
-        ruleA: c.loser,
-        ruleB: c.winner,
-        winner: c.winner,
+        ruleA: c.loser.id,
+        ruleB: c.winner.id,
+        winner: c.winner.id,
         reason: c.reason
       })),
       phasingReason: shouldPhase

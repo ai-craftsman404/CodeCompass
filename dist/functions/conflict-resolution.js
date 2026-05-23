@@ -35,8 +35,26 @@ export function resolveConflict(ruleA, ruleB, context) {
  * Resolve all conflicts in a rule set
  */
 export function resolveAllConflicts(rules, context) {
-    // TODO: Implement full conflict resolution with transitive closure
-    const resolved = [...rules];
+    const resolved = rules.map(r => ({ ...r }));
+    // Check all pairs for conflicts
+    for (let i = 0; i < resolved.length; i++) {
+        for (let j = i + 1; j < resolved.length; j++) {
+            const ruleA = resolved[i];
+            const ruleB = resolved[j];
+            if (detectConflictsBetweenRules(ruleA, ruleB)) {
+                const winner = resolveConflict(ruleA, ruleB, context);
+                // Mark loser as overridden
+                if (winner === ruleA.id) {
+                    ruleB.status = 'overridden';
+                    ruleB.overriddenBy = ruleA.id;
+                }
+                else {
+                    ruleA.status = 'overridden';
+                    ruleA.overriddenBy = ruleB.id;
+                }
+            }
+        }
+    }
     return resolved;
 }
 /**
