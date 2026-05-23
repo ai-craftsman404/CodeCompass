@@ -339,13 +339,13 @@ describe('Phasing Logic', () => {
         THREAT_LEVEL: 'medium',
         RESOURCE_CONSTRAINT: 'severe'
       };
-      const scanResults = { codebaseSizeLines: 100000 };
+      const scanResults = { codebaseSizeLines: 200000 }; // >100k → size=0.7; severe: 0.67 > 0.65 → true
 
       const phase1 = shouldSuggestPhasing(context1, scanResults);
       const phase2 = shouldSuggestPhasing(context2, scanResults);
 
       // Severe resources should make phasing more likely
-      expect(phase2).toBeGreaterThanOrEqual(phase1 ? 0 : 0);
+      expect(phase2).toBe(true);
     });
 
     it('unlimited resources can prevent phasing even with high threat', () => {
@@ -430,7 +430,7 @@ describe('Phasing Logic', () => {
       const phasing = determinePhasedRecommendations(resolved, true);
 
       const objectives = phasing.phase1!.objectives;
-      expect(objectives).toContain(expect.stringContaining(/critical|violation/i));
+      expect(objectives.some((o: string) => /critical|violation/i.test(o))).toBe(true);
     });
 
     it('phase2 objectives match specification', () => {
