@@ -52,12 +52,21 @@ Suggest phasing if score > 0.65
 - Resource: standard (0.3) × 0.30 = 0.09
 - **Score: 0.19 → Single comprehensive phase**
 
-### Example 3: Startup Growth (Phasing Recommended)
+### Example 3: Startup Growth (Borderline Case)
 - Threat: medium (0.4) × 0.40 = 0.16
 - Size: 150k lines (0.7) × 0.30 = 0.21
 - Resource: moderate (0.6) × 0.30 = 0.18
 - **Score: 0.55 → No phasing (just below 0.65 threshold)**
   - But if resource constraint escalates → recalculate
+
+### Example 4: Impossible Timeline Override
+- Threat: high (0.7) × 0.40 = 0.28
+- Size: 50k lines (0.5) × 0.30 = 0.15
+- Resource: standard (0.3) × 0.30 = 0.09
+- **Score: 0.52 → Normally no phasing**
+- **BUT:** Customer deadline is 48 hours, audit must complete before launch
+- **Action:** **Recommend phasing despite low score** — Triage (critical issues), full audit in Phase 2 post-launch
+  - This is an exception case where business constraints override formula
 
 ## Compliance Implications
 

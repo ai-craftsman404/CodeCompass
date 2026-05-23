@@ -66,12 +66,46 @@ Each rule is a JSON object matching `audit-rules/schemas/rule.schema.json`:
 }
 ```
 
+## Rule Lifecycle
+
+Rules follow a semantic versioning pattern (MAJOR.MINOR.PATCH):
+
+- **1.0.0** — Initial rule release
+- **1.1.0** — Non-breaking enhancement (e.g., expanded contextVars, new template files)
+- **2.0.0** — Breaking change (e.g., renamed rule ID, removed conditions)
+- **Deprecation** — Mark with `deprecated: true` and `successor: "new-rule-id"` in action block
+
+Example deprecated rule:
+```json
+{
+  "id": "old-rule-id",
+  "deprecated": true,
+  "successor": "new-rule-id",
+  "action": {
+    "recommendation": "This rule is deprecated. Use new-rule-id instead."
+  }
+}
+```
+
+## Circular Dependencies & Conflict Edges
+
+**Avoid circular references:**
+- Rule A overrides Rule B
+- Rule B overrides Rule C
+- Rule C overrides Rule A ← **INVALID**
+
+Use `conflictsWith` to mark mutual exclusion, and `overrides` for one-directional precedence only.
+
+**Override precedence chaining:** If Rule A overrides Rule B, and Rule B overrides Rule C, then Rule A transitively overrides Rule C (automatic in scoring).
+
 ## Common Pitfalls
 
 1. **Conflicting Conditions** — If two rules match the same scenario, explicitly mark conflict with `conflictsWith`
 2. **Missing Rationale** — Always explain *why* the rule exists (used in conflict resolution)
 3. **Vague Recommendations** — Use specific, actionable language; reference artifacts/artifacts
 4. **Wrong Enforcement Level** — Hard-mandatory: non-negotiable. Soft-mandatory: strongly recommend. Advisory: suggest
+5. **Circular Overrides** — Check that `overrides` chains don't form cycles (tools will detect and fail)
+6. **Mismatch Between Condition and Action** — If condition targets "multi-team" but action assumes "solo", conflict will arise
 
 ## Testing Your Rule
 
@@ -80,7 +114,42 @@ Each rule is a JSON object matching `audit-rules/schemas/rule.schema.json`:
 3. Verify recommendation is rendered correctly
 4. Check conflicts are resolved as expected
 
+### Test Case Template
+
+```typescript
+describe('my-new-rule', () => {
+  it('fires when condition matches', async () => {
+    const context = {
+      COMPLIANCE_FRAMEWORK: 'SOC2',
+      TEAM_SCALE: 'multi-team',
+    };
+    const rules = await loadRules(context);
+    expect(rules).toContainEqual(
+      expect.objectContaining({ id: 'my-new-rule' })
+    );
+  });
+
+  it('does not fire when condition does not match', async () => {
+    const context = {
+      COMPLIANCE_FRAMEWORK: 'none',
+      TEAM_SCALE: 'solo',
+    };
+    const rules = await loadRules(context);
+    expect(rules).not.toContainEqual(
+      expect.objectContaining({ id: 'my-new-rule' })
+    );
+  });
+
+  it('resolves conflicts correctly', async () => {
+    const scored = scoreRules(rules);
+    const winner = scored.filter(r => r.id === 'my-new-rule')[0];
+    expect(winner.score).toBeGreaterThan(conflictingRule.score);
+  });
+});
+```
+
 ## File Locations
 
 - New rules go in: `.claude/audit-rules/templates/[domain].json`
 - Update catalog: `.claude/audit-rules/index.json`
+- Schemas: `.claude/audit-rules/schemas/rule.schema.json`
