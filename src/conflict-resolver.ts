@@ -218,11 +218,9 @@ export function resolveAllConflicts(
     }
   }
 
-  // Dedup: remove overridden rules, keep only winners
-  const final = resolved.filter(r => r.status === 'applied');
-
+  // Return ALL rules (applied and overridden) for validation to check hard-mandatory constraints
   return {
-    resolved: final,
+    resolved: resolved,
     conflicts: conflictLog
   };
 }

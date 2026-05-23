@@ -134,7 +134,7 @@ export function determinePhasedRecommendations(
 ): PhasingOutput {
   if (suggestPhasing) {
     // Phase 1: Hard-mandatory only (Triage: 1-2 hours)
-    const hardMandatoryRules = resolved.filter(r => r.action?.enforcementLevel === 'hard-mandatory');
+    const hardMandatoryRules = resolved.filter(r => r.status !== 'overridden' && r.action?.enforcementLevel === 'hard-mandatory');
     const phase1: Phase = {
       phase: 1,
       label: 'Triage (1-2 hours)',
@@ -148,7 +148,7 @@ export function determinePhasedRecommendations(
       rules: hardMandatoryRules.map(r => ({ id: r.id, category: r.category }))
     };
 
-    // Phase 2: All rules (Comprehensive: 1-3 days)
+    // Phase 2: All applied rules (Comprehensive: 1-3 days)
     const phase2: Phase = {
       phase: 2,
       label: 'Comprehensive (1-3 days)',
@@ -159,7 +159,7 @@ export function determinePhasedRecommendations(
         'Generate full remediation roadmap',
         'Document compliance artifacts'
       ],
-      rules: resolved.map(r => ({ id: r.id, category: r.category }))
+      rules: resolved.filter(r => r.status !== 'overridden').map(r => ({ id: r.id, category: r.category }))
     };
 
     return { phase1, phase2 };
@@ -175,7 +175,7 @@ export function determinePhasedRecommendations(
         'Generate comprehensive recommendations',
         'Document findings and artifacts'
       ],
-      rules: resolved.map(r => ({ id: r.id, category: r.category }))
+      rules: resolved.filter(r => r.status !== 'overridden').map(r => ({ id: r.id, category: r.category }))
     };
 
     return { phase1: null, phase2 };

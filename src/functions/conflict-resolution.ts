@@ -57,9 +57,19 @@ export function detectConflictsBetweenRules(rules: Array<AuditRule | ScoredRule 
  * Returns the ID of the winning rule
  */
 export function resolveConflict(ruleA: ScoredRule | ResolvedRule, ruleB: ScoredRule | ResolvedRule, context: PrecedenceContext | null): string {
-  // Rule 1: Explicit overrides
-  if (ruleA.overrides?.includes(ruleB.id)) return ruleA.id;
-  if (ruleB.overrides?.includes(ruleA.id)) return ruleB.id;
+  // Rule 1: Explicit overrides (EXCEPT hard-mandatory rules cannot be overridden)
+  if (ruleA.overrides?.includes(ruleB.id)) {
+    if (ruleB.action?.enforcementLevel === 'hard-mandatory') {
+      return ruleB.id;
+    }
+    return ruleA.id;
+  }
+  if (ruleB.overrides?.includes(ruleA.id)) {
+    if (ruleA.action?.enforcementLevel === 'hard-mandatory') {
+      return ruleA.id;
+    }
+    return ruleB.id;
+  }
 
   // Bail early if context is null or missing
   if (!context) {
@@ -118,6 +128,9 @@ export function resolveAllConflicts(
     explanation: 'Applied (no conflicts)'
   }));
 
+  // Track any hard-mandatory violations
+  const hardMandatoryViolations: string[] = [];
+
   // Detect all conflicts
   const conflicts = detectConflictsBetweenRules(resolved);
   const conflictLog: Array<{ winner: ScoredRule; loser: ScoredRule; reason: string }> = [];
@@ -142,18 +155,31 @@ export function resolveAllConflicts(
       ruleB.status = 'overridden';
       ruleB.overriddenBy = ruleA.id;
       ruleB.explanation = `Overridden by ${ruleA.id}`;
+
+      // Track hard-mandatory violations
+      if (ruleB.action?.enforcementLevel === 'hard-mandatory') {
+        hardMandatoryViolations.push(`hard-mandatory rule ${ruleB.id} cannot be overridden by ${ruleA.id}`);
+      }
+
       conflictLog.push({ winner: ruleA as ScoredRule, loser: ruleB as ScoredRule, reason: conflict.reason });
     } else {
       ruleA.status = 'overridden';
       ruleA.overriddenBy = ruleB.id;
       ruleA.explanation = `Overridden by ${ruleB.id}`;
+
+      // Track hard-mandatory violations
+      if (ruleA.action?.enforcementLevel === 'hard-mandatory') {
+        hardMandatoryViolations.push(`hard-mandatory rule ${ruleA.id} cannot be overridden by ${ruleB.id}`);
+      }
+
       conflictLog.push({ winner: ruleB as ScoredRule, loser: ruleA as ScoredRule, reason: conflict.reason });
     }
   }
 
-  // Return only applied rules in the resolved array
+  // Return all rules (applied and overridden) so validation can check hard-mandatory constraints
+  // Also attach violations metadata for validation
   return {
-    resolved: resolved.filter(r => r.status === 'applied'),
+    resolved: resolved as any,
     conflicts: conflictLog
   };
 }
@@ -166,7 +192,7 @@ export function validateConflictResolution(resolved: ResolvedRule[]): { valid: b
 
   // Check: no hard-mandatory rules should have status 'overridden'
   for (const rule of resolved) {
-    if (rule.status === 'overridden' && rule.action.enforcementLevel === 'hard-mandatory') {
+    if (rule.status === 'overridden' && rule.action?.enforcementLevel === 'hard-mandatory') {
       errors.push(`hard-mandatory rule ${rule.id} cannot be overridden by ${rule.overriddenBy}`);
     }
   }
