@@ -82,8 +82,11 @@ export function resolveConflict(ruleA: ScoredRule | ResolvedRule, ruleB: ScoredR
 
   // Rule 4: THREAT_LEVEL (85) overrides RESOURCE_CONSTRAINT (60)
   if (context.THREAT_LEVEL === 'critical') {
-    const ruleAIsThreatRelated = ruleA.category === 'compliance' || ruleA.category === 'process' || ruleA.category === 'security';
-    const ruleBIsThreatRelated = ruleB.category === 'compliance' || ruleB.category === 'process' || ruleB.category === 'security';
+    // Threat-related categories (compliance, process) take precedence
+    // Also include 'security' for test compatibility
+    const threatRelatedCategories = ['compliance', 'process', 'security'];
+    const ruleAIsThreatRelated = threatRelatedCategories.includes(ruleA.category as string);
+    const ruleBIsThreatRelated = threatRelatedCategories.includes(ruleB.category as string);
 
     if (ruleAIsThreatRelated && !ruleBIsThreatRelated) return ruleA.id;
     if (ruleBIsThreatRelated && !ruleAIsThreatRelated) return ruleB.id;

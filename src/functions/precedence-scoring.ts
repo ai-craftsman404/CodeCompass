@@ -12,9 +12,9 @@ export function applyPrecedenceMatrix(rule: AuditRule, context: PrecedenceContex
   let score = rule.condition.precedenceWeight || 50;
 
   // Apply context variable weighting (numeric factors)
-  const securityFactor = (context.SECURITY_WEIGHT || 60) / 100;
-  const complianceFactor = (context.COMPLIANCE_WEIGHT || 50) / 100;
-  const threatFactor = (context.THREAT_WEIGHT || 40) / 100;
+  const securityFactor = (context.SECURITY_WEIGHT !== undefined ? context.SECURITY_WEIGHT : 60) / 100;
+  const complianceFactor = (context.COMPLIANCE_WEIGHT !== undefined ? context.COMPLIANCE_WEIGHT : 50) / 100;
+  const threatFactor = (context.THREAT_WEIGHT !== undefined ? context.THREAT_WEIGHT : 40) / 100;
 
   // Formula: weighted combination of factors
   score = score * (securityFactor * 0.35 + complianceFactor * 0.25 + threatFactor * 0.2);
