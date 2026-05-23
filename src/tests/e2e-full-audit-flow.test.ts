@@ -390,7 +390,8 @@ describe('E2E: Complete Audit Flow', () => {
       THREAT_LEVEL: 'high',
       SECURITY_WEIGHT: 85,
       COMPLIANCE_WEIGHT: 85,
-      THREAT_WEIGHT: 75
+      THREAT_WEIGHT: 75,
+      RESOURCE_CONSTRAINT: 'moderate'
     };
 
     const scanResults: RepoScanResult = {

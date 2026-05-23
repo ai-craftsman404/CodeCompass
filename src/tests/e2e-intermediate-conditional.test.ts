@@ -95,7 +95,7 @@ describe('E2E: Intermediate Conditional Path', () => {
         description: 'Production observability with metrics',
         category: 'tooling',
         condition: {
-          contextVars: { PROFILE_STAGE: 'production', OBSERVABILITY_LEVEL: 'metrics+alerts' },
+          contextVars: { PROFILE_STAGE: 'production', OBSERVABILITY_LEVEL: ['metrics', 'metrics+alerts'] },
           precedenceWeight: 80
         },
         action: {

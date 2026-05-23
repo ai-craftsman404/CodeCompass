@@ -49,7 +49,7 @@ describe('E2E: Real Codebase Structures', () => {
         description: 'Agentic: /agents directory structure',
         category: 'structure',
         condition: {
-          contextVars: { AI_PATTERN: 'agentic', PROFILE_STAGE: 'beta' },
+          contextVars: { AI_PATTERN: 'agentic' },
           precedenceWeight: 85
         },
         action: {
@@ -193,6 +193,21 @@ describe('E2E: Real Codebase Structures', () => {
           enforcementLevel: 'soft-mandatory'
         },
         rationale: 'Production systems need observability'
+      },
+      {
+        id: 'rule-small-team-codeowners',
+        description: 'Single CODEOWNERS file for small team governance',
+        category: 'structure',
+        condition: {
+          contextVars: { TEAM_SCALE: 'small' },
+          precedenceWeight: 70
+        },
+        action: {
+          type: 'scaffold',
+          recommendation: 'Add a CODEOWNERS file for team ownership',
+          enforcementLevel: 'soft-mandatory'
+        },
+        rationale: 'Small teams benefit from explicit code ownership via CODEOWNERS'
       }
     ];
   });
