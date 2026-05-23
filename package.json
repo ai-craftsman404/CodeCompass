@@ -12,7 +12,7 @@
     "test:watch": "jest --watch",
     "lint": "eslint src --ext .ts",
     "build": "tsc",
-    "clean": "rm -rf dist coverage"
+    "clean": "rimraf dist coverage"
   },
   "keywords": [
     "audit",
