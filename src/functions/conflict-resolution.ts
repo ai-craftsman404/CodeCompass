@@ -165,9 +165,10 @@ export function validateConflictResolution(resolved: ResolvedRule[]): { valid: b
   const errors: string[] = [];
 
   // Check: no hard-mandatory rules should have status 'overridden'
-  const overriddenHardMandatory = resolved.filter(r => r.status === 'overridden' && r.action.enforcementLevel === 'hard-mandatory');
-  if (overriddenHardMandatory.length > 0) {
-    errors.push(`hard-mandatory rules cannot be overridden: ${overriddenHardMandatory.map(r => r.id).join(', ')}`);
+  for (const rule of resolved) {
+    if (rule.status === 'overridden' && rule.action.enforcementLevel === 'hard-mandatory') {
+      errors.push(`hard-mandatory rule ${rule.id} cannot be overridden by ${rule.overriddenBy}`);
+    }
   }
 
   return {
