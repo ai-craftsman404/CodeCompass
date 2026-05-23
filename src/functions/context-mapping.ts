@@ -79,12 +79,9 @@ export function mapTierAnswersToContext(
     context.TEAM_SCALE = 'solo'; // fallback
   }
 
-  // T1-Q3: AI_PATTERN
+  // T1-Q3: AI_PATTERN (User answers override inference signals)
   if (_flags.AI_PATTERN) {
     context.AI_PATTERN = _flags.AI_PATTERN as any;
-  } else if (_signals.hasAgentDir) {
-    // Inference: /agents/ directory indicates agentic pattern
-    context.AI_PATTERN = 'agentic';
   } else if (_tier1.ai_involvement) {
     const pattern = _tier1.ai_involvement;
     const validPatterns = ['none', 'LLM API', 'RAG', 'agentic', 'fine-tuning', 'training'];
@@ -93,6 +90,9 @@ export function mapTierAnswersToContext(
     } else {
       context.AI_PATTERN = 'none'; // fallback
     }
+  } else if (_signals.hasAgentDir) {
+    // Inference: /agents/ directory indicates agentic pattern (only if user didn't answer)
+    context.AI_PATTERN = 'agentic';
   } else {
     context.AI_PATTERN = 'none'; // fallback
   }
@@ -158,7 +158,7 @@ export function mapTierAnswersToContext(
     context.OBSERVABILITY_LEVEL = _flags.OBSERVABILITY_LEVEL as any;
   } else if (['beta', 'production'].includes(context.PROFILE_STAGE!)) {
     if (_tier2.observabilityLevel) {
-      const validValues = ['none', 'basic logging', 'structured logs', 'metrics+alerts', 'full APM+tracing'];
+      const validValues = ['none', 'logging', 'structured', 'metrics', 'metrics+alerts', 'APM', 'full APM+tracing'];
       if (validValues.includes(_tier2.observabilityLevel)) {
         context.OBSERVABILITY_LEVEL = _tier2.observabilityLevel as any;
       }

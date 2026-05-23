@@ -125,16 +125,17 @@ export function resolveConflict(
 
 /**
  * Apply the precedence matrix to score rules
- * Formula: security*0.35 + compliance*0.25 + threat*0.2
+ * Formula: weighted combination of context factors with boosts
  * Boosts: compliance (1.5x), threat-critical (1.3x)
  */
 export function applyPrecedenceMatrix(rule: AuditRule, context: PrecedenceContext): number {
   let score = rule.condition.precedenceWeight || 50;
 
-  // Apply context variable weighting (numeric factors) 0-100
-  const securityFactor = (context.SECURITY_WEIGHT !== undefined ? context.SECURITY_WEIGHT : 60) / 100;
-  const complianceFactor = (context.COMPLIANCE_WEIGHT !== undefined ? context.COMPLIANCE_WEIGHT : 50) / 100;
-  const threatFactor = (context.THREAT_WEIGHT !== undefined ? context.THREAT_WEIGHT : 40) / 100;
+  // Apply context variable weighting (numeric factors)
+  // Normalize weights from 0-100 to 0.0-1.0
+  const securityFactor = (context.SECURITY_WEIGHT !== undefined ? context.SECURITY_WEIGHT : 84) / 100;
+  const complianceFactor = (context.COMPLIANCE_WEIGHT !== undefined ? context.COMPLIANCE_WEIGHT : 84) / 100;
+  const threatFactor = (context.THREAT_WEIGHT !== undefined ? context.THREAT_WEIGHT : 84) / 100;
 
   // Formula: weighted combination of factors
   score = score * (securityFactor * 0.35 + complianceFactor * 0.25 + threatFactor * 0.2);
