@@ -298,7 +298,7 @@ npm run test:watch          # Watch mode for development
 2. Append a rule object following the schema above
 3. Add the rule `id` to `.claude/audit-rules/index.json` under the appropriate category
 4. Write at least one unit test verifying the rule fires under the correct context
-5. Run `npm run test:all` — all 573 tests must pass
+5. Run `npm run test:all` — all 615 tests must pass
 
 ### Adding a new questionnaire variable
 

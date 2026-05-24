@@ -7,7 +7,7 @@ description: >
 
 context_variables:
   PROFILE_STAGE: ["sandbox", "PoC", "MVP", "beta", "production", "sunset-legacy"]
-  COMPLIANCE_FRAMEWORK: ["none", "GDPR", "ISO27001", "Cyber Essentials", "SOC2", "FedRAMP", "HIPAA"]
+  COMPLIANCE_FRAMEWORK: ["none", "GDPR", "ISO27001", "Cyber Essentials", "SOC2", "FedRAMP", "HIPAA", "EU AI Act", "NIST AI RMF", "PCI DSS"]
   THREAT_LEVEL: ["none", "low", "medium", "high", "critical"]
   TEAM_SCALE: ["solo", "pair-trio", "small", "multi-team", "enterprise"]
   AI_PATTERN: ["none", "LLM API", "RAG", "fine-tuning", "agentic", "model training"]
@@ -15,11 +15,11 @@ context_variables:
   SECURITY_WEIGHT: 60
   COMPLIANCE_WEIGHT: 50
   THREAT_WEIGHT: 40
-  TEST_MATURITY: ["none", "unit", "integration", "E2E", "contract"]
-  CI_MATURITY: ["none", "basic", "full", "GitOps"]
+  TEST_MATURITY: ["none", "unit", "unit+integration", "e2e", "contract"]
+  CI_MATURITY: ["none", "basic", "full", "GitOps", "ADO"]
   DOC_EXPECTATION: ["minimal", "inline", "ADRs", "runbooks"]
   REUSE_INTENT: ["throwaway", "project-scoped", "shared", "open-source"]
-  OBSERVABILITY_LEVEL: ["none", "basic", "structured", "metrics", "APM"]
+  OBSERVABILITY_LEVEL: ["none", "basic logging", "structured logs", "metrics+alerts", "full APM+tracing"]
 
 fallback_defaults:
   PROFILE_STAGE: "PoC"
@@ -35,7 +35,7 @@ fallback_defaults:
   CI_MATURITY: "basic"
   DOC_EXPECTATION: "minimal"
   REUSE_INTENT: "project-scoped"
-  OBSERVABILITY_LEVEL: "basic"
+  OBSERVABILITY_LEVEL: "basic logging"
 
 precedence_rules:
   CRITICALITY_TIER: 100
