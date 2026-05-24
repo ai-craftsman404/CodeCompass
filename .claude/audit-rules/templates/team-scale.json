@@ -1,0 +1,191 @@
+[
+  {
+    "id": "solo-minimal-process",
+    "description": "Minimal process overhead recommended for solo developers",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "TEAM_SCALE": "solo"
+      },
+      "precedenceWeight": 20
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Solo projects benefit from lightweight processes. Focus on a clear README, basic git hygiene (meaningful commits), and simple CI. Avoid ceremony that adds friction without value for a team of one.",
+      "files": [],
+      "enforcementLevel": "advisory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Heavy processes designed for teams add friction without benefit for solo developers."
+  },
+
+  {
+    "id": "pair-trio-code-review",
+    "description": "Code review process recommended for pair/trio teams",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "TEAM_SCALE": "pair-trio"
+      },
+      "precedenceWeight": 50
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Establish a lightweight code review process for your pair/trio team. Use PRs or merge requests for all significant changes. Define what requires review, set a response time SLA (e.g. 24 hours), and document the review checklist.",
+      "files": [
+        { "path": "/docs/process/code-review-guide.md", "template": "code-review-guide.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Even small teams benefit from code review to share knowledge, catch bugs, and maintain consistency."
+  },
+
+  {
+    "id": "small-team-codeowners",
+    "description": "CODEOWNERS file required for small teams",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "TEAM_SCALE": "small"
+      },
+      "precedenceWeight": 65
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Create a CODEOWNERS file to define code ownership for your small team. Assign owners for critical paths (auth, payments, core APIs). This ensures the right reviewer is automatically requested for sensitive changes.",
+      "files": [
+        { "path": "/CODEOWNERS", "template": "CODEOWNERS" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Without explicit ownership, critical changes go unreviewed by subject matter experts in growing teams."
+  },
+
+  {
+    "id": "small-team-architecture-doc",
+    "description": "Architecture overview document recommended for small teams",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "TEAM_SCALE": "small"
+      },
+      "precedenceWeight": 58
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Create a lightweight architecture overview document for your small team. Document system components, data flows, key technology decisions, and integration points. Update when making significant architectural changes.",
+      "files": [
+        { "path": "/docs/architecture/overview.md", "template": "architecture-overview.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Small teams grow. Architecture documentation prevents knowledge concentration in individuals and supports onboarding."
+  },
+
+  {
+    "id": "multi-team-governance",
+    "description": "Cross-team governance required for multi-team organisations",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "TEAM_SCALE": ["multi-team", "enterprise"]
+      },
+      "precedenceWeight": 70
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Establish cross-team governance structures. Define an Architecture Review Board (ARB) or RFC process for significant changes, create an API versioning policy, establish shared coding standards, and document team boundaries and ownership.",
+      "files": [
+        { "path": "/docs/governance/cross-team-governance.md", "template": "cross-team-governance.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Multiple teams without governance produce incompatible APIs, conflicting standards, and integration failures."
+  },
+
+  {
+    "id": "multi-team-shared-libs",
+    "description": "Shared library strategy required for multi-team organisations",
+    "category": "tooling",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "TEAM_SCALE": ["multi-team", "enterprise"]
+      },
+      "precedenceWeight": 60
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Define a shared library strategy for common utilities. Document what belongs in shared libraries vs team-owned code, establish library versioning and deprecation policies, set up an internal package registry, and assign library maintainers.",
+      "files": [
+        { "path": "/docs/architecture/shared-library-strategy.md", "template": "shared-library-strategy.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Without a shared library strategy, multi-team organisations duplicate code and accumulate inconsistent implementations."
+  },
+
+  {
+    "id": "enterprise-compliance-officer",
+    "description": "Designate compliance officer for enterprise organisations",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "TEAM_SCALE": "enterprise"
+      },
+      "precedenceWeight": 75
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Designate a Compliance Officer or DPO for your enterprise organisation. Document their responsibilities, ensure they have authority to enforce policies, and integrate compliance review into the SDLC. Maintain a compliance register.",
+      "files": [
+        { "path": "/docs/compliance/compliance-officer-charter.md", "template": "compliance-charter.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Enterprise organisations face complex regulatory requirements that require dedicated compliance oversight."
+  },
+
+  {
+    "id": "enterprise-api-versioning",
+    "description": "Formal API versioning policy required for enterprise",
+    "category": "tooling",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "TEAM_SCALE": "enterprise"
+      },
+      "precedenceWeight": 60
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Implement a formal API versioning policy for enterprise APIs. Use semantic versioning, define deprecation timelines (minimum 12 months), publish API changelogs, provide migration guides, and enforce versioning via API gateway policies.",
+      "files": [
+        { "path": "/docs/architecture/api-versioning-policy.md", "template": "api-versioning-policy.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Enterprise APIs serve many internal and external consumers. Breaking changes without versioning cause widespread integration failures."
+  }
+]

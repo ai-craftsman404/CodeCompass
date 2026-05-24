@@ -1,0 +1,109 @@
+[
+  {
+    "id": "generic-gitignore",
+    "description": "Maintain a comprehensive .gitignore file",
+    "category": "tooling",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {},
+      "precedenceWeight": 55
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Ensure your repository has a comprehensive .gitignore file. Include: build artifacts, dependency directories (node_modules, venv), secrets and .env files, IDE configuration, OS metadata (.DS_Store, Thumbs.db), and log files. Use gitignore.io to generate a baseline.",
+      "files": [
+        { "path": "/.gitignore", "template": "gitignore-template" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Missing .gitignore leads to committed secrets, binary files, and machine-specific configuration that pollutes the repository."
+  },
+
+  {
+    "id": "generic-env-config",
+    "description": "Use environment variables for all configuration secrets",
+    "category": "security",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {},
+      "precedenceWeight": 85
+    },
+    "action": {
+      "type": "hardening",
+      "recommendation": "Store all secrets, API keys, and environment-specific configuration in environment variables, never in source code. Use .env files locally (gitignored), document required environment variables in .env.example, and use a secrets manager (AWS Secrets Manager, HashiCorp Vault) in production.",
+      "files": [
+        { "path": "/.env.example", "template": "env-example" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Hardcoded secrets in source code are the most common cause of credential exposure. Environment variables separate configuration from code."
+  },
+
+  {
+    "id": "generic-readme",
+    "description": "Every repository should have a README",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {},
+      "precedenceWeight": 50
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Create a README.md for your repository. At minimum include: project name and description, installation instructions, usage examples, contributing guidance, and license. A good README is the first impression of your project.",
+      "files": [
+        { "path": "/README.md", "template": "standard-readme.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "A README is the universal entry point for any code repository. Its absence signals an unmaintained or inaccessible project."
+  },
+
+  {
+    "id": "generic-license",
+    "description": "Include a LICENSE file in all repositories",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {},
+      "precedenceWeight": 40
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Add a LICENSE file to your repository. If the project is internal and proprietary, use a confidential notice. If open source, choose an appropriate OSS license. The absence of a license defaults to all rights reserved, which may not be your intent.",
+      "files": [
+        { "path": "/LICENSE", "template": "license-placeholder.txt" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": ["reuse-open-source-license"],
+    "overrides": [],
+    "rationale": "Every code repository needs a license to clarify usage rights. Unlicensed code creates legal ambiguity for contributors and users."
+  },
+
+  {
+    "id": "generic-code-style",
+    "description": "Enforce consistent code style with tooling",
+    "category": "tooling",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {},
+      "precedenceWeight": 30
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Add automated code style enforcement to your project. Use a linter (ESLint, pylint, golint) and formatter (Prettier, Black, gofmt). Configure rules, add pre-commit hooks (husky, pre-commit), and run style checks in CI. Agree on and document style decisions in a contributing guide.",
+      "files": [],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Consistent code style reduces cognitive load in code review, enabling reviewers to focus on logic rather than formatting."
+  }
+]

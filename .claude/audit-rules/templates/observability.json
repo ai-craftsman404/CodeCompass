@@ -1,0 +1,193 @@
+[
+  {
+    "id": "obs-none-basic-logging",
+    "description": "Implement basic application logging",
+    "category": "tooling",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "OBSERVABILITY_LEVEL": "none"
+      },
+      "precedenceWeight": 65
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Implement basic structured application logging. Use a logging library (Winston, Pino, structlog) rather than console.log. Log at appropriate levels (DEBUG/INFO/WARN/ERROR), include request IDs, and persist logs to a file or log service.",
+      "files": [],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Without logging, debugging production issues relies on user reports and guesswork. Basic logging is the minimum viable observability."
+  },
+
+  {
+    "id": "obs-basic-structured-logs",
+    "description": "Upgrade to structured JSON logging",
+    "category": "tooling",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "OBSERVABILITY_LEVEL": ["basic logging", "none"]
+      },
+      "precedenceWeight": 60
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Upgrade to structured JSON logging for machine-readable logs. Include: timestamp (ISO 8601), log level, service name, correlation/trace ID, and contextual fields. Ensure log levels are configurable via environment variable.",
+      "files": [
+        { "path": "/docs/operations/logging-standards.md", "template": "logging-standards.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Structured logs enable log aggregation, querying, and alerting. Unstructured text logs cannot be reliably parsed at scale."
+  },
+
+  {
+    "id": "obs-structured-metrics-alerts",
+    "description": "Add metrics and alerting for production systems with structured logging",
+    "category": "tooling",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "OBSERVABILITY_LEVEL": "structured logs",
+        "PROFILE_STAGE": "production"
+      },
+      "precedenceWeight": 75
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Add application metrics and alerting to complement structured logs. Instrument: request rate, error rate, latency (p50/p95/p99), and business metrics. Set up alerts for SLO breaches. Use Prometheus, Datadog, or CloudWatch.",
+      "files": [
+        { "path": "/docs/monitoring/metrics-guide.md", "template": "metrics-guide.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Logs answer 'what happened'; metrics answer 'how is the system performing'. Both are required for production observability."
+  },
+
+  {
+    "id": "obs-metrics-apm-tracing",
+    "description": "Add distributed tracing and APM",
+    "category": "tooling",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "OBSERVABILITY_LEVEL": "metrics+alerts"
+      },
+      "precedenceWeight": 70
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Implement distributed tracing and APM for your metrics+alerts system. Add OpenTelemetry instrumentation, configure trace sampling (1-10% in production), correlate traces with logs via trace IDs, and use APM dashboards to identify performance bottlenecks.",
+      "files": [
+        { "path": "/docs/monitoring/distributed-tracing.md", "template": "distributed-tracing.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Metrics show that something is wrong; distributed traces show where and why. APM is essential for microservices performance debugging."
+  },
+
+  {
+    "id": "obs-dashboards-creation",
+    "description": "Create operational dashboards for key metrics",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "OBSERVABILITY_LEVEL": ["metrics+alerts", "full APM+tracing"]
+      },
+      "precedenceWeight": 55
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Create operational dashboards for your key services. Include: SLO status at-a-glance, error rate and latency trends, infrastructure utilisation, and business metrics. Store dashboard definitions as code (Grafana JSON, Terraform) for version control.",
+      "files": [
+        { "path": "/docs/monitoring/dashboard-guide.md", "template": "dashboard-guide.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Dashboards make metrics actionable. On-call engineers need at-a-glance views to diagnose incidents rapidly."
+  },
+
+  {
+    "id": "obs-alerting-runbooks",
+    "description": "Link alerts to runbooks for incident response",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "OBSERVABILITY_LEVEL": ["metrics+alerts", "full APM+tracing"]
+      },
+      "precedenceWeight": 65
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Link every production alert to a runbook. Runbooks should: describe the alert's meaning, provide diagnostic steps, document resolution procedures, and include escalation contacts. Review and update runbooks after each incident.",
+      "files": [
+        { "path": "/docs/runbooks/alert-runbooks.md", "template": "alert-runbooks.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Alerts without runbooks cause slow incident response. Runbooks reduce MTTR by providing immediate diagnostic guidance."
+  },
+
+  {
+    "id": "obs-slo-definition",
+    "description": "Define and monitor Service Level Objectives",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "OBSERVABILITY_LEVEL": ["metrics+alerts", "full APM+tracing"],
+        "PROFILE_STAGE": "production"
+      },
+      "precedenceWeight": 80
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Define SLOs for all production services. Document: availability target (e.g. 99.9%), latency SLO (p95 < 500ms), error budget policy, and burn rate alerts. Review SLOs quarterly and adjust based on user feedback and business requirements.",
+      "files": [
+        { "path": "/docs/monitoring/slo-definitions.md", "template": "slo-definitions.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "SLOs align engineering and business on reliability targets. Error budgets provide objective criteria for balancing features and reliability."
+  },
+
+  {
+    "id": "obs-logs-retention-policy",
+    "description": "Define log retention and archival policy",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "OBSERVABILITY_LEVEL": ["structured logs", "metrics+alerts", "full APM+tracing"]
+      },
+      "precedenceWeight": 60
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Define a log retention policy aligned with compliance requirements. Standard retention: 90 days hot storage, 1 year cold storage. For regulated industries: GDPR (minimum required for purpose), PCI DSS (1 year), HIPAA (6 years). Implement automated archival and deletion.",
+      "files": [
+        { "path": "/docs/compliance/log-retention-policy.md", "template": "log-retention-policy.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Log retention must balance operational debugging needs, compliance requirements, and storage costs."
+  }
+]

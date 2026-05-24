@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastModified": "2026-05-23",
+  "lastModified": "2026-05-24",
   "description": "Audit Rules Catalog - Searchable registry of all available audit rules",
 
   "rules": [
@@ -140,6 +140,866 @@
       "version": "1.0.0",
       "lastModified": "2026-05-23",
       "description": "Maintain complete audit trail of SOC2 control evidence"
+    },
+
+    {
+      "id": "iso27001-asset-management",
+      "file": "templates/compliance-iso27001.json",
+      "category": "compliance",
+      "applicableFrameworks": ["ISO27001"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Maintain information asset register"
+    },
+    {
+      "id": "iso27001-access-control",
+      "file": "templates/compliance-iso27001.json",
+      "category": "security",
+      "applicableFrameworks": ["ISO27001"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Implement role-based access control"
+    },
+    {
+      "id": "iso27001-cryptography",
+      "file": "templates/compliance-iso27001.json",
+      "category": "security",
+      "applicableFrameworks": ["ISO27001"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Apply cryptography policy for data at rest and in transit"
+    },
+    {
+      "id": "iso27001-physical-security",
+      "file": "templates/compliance-iso27001.json",
+      "category": "compliance",
+      "applicableFrameworks": ["ISO27001"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Document physical and environmental security controls"
+    },
+    {
+      "id": "iso27001-operations-security",
+      "file": "templates/compliance-iso27001.json",
+      "category": "process",
+      "applicableFrameworks": ["ISO27001"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Establish operations security procedures"
+    },
+    {
+      "id": "iso27001-communications-security",
+      "file": "templates/compliance-iso27001.json",
+      "category": "security",
+      "applicableFrameworks": ["ISO27001"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Secure network and information transfer"
+    },
+    {
+      "id": "iso27001-incident-management",
+      "file": "templates/compliance-iso27001.json",
+      "category": "process",
+      "applicableFrameworks": ["ISO27001"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Establish information security incident management"
+    },
+    {
+      "id": "iso27001-business-continuity",
+      "file": "templates/compliance-iso27001.json",
+      "category": "process",
+      "applicableFrameworks": ["ISO27001"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Document business continuity and disaster recovery"
+    },
+
+    {
+      "id": "gdpr-data-processing-agreement",
+      "file": "templates/compliance-gdpr.json",
+      "category": "compliance",
+      "applicableFrameworks": ["GDPR"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Establish data processing agreements with third parties"
+    },
+    {
+      "id": "gdpr-privacy-policy",
+      "file": "templates/compliance-gdpr.json",
+      "category": "compliance",
+      "applicableFrameworks": ["GDPR"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Publish transparent privacy policy"
+    },
+    {
+      "id": "gdpr-data-retention-deletion",
+      "file": "templates/compliance-gdpr.json",
+      "category": "process",
+      "applicableFrameworks": ["GDPR"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Implement data retention and deletion schedules"
+    },
+    {
+      "id": "gdpr-data-subject-rights",
+      "file": "templates/compliance-gdpr.json",
+      "category": "process",
+      "applicableFrameworks": ["GDPR"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Implement data subject rights fulfilment procedures"
+    },
+    {
+      "id": "gdpr-impact-assessment",
+      "file": "templates/compliance-gdpr.json",
+      "category": "compliance",
+      "applicableFrameworks": ["GDPR"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Conduct Data Protection Impact Assessment for high-risk processing"
+    },
+    {
+      "id": "gdpr-dpia-children-data",
+      "file": "templates/compliance-gdpr.json",
+      "category": "compliance",
+      "applicableFrameworks": ["GDPR"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Special protections for children's personal data"
+    },
+    {
+      "id": "gdpr-cross-border-transfers",
+      "file": "templates/compliance-gdpr.json",
+      "category": "compliance",
+      "applicableFrameworks": ["GDPR"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Safeguard international personal data transfers"
+    },
+    {
+      "id": "gdpr-breach-notification",
+      "file": "templates/compliance-gdpr.json",
+      "category": "process",
+      "applicableFrameworks": ["GDPR"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Establish data breach notification procedures"
+    },
+
+    {
+      "id": "cyber-essentials-baseline",
+      "file": "templates/compliance-other.json",
+      "category": "security",
+      "applicableFrameworks": ["Cyber Essentials"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Implement Cyber Essentials five controls"
+    },
+    {
+      "id": "fedramp-itar-classified",
+      "file": "templates/compliance-other.json",
+      "category": "security",
+      "applicableFrameworks": ["FedRAMP"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Meet FedRAMP authorisation requirements for US federal cloud"
+    },
+    {
+      "id": "hipaa-phi-protection",
+      "file": "templates/compliance-other.json",
+      "category": "security",
+      "applicableFrameworks": ["HIPAA"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Protect Protected Health Information (PHI) under HIPAA"
+    },
+    {
+      "id": "nist-ai-rmf-governance",
+      "file": "templates/compliance-other.json",
+      "category": "compliance",
+      "applicableFrameworks": ["NIST-AI-RMF"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Implement NIST AI Risk Management Framework governance"
+    },
+    {
+      "id": "eu-ai-act-high-risk",
+      "file": "templates/compliance-other.json",
+      "category": "compliance",
+      "applicableFrameworks": ["EU-AI-Act"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Meet EU AI Act obligations for high-risk AI systems"
+    },
+    {
+      "id": "pci-dss-card-data",
+      "file": "templates/compliance-other.json",
+      "category": "security",
+      "applicableFrameworks": ["PCI-DSS"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Protect cardholder data under PCI DSS"
+    },
+
+    {
+      "id": "llm-api-prompt-injection",
+      "file": "templates/llm-api.json",
+      "category": "security",
+      "applicablePatterns": ["LLM API"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Prevent prompt injection attacks in LLM integrations"
+    },
+    {
+      "id": "llm-api-cost-control",
+      "file": "templates/llm-api.json",
+      "category": "tooling",
+      "applicablePatterns": ["LLM API"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Implement LLM API cost controls and budget alerts"
+    },
+    {
+      "id": "llm-api-rate-limiting",
+      "file": "templates/llm-api.json",
+      "category": "tooling",
+      "applicablePatterns": ["LLM API"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Implement rate limiting and retry logic for LLM APIs"
+    },
+    {
+      "id": "llm-api-response-validation",
+      "file": "templates/llm-api.json",
+      "category": "security",
+      "applicablePatterns": ["LLM API"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Validate and sanitise LLM API responses before use"
+    },
+    {
+      "id": "llm-api-versioning-stability",
+      "file": "templates/llm-api.json",
+      "category": "process",
+      "applicablePatterns": ["LLM API"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Pin LLM API model versions and manage model migrations"
+    },
+
+    {
+      "id": "sandbox-minimal-docs",
+      "file": "templates/profile-stage.json",
+      "category": "process",
+      "applicableStages": ["sandbox"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Minimal documentation acceptable for sandbox environments"
+    },
+    {
+      "id": "sandbox-testing-optional",
+      "file": "templates/profile-stage.json",
+      "category": "testing",
+      "applicableStages": ["sandbox"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Testing is optional in sandbox environments"
+    },
+    {
+      "id": "poc-readme-required",
+      "file": "templates/profile-stage.json",
+      "category": "process",
+      "applicableStages": ["PoC"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "README required for Proof of Concept projects"
+    },
+    {
+      "id": "poc-basic-tests",
+      "file": "templates/profile-stage.json",
+      "category": "testing",
+      "applicableStages": ["PoC"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Basic unit tests recommended for PoC projects"
+    },
+    {
+      "id": "mvp-changelog-required",
+      "file": "templates/profile-stage.json",
+      "category": "process",
+      "applicableStages": ["MVP"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "CHANGELOG required for MVP releases"
+    },
+    {
+      "id": "mvp-ci-pipeline",
+      "file": "templates/profile-stage.json",
+      "category": "tooling",
+      "applicableStages": ["MVP"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "CI pipeline required for MVP stage"
+    },
+    {
+      "id": "beta-integration-tests",
+      "file": "templates/profile-stage.json",
+      "category": "testing",
+      "applicableStages": ["beta"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Integration tests required for beta stage"
+    },
+    {
+      "id": "beta-staging-environment",
+      "file": "templates/profile-stage.json",
+      "category": "process",
+      "applicableStages": ["beta"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Staging environment required for beta deployments"
+    },
+    {
+      "id": "production-sre-runbooks",
+      "file": "templates/profile-stage.json",
+      "category": "process",
+      "applicableStages": ["production"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "SRE runbooks required for production systems"
+    },
+    {
+      "id": "production-monitoring-alerts",
+      "file": "templates/profile-stage.json",
+      "category": "process",
+      "applicableStages": ["production"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Production monitoring and alerting required"
+    },
+    {
+      "id": "production-disaster-recovery",
+      "file": "templates/profile-stage.json",
+      "category": "process",
+      "applicableStages": ["production"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Disaster recovery plan required for production"
+    },
+    {
+      "id": "legacy-maintenance-mode",
+      "file": "templates/profile-stage.json",
+      "category": "process",
+      "applicableStages": ["sunset-legacy"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Document maintenance mode constraints for legacy systems"
+    },
+
+    {
+      "id": "solo-minimal-process",
+      "file": "templates/team-scale.json",
+      "category": "process",
+      "applicableTeamScales": ["solo"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Minimal process overhead recommended for solo developers"
+    },
+    {
+      "id": "pair-trio-code-review",
+      "file": "templates/team-scale.json",
+      "category": "process",
+      "applicableTeamScales": ["pair-trio"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Code review process recommended for pair/trio teams"
+    },
+    {
+      "id": "small-team-codeowners",
+      "file": "templates/team-scale.json",
+      "category": "process",
+      "applicableTeamScales": ["small"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "CODEOWNERS file required for small teams"
+    },
+    {
+      "id": "small-team-architecture-doc",
+      "file": "templates/team-scale.json",
+      "category": "process",
+      "applicableTeamScales": ["small"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Architecture overview document recommended for small teams"
+    },
+    {
+      "id": "multi-team-governance",
+      "file": "templates/team-scale.json",
+      "category": "process",
+      "applicableTeamScales": ["multi-team", "enterprise"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Cross-team governance required for multi-team organisations"
+    },
+    {
+      "id": "multi-team-shared-libs",
+      "file": "templates/team-scale.json",
+      "category": "tooling",
+      "applicableTeamScales": ["multi-team", "enterprise"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Shared library strategy required for multi-team organisations"
+    },
+    {
+      "id": "enterprise-compliance-officer",
+      "file": "templates/team-scale.json",
+      "category": "compliance",
+      "applicableTeamScales": ["enterprise"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Designate compliance officer for enterprise organisations"
+    },
+    {
+      "id": "enterprise-api-versioning",
+      "file": "templates/team-scale.json",
+      "category": "tooling",
+      "applicableTeamScales": ["enterprise"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Formal API versioning policy required for enterprise"
+    },
+
+    {
+      "id": "ci-none-suggest-basic",
+      "file": "templates/ci-maturity.json",
+      "category": "tooling",
+      "applicableCIMaturity": ["none"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Set up basic CI pipeline"
+    },
+    {
+      "id": "ci-basic-add-artifacts",
+      "file": "templates/ci-maturity.json",
+      "category": "tooling",
+      "applicableCIMaturity": ["basic"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Add build artifacts and test reports to CI pipeline"
+    },
+    {
+      "id": "ci-full-deployment-gates",
+      "file": "templates/ci-maturity.json",
+      "category": "tooling",
+      "applicableCIMaturity": ["full"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Deployment gates required for full CI maturity"
+    },
+    {
+      "id": "ci-gitops-declarative",
+      "file": "templates/ci-maturity.json",
+      "category": "tooling",
+      "applicableCIMaturity": ["GitOps"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Declarative GitOps configuration management"
+    },
+    {
+      "id": "ci-ado-azure-integration",
+      "file": "templates/ci-maturity.json",
+      "category": "tooling",
+      "applicableCIMaturity": ["ADO"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Azure DevOps integration best practices"
+    },
+    {
+      "id": "ci-test-coverage-gates",
+      "file": "templates/ci-maturity.json",
+      "category": "testing",
+      "applicableCIMaturity": ["full", "GitOps", "ADO"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Test coverage gates in CI pipeline"
+    },
+    {
+      "id": "ci-security-scanning",
+      "file": "templates/ci-maturity.json",
+      "category": "security",
+      "applicableCIMaturity": ["basic", "full", "GitOps", "ADO"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Security scanning in CI pipeline"
+    },
+    {
+      "id": "ci-artifact-signing",
+      "file": "templates/ci-maturity.json",
+      "category": "security",
+      "applicableCIMaturity": ["full", "GitOps"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Sign build artifacts for supply chain integrity"
+    },
+
+    {
+      "id": "test-none-scaffold-unit",
+      "file": "templates/test-maturity.json",
+      "category": "testing",
+      "applicableTestMaturity": ["none"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Scaffold unit test framework immediately"
+    },
+    {
+      "id": "test-unit-add-integration",
+      "file": "templates/test-maturity.json",
+      "category": "testing",
+      "applicableTestMaturity": ["unit"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Add integration tests to unit test suite"
+    },
+    {
+      "id": "test-integration-add-e2e",
+      "file": "templates/test-maturity.json",
+      "category": "testing",
+      "applicableTestMaturity": ["unit+integration"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Add end-to-end tests for critical user journeys"
+    },
+    {
+      "id": "test-e2e-add-contract",
+      "file": "templates/test-maturity.json",
+      "category": "testing",
+      "applicableTestMaturity": ["e2e"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Add consumer-driven contract tests for API boundaries"
+    },
+    {
+      "id": "test-contract-chaos-resilience",
+      "file": "templates/test-maturity.json",
+      "category": "testing",
+      "applicableTestMaturity": ["contract"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Add chaos and resilience testing for mature test suites"
+    },
+    {
+      "id": "test-fixtures-and-mocks",
+      "file": "templates/test-maturity.json",
+      "category": "testing",
+      "applicableTestMaturity": ["unit", "unit+integration", "e2e", "contract"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Maintain consistent test fixtures and mock strategies"
+    },
+    {
+      "id": "test-coverage-baseline",
+      "file": "templates/test-maturity.json",
+      "category": "testing",
+      "applicableTestMaturity": ["unit", "unit+integration", "e2e"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Establish and enforce test coverage baseline"
+    },
+    {
+      "id": "test-performance-baselines",
+      "file": "templates/test-maturity.json",
+      "category": "testing",
+      "applicableTestMaturity": ["unit+integration", "e2e", "contract"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Establish performance test baselines"
+    },
+    {
+      "id": "test-mutation-testing",
+      "file": "templates/test-maturity.json",
+      "category": "testing",
+      "applicableTestMaturity": ["e2e", "contract"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Use mutation testing to validate test quality"
+    },
+    {
+      "id": "test-automated-regression",
+      "file": "templates/test-maturity.json",
+      "category": "testing",
+      "applicableTestMaturity": ["e2e", "contract"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Automate regression test suite"
+    },
+
+    {
+      "id": "obs-none-basic-logging",
+      "file": "templates/observability.json",
+      "category": "tooling",
+      "applicableObservabilityLevels": ["none"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Implement basic application logging"
+    },
+    {
+      "id": "obs-basic-structured-logs",
+      "file": "templates/observability.json",
+      "category": "tooling",
+      "applicableObservabilityLevels": ["basic logging", "none"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Upgrade to structured JSON logging"
+    },
+    {
+      "id": "obs-structured-metrics-alerts",
+      "file": "templates/observability.json",
+      "category": "tooling",
+      "applicableObservabilityLevels": ["structured logs"],
+      "applicableStages": ["production"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Add metrics and alerting for production systems with structured logging"
+    },
+    {
+      "id": "obs-metrics-apm-tracing",
+      "file": "templates/observability.json",
+      "category": "tooling",
+      "applicableObservabilityLevels": ["metrics+alerts"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Add distributed tracing and APM"
+    },
+    {
+      "id": "obs-dashboards-creation",
+      "file": "templates/observability.json",
+      "category": "process",
+      "applicableObservabilityLevels": ["metrics+alerts", "full APM+tracing"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Create operational dashboards for key metrics"
+    },
+    {
+      "id": "obs-alerting-runbooks",
+      "file": "templates/observability.json",
+      "category": "process",
+      "applicableObservabilityLevels": ["metrics+alerts", "full APM+tracing"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Link alerts to runbooks for incident response"
+    },
+    {
+      "id": "obs-slo-definition",
+      "file": "templates/observability.json",
+      "category": "process",
+      "applicableObservabilityLevels": ["metrics+alerts", "full APM+tracing"],
+      "applicableStages": ["production"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Define and monitor Service Level Objectives"
+    },
+    {
+      "id": "obs-logs-retention-policy",
+      "file": "templates/observability.json",
+      "category": "compliance",
+      "applicableObservabilityLevels": ["structured logs", "metrics+alerts", "full APM+tracing"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Define log retention and archival policy"
+    },
+
+    {
+      "id": "doc-minimal-readme",
+      "file": "templates/documentation.json",
+      "category": "process",
+      "applicableDocExpectations": ["minimal-informal"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Create a minimal README for informal projects"
+    },
+    {
+      "id": "doc-inline-comments",
+      "file": "templates/documentation.json",
+      "category": "process",
+      "applicableDocExpectations": ["inline comments"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Enforce meaningful inline code comments"
+    },
+    {
+      "id": "doc-adr-decisions",
+      "file": "templates/documentation.json",
+      "category": "process",
+      "applicableDocExpectations": ["ADRs"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Document architectural decisions using ADRs"
+    },
+    {
+      "id": "doc-adr-template",
+      "file": "templates/documentation.json",
+      "category": "process",
+      "applicableDocExpectations": ["ADRs"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Maintain ADR template for consistency"
+    },
+    {
+      "id": "doc-runbooks-operations",
+      "file": "templates/documentation.json",
+      "category": "process",
+      "applicableDocExpectations": ["runbooks"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Operational runbooks required"
+    },
+    {
+      "id": "doc-runbook-format",
+      "file": "templates/documentation.json",
+      "category": "process",
+      "applicableDocExpectations": ["runbooks"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Standardise runbook format across the organisation"
+    },
+    {
+      "id": "doc-full-audit-trail",
+      "file": "templates/documentation.json",
+      "category": "compliance",
+      "applicableDocExpectations": ["full audit trail"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Full audit trail documentation required"
+    },
+    {
+      "id": "doc-changelog-releases",
+      "file": "templates/documentation.json",
+      "category": "process",
+      "applicableDocExpectations": ["ADRs", "runbooks", "full audit trail"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Maintain a structured CHANGELOG for releases"
+    },
+
+    {
+      "id": "reuse-throwaway-skip",
+      "file": "templates/reuse-intent.json",
+      "category": "process",
+      "applicableReuseIntents": ["throwaway"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Minimal standards apply for throwaway code"
+    },
+    {
+      "id": "reuse-project-scope-internal",
+      "file": "templates/reuse-intent.json",
+      "category": "process",
+      "applicableReuseIntents": ["project-scoped"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Internal documentation standards for project-scoped code"
+    },
+    {
+      "id": "reuse-shared-lib-versioning",
+      "file": "templates/reuse-intent.json",
+      "category": "tooling",
+      "applicableReuseIntents": ["shared library"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Semantic versioning required for shared libraries"
+    },
+    {
+      "id": "reuse-shared-lib-codeowners",
+      "file": "templates/reuse-intent.json",
+      "category": "process",
+      "applicableReuseIntents": ["shared library"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Assign library maintainers via CODEOWNERS"
+    },
+    {
+      "id": "reuse-open-source-license",
+      "file": "templates/reuse-intent.json",
+      "category": "compliance",
+      "applicableReuseIntents": ["open-source"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Open source license required"
+    },
+    {
+      "id": "reuse-open-source-contributing",
+      "file": "templates/reuse-intent.json",
+      "category": "process",
+      "applicableReuseIntents": ["open-source"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "CONTRIBUTING guide required for open source projects"
+    },
+    {
+      "id": "reuse-open-source-codeowners",
+      "file": "templates/reuse-intent.json",
+      "category": "process",
+      "applicableReuseIntents": ["open-source"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "CODEOWNERS required for open source projects"
+    },
+    {
+      "id": "reuse-platform-api-contracts",
+      "file": "templates/reuse-intent.json",
+      "category": "tooling",
+      "applicableReuseIntents": ["product platform"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Formal API contracts required for product platforms"
+    },
+
+    {
+      "id": "generic-gitignore",
+      "file": "templates/generic.json",
+      "category": "tooling",
+      "applicablePatterns": ["*"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Maintain a comprehensive .gitignore file"
+    },
+    {
+      "id": "generic-env-config",
+      "file": "templates/generic.json",
+      "category": "security",
+      "applicablePatterns": ["*"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Use environment variables for all configuration secrets"
+    },
+    {
+      "id": "generic-readme",
+      "file": "templates/generic.json",
+      "category": "process",
+      "applicablePatterns": ["*"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Every repository should have a README"
+    },
+    {
+      "id": "generic-license",
+      "file": "templates/generic.json",
+      "category": "compliance",
+      "applicablePatterns": ["*"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Include a LICENSE file in all repositories"
+    },
+    {
+      "id": "generic-code-style",
+      "file": "templates/generic.json",
+      "category": "tooling",
+      "applicablePatterns": ["*"],
+      "version": "1.0.0",
+      "lastModified": "2026-05-24",
+      "description": "Enforce consistent code style with tooling"
     }
   ],
 
@@ -149,19 +1009,77 @@
     "tooling": "Technology choices and dependencies",
     "compliance": "Regulatory and compliance requirements",
     "process": "Development, deployment, and operational processes",
-    "testing": "Testing strategy and evaluation approaches"
+    "testing": "Testing strategy and evaluation approaches",
+    "security": "Security controls and hardening"
   },
 
   "filters": {
     "by_pattern": {
       "agentic": ["folder-structure-agentic", "mcp-integration-required", "agent-orchestration-pattern", "agentic-testing-strategy", "agent-memory-persistence"],
       "RAG": ["folder-structure-rag", "vector-db-selection", "retrieval-evaluation-metrics", "document-ingestion-pipeline", "rag-prompt-optimization"],
-      "LLM API": []
+      "LLM API": ["llm-api-prompt-injection", "llm-api-cost-control", "llm-api-rate-limiting", "llm-api-response-validation", "llm-api-versioning-stability"]
     },
     "by_framework": {
       "SOC2": ["soc2-cc6-access-control", "soc2-cc7-monitoring", "soc2-cc8-change-management", "soc2-cc9-risk-assessment", "soc2-audit-trail-requirement"],
-      "ISO27001": [],
-      "GDPR": []
-    }
+      "ISO27001": ["iso27001-asset-management", "iso27001-access-control", "iso27001-cryptography", "iso27001-physical-security", "iso27001-operations-security", "iso27001-communications-security", "iso27001-incident-management", "iso27001-business-continuity"],
+      "GDPR": ["gdpr-data-processing-agreement", "gdpr-privacy-policy", "gdpr-data-retention-deletion", "gdpr-data-subject-rights", "gdpr-impact-assessment", "gdpr-dpia-children-data", "gdpr-cross-border-transfers", "gdpr-breach-notification"],
+      "Cyber Essentials": ["cyber-essentials-baseline"],
+      "FedRAMP": ["fedramp-itar-classified"],
+      "HIPAA": ["hipaa-phi-protection"],
+      "NIST-AI-RMF": ["nist-ai-rmf-governance"],
+      "EU-AI-Act": ["eu-ai-act-high-risk"],
+      "PCI-DSS": ["pci-dss-card-data"]
+    },
+    "by_stage": {
+      "sandbox": ["sandbox-minimal-docs", "sandbox-testing-optional"],
+      "PoC": ["poc-readme-required", "poc-basic-tests"],
+      "MVP": ["mvp-changelog-required", "mvp-ci-pipeline"],
+      "beta": ["beta-integration-tests", "beta-staging-environment"],
+      "production": ["production-sre-runbooks", "production-monitoring-alerts", "production-disaster-recovery"],
+      "sunset-legacy": ["legacy-maintenance-mode"]
+    },
+    "by_team_scale": {
+      "solo": ["solo-minimal-process"],
+      "pair-trio": ["pair-trio-code-review"],
+      "small": ["small-team-codeowners", "small-team-architecture-doc"],
+      "multi-team": ["multi-team-governance", "multi-team-shared-libs"],
+      "enterprise": ["multi-team-governance", "multi-team-shared-libs", "enterprise-compliance-officer", "enterprise-api-versioning"]
+    },
+    "by_ci_maturity": {
+      "none": ["ci-none-suggest-basic"],
+      "basic": ["ci-basic-add-artifacts", "ci-security-scanning"],
+      "full": ["ci-full-deployment-gates", "ci-test-coverage-gates", "ci-security-scanning", "ci-artifact-signing"],
+      "GitOps": ["ci-gitops-declarative", "ci-test-coverage-gates", "ci-security-scanning", "ci-artifact-signing"],
+      "ADO": ["ci-ado-azure-integration", "ci-test-coverage-gates", "ci-security-scanning"]
+    },
+    "by_test_maturity": {
+      "none": ["test-none-scaffold-unit"],
+      "unit": ["test-unit-add-integration", "test-fixtures-and-mocks", "test-coverage-baseline"],
+      "unit+integration": ["test-integration-add-e2e", "test-fixtures-and-mocks", "test-coverage-baseline", "test-performance-baselines"],
+      "e2e": ["test-e2e-add-contract", "test-fixtures-and-mocks", "test-coverage-baseline", "test-performance-baselines", "test-mutation-testing", "test-automated-regression"],
+      "contract": ["test-contract-chaos-resilience", "test-fixtures-and-mocks", "test-performance-baselines", "test-mutation-testing", "test-automated-regression"]
+    },
+    "by_observability": {
+      "none": ["obs-none-basic-logging", "obs-basic-structured-logs"],
+      "basic logging": ["obs-basic-structured-logs"],
+      "structured logs": ["obs-structured-metrics-alerts", "obs-logs-retention-policy"],
+      "metrics+alerts": ["obs-metrics-apm-tracing", "obs-dashboards-creation", "obs-alerting-runbooks", "obs-slo-definition", "obs-logs-retention-policy"],
+      "full APM+tracing": ["obs-dashboards-creation", "obs-alerting-runbooks", "obs-slo-definition", "obs-logs-retention-policy"]
+    },
+    "by_doc_expectation": {
+      "minimal-informal": ["doc-minimal-readme"],
+      "inline comments": ["doc-inline-comments"],
+      "ADRs": ["doc-adr-decisions", "doc-adr-template", "doc-changelog-releases"],
+      "runbooks": ["doc-runbooks-operations", "doc-runbook-format", "doc-changelog-releases"],
+      "full audit trail": ["doc-full-audit-trail", "doc-changelog-releases"]
+    },
+    "by_reuse_intent": {
+      "throwaway": ["reuse-throwaway-skip"],
+      "project-scoped": ["reuse-project-scope-internal"],
+      "shared library": ["reuse-shared-lib-versioning", "reuse-shared-lib-codeowners"],
+      "open-source": ["reuse-open-source-license", "reuse-open-source-contributing", "reuse-open-source-codeowners"],
+      "product platform": ["reuse-platform-api-contracts"]
+    },
+    "generic": ["generic-gitignore", "generic-env-config", "generic-readme", "generic-license", "generic-code-style"]
   }
 }

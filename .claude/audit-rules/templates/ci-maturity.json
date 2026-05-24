@@ -1,0 +1,191 @@
+[
+  {
+    "id": "ci-none-suggest-basic",
+    "description": "Set up basic CI pipeline",
+    "category": "tooling",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "CI_MATURITY": "none"
+      },
+      "precedenceWeight": 60
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Set up a basic CI pipeline immediately. Use GitHub Actions, GitLab CI, or CircleCI to run tests on every push. A minimal pipeline: install dependencies, run linter, run unit tests. This catches regressions before they reach main branch.",
+      "files": [
+        { "path": "/.github/workflows/ci.yml", "template": "basic-ci.yml" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "No CI means regressions are caught by users or in code review, not automatically. Even basic CI significantly improves code quality."
+  },
+
+  {
+    "id": "ci-basic-add-artifacts",
+    "description": "Add build artifacts and test reports to CI pipeline",
+    "category": "tooling",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "CI_MATURITY": "basic"
+      },
+      "precedenceWeight": 55
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Enhance your basic CI with artifact publishing. Add: test coverage reports uploaded as artifacts, build artefacts versioned with commit SHA, failed test output captured and accessible, and PR status checks blocking merges on failure.",
+      "files": [
+        { "path": "/.github/workflows/ci-enhanced.yml", "template": "ci-with-artifacts.yml" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Artifact publishing makes CI results actionable and supports debugging and audit trails."
+  },
+
+  {
+    "id": "ci-full-deployment-gates",
+    "description": "Deployment gates required for full CI maturity",
+    "category": "tooling",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "CI_MATURITY": "full"
+      },
+      "precedenceWeight": 75
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Add deployment gates to your CI/CD pipeline. Require: passing integration tests before deployment, smoke tests post-deployment, manual approval for production deployments, and automatic rollback triggers on error rate spikes.",
+      "files": [
+        { "path": "/docs/deployment/deployment-gates.md", "template": "deployment-gates.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Full CI maturity requires deployment gates to prevent broken code reaching production environments."
+  },
+
+  {
+    "id": "ci-gitops-declarative",
+    "description": "Declarative GitOps configuration management",
+    "category": "tooling",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "CI_MATURITY": "GitOps"
+      },
+      "precedenceWeight": 70
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Ensure all infrastructure and deployment configuration is declarative and stored in Git. Use tools like ArgoCD, Flux, or similar. Implement drift detection, automated reconciliation, and GitOps operator health monitoring.",
+      "files": [
+        { "path": "/docs/deployment/gitops-guide.md", "template": "gitops-guide.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "GitOps requires full declarative configuration — imperative changes break the GitOps model and cause drift."
+  },
+
+  {
+    "id": "ci-ado-azure-integration",
+    "description": "Azure DevOps integration best practices",
+    "category": "tooling",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "CI_MATURITY": "ADO"
+      },
+      "precedenceWeight": 65
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Optimise Azure DevOps pipeline configuration. Use YAML pipelines (not classic), implement pipeline templates for reuse, configure branch policies with required checks, use Azure Artifacts for package management, and integrate with Azure Monitor for pipeline metrics.",
+      "files": [
+        { "path": "/docs/deployment/ado-pipeline-guide.md", "template": "ado-pipeline-guide.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Azure DevOps has specific best practices that improve pipeline performance, maintainability, and governance."
+  },
+
+  {
+    "id": "ci-test-coverage-gates",
+    "description": "Test coverage gates in CI pipeline",
+    "category": "testing",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "CI_MATURITY": ["full", "GitOps", "ADO"]
+      },
+      "precedenceWeight": 70
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Add test coverage gates to your CI pipeline. Set minimum coverage thresholds (e.g. 80% overall, 70% per file), fail builds that drop below thresholds, track coverage trends over time, and generate coverage badges for repository README.",
+      "files": [],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Coverage gates prevent coverage regression as codebases grow under feature pressure."
+  },
+
+  {
+    "id": "ci-security-scanning",
+    "description": "Security scanning in CI pipeline",
+    "category": "security",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "CI_MATURITY": ["basic", "full", "GitOps", "ADO"]
+      },
+      "precedenceWeight": 80
+    },
+    "action": {
+      "type": "hardening",
+      "recommendation": "Add automated security scanning to your CI pipeline. Include: dependency vulnerability scanning (npm audit, Dependabot, Snyk), SAST scanning (CodeQL, SonarQube), secret detection (git-secrets, truffleHog), and container image scanning if applicable. Fail builds on critical severity findings.",
+      "files": [
+        { "path": "/.github/workflows/security-scan.yml", "template": "security-scan.yml" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Security scanning in CI catches vulnerabilities before deployment. Manual security review alone misses the volume of issues modern tooling detects."
+  },
+
+  {
+    "id": "ci-artifact-signing",
+    "description": "Sign build artifacts for supply chain integrity",
+    "category": "security",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "CI_MATURITY": ["full", "GitOps"]
+      },
+      "precedenceWeight": 65
+    },
+    "action": {
+      "type": "hardening",
+      "recommendation": "Implement artifact signing in your CI pipeline. Sign container images (cosign), sign release binaries (GPG or Sigstore), publish Software Bill of Materials (SBOM), and verify signatures in deployment pipelines.",
+      "files": [
+        { "path": "/docs/security/artifact-signing.md", "template": "artifact-signing.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Signed artifacts enable consumers to verify provenance and detect supply chain tampering."
+  }
+]

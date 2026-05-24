@@ -1,0 +1,281 @@
+[
+  {
+    "id": "sandbox-minimal-docs",
+    "description": "Minimal documentation acceptable for sandbox environments",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "PROFILE_STAGE": "sandbox"
+      },
+      "precedenceWeight": 20
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Sandbox environments require only a brief README explaining purpose and setup. Extensive documentation is not expected at this stage — focus on exploration and learning.",
+      "files": [],
+      "enforcementLevel": "advisory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Sandbox environments are experimental; imposing documentation overhead reduces exploration velocity."
+  },
+
+  {
+    "id": "sandbox-testing-optional",
+    "description": "Testing is optional in sandbox environments",
+    "category": "testing",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "PROFILE_STAGE": "sandbox"
+      },
+      "precedenceWeight": 15
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Formal testing is not required for sandbox projects. Consider adding basic smoke tests if the sandbox code will graduate to a PoC or MVP stage.",
+      "files": [],
+      "enforcementLevel": "advisory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Sandboxes are throwaway code; enforcing testing adds friction without business value."
+  },
+
+  {
+    "id": "poc-readme-required",
+    "description": "README required for Proof of Concept projects",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "PROFILE_STAGE": "PoC"
+      },
+      "precedenceWeight": 45
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Create a README.md documenting the PoC purpose, assumptions, limitations, and how to run it. This helps stakeholders evaluate the PoC and supports handover if it progresses to MVP.",
+      "files": [
+        { "path": "/README.md", "template": "poc-readme.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "PoCs are reviewed by stakeholders and may be handed over. A README is the minimum documentation for evaluation."
+  },
+
+  {
+    "id": "poc-basic-tests",
+    "description": "Basic unit tests recommended for PoC projects",
+    "category": "testing",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "PROFILE_STAGE": "PoC"
+      },
+      "precedenceWeight": 35
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Add basic unit tests for critical PoC logic. This validates your approach and makes the PoC easier to evolve into an MVP. Aim for coverage of core decision paths.",
+      "files": [],
+      "enforcementLevel": "advisory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Basic tests in a PoC validate the approach and reduce rework if the PoC is promoted."
+  },
+
+  {
+    "id": "mvp-changelog-required",
+    "description": "CHANGELOG required for MVP releases",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "PROFILE_STAGE": "MVP"
+      },
+      "precedenceWeight": 55
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Maintain a CHANGELOG.md following Keep a Changelog format. Document what changes, why, and how to migrate. This supports user communication and release management.",
+      "files": [
+        { "path": "/CHANGELOG.md", "template": "changelog.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "MVPs have real users. A CHANGELOG communicates changes and builds trust."
+  },
+
+  {
+    "id": "mvp-ci-pipeline",
+    "description": "CI pipeline required for MVP stage",
+    "category": "tooling",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "PROFILE_STAGE": "MVP"
+      },
+      "precedenceWeight": 65
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Set up a CI pipeline (GitHub Actions, GitLab CI, or similar) for your MVP. At minimum: run tests on every PR, lint code, and block merges on test failures. This prevents regressions as the team grows.",
+      "files": [
+        { "path": "/.github/workflows/ci.yml", "template": "ci-pipeline.yml" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "MVPs grow into products. A CI pipeline established early prevents quality degradation under feature pressure."
+  },
+
+  {
+    "id": "beta-integration-tests",
+    "description": "Integration tests required for beta stage",
+    "category": "testing",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "PROFILE_STAGE": "beta"
+      },
+      "precedenceWeight": 70
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Add integration tests covering key user journeys before beta launch. Test API contracts, database interactions, and external service integrations. Aim for 70%+ coverage of integration points.",
+      "files": [],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Beta users encounter real integration failures. Integration tests catch issues before they reach users."
+  },
+
+  {
+    "id": "beta-staging-environment",
+    "description": "Staging environment required for beta deployments",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "PROFILE_STAGE": "beta"
+      },
+      "precedenceWeight": 72
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Establish a staging environment that mirrors production for beta testing. Deploy to staging before production, run integration tests against staging, and validate releases with beta users in the staging environment.",
+      "files": [
+        { "path": "/docs/deployment/staging-runbook.md", "template": "staging-runbook.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "A staging environment catches environment-specific issues before they impact production beta users."
+  },
+
+  {
+    "id": "production-sre-runbooks",
+    "description": "SRE runbooks required for production systems",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "PROFILE_STAGE": "production"
+      },
+      "precedenceWeight": 85
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Create SRE runbooks for all production services. Each runbook must cover: service overview, dependencies, deployment procedure, rollback procedure, common failure modes, and on-call escalation contacts. Store in a searchable, versioned location.",
+      "files": [
+        { "path": "/docs/runbooks/service-runbook.md", "template": "sre-runbook.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Production incidents require immediate, documented response procedures. Missing runbooks extend MTTR and increase blast radius."
+  },
+
+  {
+    "id": "production-monitoring-alerts",
+    "description": "Production monitoring and alerting required",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "PROFILE_STAGE": "production"
+      },
+      "precedenceWeight": 80
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Implement comprehensive monitoring for production services. Define SLOs (availability, latency, error rate), set up alerting on SLO breaches, create dashboards for key metrics, and ensure on-call engineers receive actionable alerts with runbook links.",
+      "files": [
+        { "path": "/docs/monitoring/slo-definitions.md", "template": "slo-definitions.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Production systems must be observable. Without monitoring and alerting, outages are discovered by users rather than operators."
+  },
+
+  {
+    "id": "production-disaster-recovery",
+    "description": "Disaster recovery plan required for production",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "PROFILE_STAGE": "production"
+      },
+      "precedenceWeight": 80
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Document and test a Disaster Recovery plan for production systems. Define RTO and RPO targets, document recovery procedures, automate backups with verified restore tests, and conduct DR exercises at least annually.",
+      "files": [
+        { "path": "/docs/compliance/disaster-recovery-plan.md", "template": "dr-plan.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Production systems must survive failures. Untested DR plans fail when needed most."
+  },
+
+  {
+    "id": "legacy-maintenance-mode",
+    "description": "Document maintenance mode constraints for legacy systems",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "PROFILE_STAGE": "sunset-legacy"
+      },
+      "precedenceWeight": 40
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Document the system's maintenance-mode status. Record: known issues not being fixed, deprecated features timeline, migration path for users, and the scheduled end-of-life date. Minimise new dependencies and changes.",
+      "files": [
+        { "path": "/docs/maintenance/eol-notice.md", "template": "eol-notice.md" }
+      ],
+      "enforcementLevel": "advisory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Legacy systems in sunset need clear documentation to manage stakeholder expectations and guide migration."
+  }
+]

@@ -1,0 +1,189 @@
+[
+  {
+    "id": "reuse-throwaway-skip",
+    "description": "Minimal standards apply for throwaway code",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "REUSE_INTENT": "throwaway"
+      },
+      "precedenceWeight": 10
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Throwaway code has minimal requirements. Add a README noting its throwaway status and planned disposal date. Mark the repository as archived when done. Avoid patterns that make throwaway code accidentally depended upon.",
+      "files": [],
+      "enforcementLevel": "advisory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Applying production standards to throwaway code wastes time. The key risk is throwaway code accidentally becoming permanent."
+  },
+
+  {
+    "id": "reuse-project-scope-internal",
+    "description": "Internal documentation standards for project-scoped code",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "REUSE_INTENT": "project-scoped"
+      },
+      "precedenceWeight": 35
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Project-scoped code should have: a README explaining the context and usage, inline comments for non-obvious logic, and basic tests for core functionality. Focus documentation on what future team members maintaining the code need to know.",
+      "files": [],
+      "enforcementLevel": "advisory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Project-scoped code is maintained by the same team. Lightweight documentation supports maintainability without over-engineering."
+  },
+
+  {
+    "id": "reuse-shared-lib-versioning",
+    "description": "Semantic versioning required for shared libraries",
+    "category": "tooling",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "REUSE_INTENT": "shared library"
+      },
+      "precedenceWeight": 65
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Apply semantic versioning (semver.org) to your shared library. Document the public API surface, use MAJOR.MINOR.PATCH versions, publish release notes for each version, and enforce breaking change documentation. Automate version bumping via conventional commits.",
+      "files": [
+        { "path": "/docs/contributing/versioning-guide.md", "template": "versioning-guide.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Shared libraries without semantic versioning cause dependency conflicts and unexpected breaking changes for consumers."
+  },
+
+  {
+    "id": "reuse-shared-lib-codeowners",
+    "description": "Assign library maintainers via CODEOWNERS",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "REUSE_INTENT": "shared library"
+      },
+      "precedenceWeight": 55
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Create a CODEOWNERS file for your shared library. Assign reviewers for the entire library, specific modules, and documentation. Require CODEOWNER approval for all merges to main. Document the library support model and response SLAs.",
+      "files": [
+        { "path": "/CODEOWNERS", "template": "library-CODEOWNERS" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Shared libraries without clear ownership become abandoned or accumulate unreviewed changes that break consumers."
+  },
+
+  {
+    "id": "reuse-open-source-license",
+    "description": "Open source license required",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "REUSE_INTENT": "open-source"
+      },
+      "precedenceWeight": 80
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Add an appropriate open source license to your repository. Choose based on your goals: MIT/Apache 2.0 for permissive, GPL for copyleft. Add a LICENSE file, SPDX license headers to source files, and document the license in README and package.json.",
+      "files": [
+        { "path": "/LICENSE", "template": "mit-license.txt" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": ["generic-license"],
+    "overrides": [],
+    "rationale": "Code without a license is not open source — it defaults to all rights reserved. A license defines how others can use, modify, and distribute the software."
+  },
+
+  {
+    "id": "reuse-open-source-contributing",
+    "description": "CONTRIBUTING guide required for open source projects",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "REUSE_INTENT": "open-source"
+      },
+      "precedenceWeight": 75
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Create a CONTRIBUTING.md guide for your open source project. Include: how to report bugs, how to propose features, development environment setup, code style requirements, PR process, and Code of Conduct reference. This reduces maintainer burden from repeated questions.",
+      "files": [
+        { "path": "/CONTRIBUTING.md", "template": "contributing-guide.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Without a CONTRIBUTING guide, contributors submit PRs that don't meet standards, creating review burden and discouraging contributions."
+  },
+
+  {
+    "id": "reuse-open-source-codeowners",
+    "description": "CODEOWNERS required for open source projects",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "REUSE_INTENT": "open-source"
+      },
+      "precedenceWeight": 60
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Create a CODEOWNERS file to route external contributor PRs to appropriate maintainers. Define primary maintainers, module-specific reviewers, and documentation owners. This ensures external contributions get timely review.",
+      "files": [
+        { "path": "/CODEOWNERS", "template": "oss-CODEOWNERS" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Open source projects without CODEOWNERS leave external contributors waiting indefinitely for reviews, discouraging community participation."
+  },
+
+  {
+    "id": "reuse-platform-api-contracts",
+    "description": "Formal API contracts required for product platforms",
+    "category": "tooling",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "REUSE_INTENT": "product platform"
+      },
+      "precedenceWeight": 75
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Define formal API contracts for your product platform. Use OpenAPI 3.x for REST APIs, AsyncAPI for event-driven APIs, or gRPC protobufs. Publish contracts to a developer portal, implement contract testing, and enforce backward compatibility policies.",
+      "files": [
+        { "path": "/docs/api/openapi.yaml", "template": "openapi-spec.yaml" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Product platforms serve many internal and external consumers. Formal API contracts prevent integration failures and enable independent evolution."
+  }
+]

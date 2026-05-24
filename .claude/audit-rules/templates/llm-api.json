@@ -1,0 +1,124 @@
+[
+  {
+    "id": "llm-api-prompt-injection",
+    "description": "Protect LLM API integrations against prompt injection and adversarial input attacks",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "AI_PATTERN": "LLM API"
+      },
+      "precedenceWeight": 90
+    },
+    "action": {
+      "type": "hardening",
+      "recommendation": "Implement prompt injection defenses: (1) Validate and sanitize all user input before inclusion in prompts. (2) Use structured prompt templates with clear system/user delimiters. (3) Implement output validation to detect and reject adversarial completions. (4) Apply principle of least privilege — do not give LLM access to sensitive tools or data unless required. (5) Log all prompts and completions for anomaly detection. (6) Test with adversarial prompt datasets (PromptBench, GAIA). Document prompt security guidelines for developers.",
+      "files": [
+        { "path": "/docs/llm-api/prompt-security-guidelines.md", "template": "prompt-security.md" },
+        { "path": "/src/lib/prompt-sanitizer.ts", "template": "prompt-sanitizer.ts" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Prompt injection is the #1 LLM security risk (OWASP LLM Top 10 LLM01); attacks can exfiltrate data, bypass controls, or cause downstream harm."
+  },
+
+  {
+    "id": "llm-api-cost-control",
+    "description": "Implement token budget enforcement and cost monitoring for LLM API usage",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "AI_PATTERN": "LLM API"
+      },
+      "precedenceWeight": 70
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Implement token budget controls: (1) Set per-request max_tokens limits to prevent runaway completions. (2) Implement per-user and per-feature token quotas. (3) Set up billing alerts at 50%, 80%, and 100% of monthly budget thresholds. (4) Track token usage per feature/user and expose in internal dashboards. (5) Implement prompt caching to reduce repeated context costs. (6) Document cost estimation process for new LLM-powered features.",
+      "files": [
+        { "path": "/docs/llm-api/cost-management.md", "template": "llm-cost-management.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "LLM API costs can scale unexpectedly; uncapped usage or adversarial inputs can cause runaway costs. Budget controls prevent billing surprises."
+  },
+
+  {
+    "id": "llm-api-rate-limiting",
+    "description": "Implement rate limiting and throttling for LLM API calls to avoid provider limits",
+    "category": "tooling",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "AI_PATTERN": "LLM API"
+      },
+      "precedenceWeight": 65
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Implement rate limiting at multiple layers: (1) Client-side exponential backoff with jitter for 429 and 503 responses. (2) Request queuing with configurable concurrency limits. (3) Per-user rate limits to prevent individual abuse. (4) Circuit breaker pattern to fail gracefully under sustained API outages. (5) Cache responses for identical or near-identical prompts (semantic caching). Document rate limit thresholds per provider tier.",
+      "files": [
+        { "path": "/src/lib/llm-rate-limiter.ts", "template": "llm-rate-limiter.ts" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Provider rate limits cause application failures if unhandled; client-side controls protect against cascading failures and over-quota errors."
+  },
+
+  {
+    "id": "llm-api-response-validation",
+    "description": "Validate and sanitize LLM API responses before using in application logic",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "AI_PATTERN": "LLM API"
+      },
+      "precedenceWeight": 85
+    },
+    "action": {
+      "type": "hardening",
+      "recommendation": "Implement response validation pipeline: (1) Parse structured outputs using JSON schema validation (never trust raw LLM JSON). (2) Validate response is within expected domain/format before passing to downstream systems. (3) Implement output filtering for harmful content, PII exposure, or confidential data leakage. (4) Handle incomplete/truncated responses gracefully (finish_reason checks). (5) Log validation failures for monitoring. (6) Use function calling / structured outputs (OpenAI) or tool use (Anthropic) to enforce output schemas.",
+      "files": [
+        { "path": "/src/lib/llm-response-validator.ts", "template": "llm-response-validator.ts" },
+        { "path": "/docs/llm-api/output-validation-strategy.md", "template": "output-validation-strategy.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "LLM outputs are non-deterministic; passing unvalidated completions to business logic or databases is a data integrity and security risk."
+  },
+
+  {
+    "id": "llm-api-versioning-stability",
+    "description": "Pin LLM model versions and manage model migration for API stability",
+    "category": "tooling",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "AI_PATTERN": "LLM API"
+      },
+      "precedenceWeight": 60
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Implement LLM version pinning and migration strategy: (1) Always specify exact model versions in API calls (e.g., gpt-4o-2024-11-20, not gpt-4o) to prevent silent behavior changes. (2) Document tested model version in configuration and CHANGELOG. (3) Create evaluation suite (golden dataset) to regression-test after model upgrades. (4) Define migration process: test on branch, compare outputs, update version in config. (5) Monitor for model deprecation notices and plan migrations with lead time. Centralise model configuration in one place.",
+      "files": [
+        { "path": "/config/llm-models.json", "template": "llm-models-config.json" },
+        { "path": "/docs/llm-api/model-versioning.md", "template": "model-versioning.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Model updates can silently change behavior; pinned versions prevent unexpected regressions in production prompts and downstream logic."
+  }
+]

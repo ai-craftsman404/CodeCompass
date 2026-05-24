@@ -1,0 +1,191 @@
+[
+  {
+    "id": "doc-minimal-readme",
+    "description": "Create a minimal README for informal projects",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "DOC_EXPECTATION": "minimal-informal"
+      },
+      "precedenceWeight": 35
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Create a minimal README.md with: project name, one-sentence description, how to install/run, and contact information. Even for informal projects, a README helps others (and future you) understand the project's purpose.",
+      "files": [
+        { "path": "/README.md", "template": "minimal-readme.md" }
+      ],
+      "enforcementLevel": "advisory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "A minimal README is the lowest barrier to entry for project documentation and is valuable even for personal projects."
+  },
+
+  {
+    "id": "doc-inline-comments",
+    "description": "Enforce meaningful inline code comments",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "DOC_EXPECTATION": "inline comments"
+      },
+      "precedenceWeight": 40
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Document non-obvious code with inline comments. Focus on: why decisions were made (not what the code does), complex algorithms, workarounds and their context, and deprecated code with migration guidance. Avoid noise comments that restate the code.",
+      "files": [],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Inline comments document intent that code alone cannot express. They are the primary documentation for many codebases."
+  },
+
+  {
+    "id": "doc-adr-decisions",
+    "description": "Document architectural decisions using ADRs",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "DOC_EXPECTATION": "ADRs"
+      },
+      "precedenceWeight": 60
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Use Architecture Decision Records (ADRs) to document significant technical decisions. Each ADR should include: context, decision, status, and consequences. Store in /docs/adr/ and reference ADRs in code comments where relevant. Use MADR or Nygard format.",
+      "files": [
+        { "path": "/docs/adr/0001-record-architecture-decisions.md", "template": "adr-template.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "ADRs preserve the context behind architectural decisions, preventing future teams from repeating mistakes or reversing decisions for undocumented reasons."
+  },
+
+  {
+    "id": "doc-adr-template",
+    "description": "Maintain ADR template for consistency",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "DOC_EXPECTATION": "ADRs"
+      },
+      "precedenceWeight": 45
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Create and maintain an ADR template to ensure consistency across decisions. Include sections for: title, date, status (proposed/accepted/deprecated/superseded), context, decision, and consequences. Link superseding ADRs to their predecessors.",
+      "files": [
+        { "path": "/docs/adr/template.md", "template": "adr-format-template.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Consistent ADR format makes them easier to discover, read, and navigate as the collection grows."
+  },
+
+  {
+    "id": "doc-runbooks-operations",
+    "description": "Operational runbooks required",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "DOC_EXPECTATION": "runbooks"
+      },
+      "precedenceWeight": 70
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Create operational runbooks for all production services. Each runbook must include: service overview, architecture diagram, deployment procedure, common failure modes with resolution steps, on-call contacts, and escalation paths. Test runbooks by following them in dry-run exercises.",
+      "files": [
+        { "path": "/docs/runbooks/runbook-template.md", "template": "runbook-template.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Operational runbooks reduce MTTR during incidents and enable on-call rotation without single-person knowledge concentration."
+  },
+
+  {
+    "id": "doc-runbook-format",
+    "description": "Standardise runbook format across the organisation",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "DOC_EXPECTATION": "runbooks"
+      },
+      "precedenceWeight": 50
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Adopt a standard runbook format across all teams. Include: last-reviewed date, service owner, severity classification, pre-requisites, step-by-step procedures with expected outputs, and rollback steps. Review and update all runbooks after incidents.",
+      "files": [
+        { "path": "/docs/runbooks/runbook-standard.md", "template": "runbook-standard.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Standardised runbooks reduce cognitive load during incidents when engineers are under pressure."
+  },
+
+  {
+    "id": "doc-full-audit-trail",
+    "description": "Full audit trail documentation required",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "DOC_EXPECTATION": "full audit trail"
+      },
+      "precedenceWeight": 75
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Implement comprehensive audit trail documentation. Document: all significant decisions with approvals, change history with rationale, compliance evidence artefacts, security review records, and release approval chains. Ensure audit records are tamper-evident and retained per compliance requirements.",
+      "files": [
+        { "path": "/docs/compliance/audit-trail-policy.md", "template": "audit-trail-policy.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Full audit trails are required for regulated industries and provide evidence of due diligence for governance purposes."
+  },
+
+  {
+    "id": "doc-changelog-releases",
+    "description": "Maintain a structured CHANGELOG for releases",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "DOC_EXPECTATION": ["ADRs", "runbooks", "full audit trail"]
+      },
+      "precedenceWeight": 50
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Maintain a CHANGELOG.md following Keep a Changelog format (keepachangelog.com). Document Added/Changed/Deprecated/Removed/Fixed/Security sections for each release. Automate changelog generation from conventional commits where possible.",
+      "files": [
+        { "path": "/CHANGELOG.md", "template": "changelog-template.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "A structured CHANGELOG communicates changes to users and stakeholders, and provides an audit trail of what changed and why."
+  }
+]
