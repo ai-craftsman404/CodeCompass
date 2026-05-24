@@ -7,7 +7,7 @@
  */
 
 import { describe, it, expect, beforeEach } from '@jest/globals';
-import { applyPrecedenceMatrix } from '../functions/precedence-scoring';
+import { applyPrecedenceMatrix, scoreRules } from '../functions/precedence-scoring';
 
 function createRule(overrides: any = {}) {
   return {
@@ -743,5 +743,64 @@ describe('Precedence Scoring', () => {
       expect(scores[1]).toBeGreaterThan(scores[0]);
       expect(scores[2]).toBeGreaterThan(scores[1]);
     });
+  });
+});
+
+// ============================================================================
+// scoreRules — batch scoring via applyPrecedenceMatrix
+// ============================================================================
+
+describe('scoreRules (batch scoring)', () => {
+  const context = {
+    SECURITY_WEIGHT: 70,
+    COMPLIANCE_WEIGHT: 60,
+    THREAT_WEIGHT: 50
+  };
+
+  it('returns a ScoredRule for each input rule', () => {
+    const rules = [
+      createRule({ id: 'r1', condition: { precedenceWeight: 50 } }),
+      createRule({ id: 'r2', condition: { precedenceWeight: 80 } })
+    ];
+    const scored = scoreRules(rules, context);
+    expect(scored).toHaveLength(2);
+  });
+
+  it('each scored rule has a numeric score property', () => {
+    const rules = [createRule({ id: 'r1', condition: { precedenceWeight: 60 } })];
+    const scored = scoreRules(rules, context);
+    expect(typeof scored[0].score).toBe('number');
+    expect(Number.isFinite(scored[0].score)).toBe(true);
+  });
+
+  it('preserves all original rule fields alongside score', () => {
+    const rule = createRule({ id: 'preserve-me', category: 'security', condition: { precedenceWeight: 75 } });
+    const scored = scoreRules([rule], context);
+    expect(scored[0].id).toBe('preserve-me');
+    expect(scored[0].category).toBe('security');
+  });
+
+  it('score matches applyPrecedenceMatrix for each rule individually', () => {
+    const rules = [
+      createRule({ id: 'r1', condition: { precedenceWeight: 50 } }),
+      createRule({ id: 'r2', condition: { precedenceWeight: 90 } })
+    ];
+    const scored = scoreRules(rules, context);
+    rules.forEach((rule, i) => {
+      expect(scored[i].score).toBe(applyPrecedenceMatrix(rule, context));
+    });
+  });
+
+  it('returns empty array for empty input', () => {
+    expect(scoreRules([], context)).toEqual([]);
+  });
+
+  it('higher-weight rules receive higher scores', () => {
+    const rules = [
+      createRule({ id: 'low', condition: { precedenceWeight: 30 } }),
+      createRule({ id: 'high', condition: { precedenceWeight: 90 } })
+    ];
+    const scored = scoreRules(rules, context);
+    expect(scored[1].score).toBeGreaterThan(scored[0].score);
   });
 });

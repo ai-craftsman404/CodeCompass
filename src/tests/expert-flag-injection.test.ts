@@ -9,6 +9,115 @@
 import { describe, it, expect } from '@jest/globals';
 import { parseAndValidateFlags, applyFlagOverrides } from '../functions/expert-flags';
 
+// ============================================================================
+// parseAndValidateFlags — returns { valid, errors, parsed } instead of throwing
+// ============================================================================
+
+describe('parseAndValidateFlags (non-throwing validation API)', () => {
+  describe('Valid inputs: returns valid=true with parsed values', () => {
+    it('returns valid=true and parsed value for a valid enum flag', () => {
+      const result = parseAndValidateFlags({ PROFILE_STAGE: 'production' });
+      expect(result.valid).toBe(true);
+      expect(result.errors).toHaveLength(0);
+      expect(result.parsed.PROFILE_STAGE).toBe('production');
+    });
+
+    it('returns valid=true for multiple valid enum flags', () => {
+      const result = parseAndValidateFlags({
+        PROFILE_STAGE: 'MVP',
+        TEAM_SCALE: 'small',
+        THREAT_LEVEL: 'high'
+      });
+      expect(result.valid).toBe(true);
+      expect(result.parsed.PROFILE_STAGE).toBe('MVP');
+      expect(result.parsed.TEAM_SCALE).toBe('small');
+      expect(result.parsed.THREAT_LEVEL).toBe('high');
+    });
+
+    it('parses weight fields from string to number when valid', () => {
+      const result = parseAndValidateFlags({ SECURITY_WEIGHT: '75' });
+      expect(result.valid).toBe(true);
+      expect(result.parsed.SECURITY_WEIGHT).toBe(75);
+    });
+
+    it('accepts boundary weight values "0" and "100"', () => {
+      const r0 = parseAndValidateFlags({ COMPLIANCE_WEIGHT: '0' });
+      const r100 = parseAndValidateFlags({ THREAT_WEIGHT: '100' });
+      expect(r0.valid).toBe(true);
+      expect(r0.parsed.COMPLIANCE_WEIGHT).toBe(0);
+      expect(r100.valid).toBe(true);
+      expect(r100.parsed.THREAT_WEIGHT).toBe(100);
+    });
+
+    it('returns valid=true and empty errors for empty input', () => {
+      const result = parseAndValidateFlags({});
+      expect(result.valid).toBe(true);
+      expect(result.errors).toHaveLength(0);
+      expect(result.parsed).toEqual({});
+    });
+  });
+
+  describe('Invalid enum values: returns valid=false with descriptive error', () => {
+    it('returns valid=false for an unrecognised PROFILE_STAGE', () => {
+      const result = parseAndValidateFlags({ PROFILE_STAGE: 'staging' });
+      expect(result.valid).toBe(false);
+      expect(result.errors.length).toBeGreaterThan(0);
+      expect(result.errors[0]).toMatch(/PROFILE_STAGE/);
+    });
+
+    it('error message lists the invalid value', () => {
+      const result = parseAndValidateFlags({ TEAM_SCALE: 'mega-corp' });
+      expect(result.errors[0]).toContain('mega-corp');
+    });
+
+    it('accumulates multiple errors for multiple invalid flags', () => {
+      const result = parseAndValidateFlags({
+        PROFILE_STAGE: 'bad-stage',
+        TEAM_SCALE: 'bad-scale'
+      });
+      expect(result.valid).toBe(false);
+      expect(result.errors.length).toBeGreaterThanOrEqual(2);
+    });
+  });
+
+  describe('Invalid weight values: returns valid=false with descriptive error', () => {
+    it('returns valid=false for a weight above 100', () => {
+      const result = parseAndValidateFlags({ SECURITY_WEIGHT: '150' });
+      expect(result.valid).toBe(false);
+      expect(result.errors[0]).toMatch(/SECURITY_WEIGHT/);
+    });
+
+    it('returns valid=false for a negative weight', () => {
+      const result = parseAndValidateFlags({ THREAT_WEIGHT: '-5' });
+      expect(result.valid).toBe(false);
+    });
+
+    it('returns valid=false for a non-numeric weight string', () => {
+      const result = parseAndValidateFlags({ COMPLIANCE_WEIGHT: 'high' });
+      expect(result.valid).toBe(false);
+      expect(result.errors[0]).toMatch(/COMPLIANCE_WEIGHT/);
+    });
+  });
+
+  describe('Unknown flags: returns valid=false with "not recognized" error', () => {
+    it('returns valid=false for an unknown flag key', () => {
+      const result = parseAndValidateFlags({ CUSTOM_VAR: 'value' });
+      expect(result.valid).toBe(false);
+      expect(result.errors[0]).toMatch(/CUSTOM_VAR/);
+    });
+
+    it('collects errors for unknown keys alongside valid keys', () => {
+      const result = parseAndValidateFlags({
+        PROFILE_STAGE: 'production',
+        UNKNOWN_KEY: 'x'
+      });
+      expect(result.valid).toBe(false);
+      // PROFILE_STAGE should still be parsed
+      expect(result.parsed.PROFILE_STAGE).toBe('production');
+    });
+  });
+});
+
 describe('Expert Flag Injection', () => {
   // ============================================================================
   // VALID FLAG SYNTAX AND PARSING

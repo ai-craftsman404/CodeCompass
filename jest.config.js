@@ -8,14 +8,15 @@ export default {
     'src/**/*.ts',
     '!src/**/*.test.ts',
     '!src/tests/**',
-    '!src/**/*.d.ts'
+    '!src/**/*.d.ts',
+    '!src/conflict-resolver.ts'  // Re-export shim; underlying modules have full coverage
   ],
   coverageThreshold: {
     global: {
-      branches: 40,  // Lowered for development; will increase as implementations complete
-      functions: 40,
-      lines: 40,
-      statements: 40
+      branches: 82,
+      functions: 88,
+      lines: 88,
+      statements: 88
     }
   },
   coverageReporters: ['text', 'lcov', 'html'],
