@@ -1,0 +1,200 @@
+[
+  {
+    "id": "gdpr-data-processing-agreement",
+    "description": "GDPR Art.28: Data Processing Agreements required for all processors",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "GDPR"
+      },
+      "precedenceWeight": 95
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Identify all data processors (cloud providers, SaaS tools, analytics). Ensure signed Data Processing Agreements (DPAs) are in place with each processor. Document the data flows to processors. Review DPAs annually and when processor terms change. Maintain a register of all processors with DPA status.",
+      "files": [
+        { "path": "/docs/gdpr/processor-register.md", "template": "processor-register.md" },
+        { "path": "/docs/gdpr/dpa-template.md", "template": "dpa-template.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "GDPR Art.28 makes DPAs a legal requirement; missing DPAs expose the controller to enforcement action."
+  },
+
+  {
+    "id": "gdpr-privacy-policy",
+    "description": "GDPR Art.13/14: Privacy notice required for personal data collection",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "GDPR"
+      },
+      "precedenceWeight": 96
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Create a privacy notice (policy) that covers: identity of controller, contact details of DPO (if applicable), purposes and legal bases for processing, categories of personal data, retention periods, data subject rights, recipients/processors, and cross-border transfers. Make the notice easily accessible. Update whenever processing activities change.",
+      "files": [
+        { "path": "/docs/gdpr/privacy-notice.md", "template": "privacy-notice.md" },
+        { "path": "/docs/gdpr/records-of-processing-activities.md", "template": "ropa.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "GDPR Art.13/14 requires transparent disclosure of processing; a missing privacy notice is a direct compliance failure."
+  },
+
+  {
+    "id": "gdpr-data-retention-deletion",
+    "description": "GDPR Art.5(1)(e): Data minimisation and storage limitation policy",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "GDPR"
+      },
+      "precedenceWeight": 93
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Define retention periods for each category of personal data (aligned with legal/business purpose). Implement automated deletion or anonymization at end of retention period. Document retention schedule. Implement right-to-erasure workflow. Test deletion completeness: verify data is removed from all systems including backups, logs, and caches within defined timelines.",
+      "files": [
+        { "path": "/docs/gdpr/data-retention-schedule.md", "template": "retention-schedule.md" },
+        { "path": "/docs/gdpr/erasure-workflow.md", "template": "erasure-workflow.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "GDPR Art.5 storage limitation is actively enforced; indefinite data retention is a frequent enforcement finding."
+  },
+
+  {
+    "id": "gdpr-data-subject-rights",
+    "description": "GDPR Art.15-22: Implement workflows for all data subject rights requests",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "GDPR"
+      },
+      "precedenceWeight": 94
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Implement data subject rights fulfillment within statutory timelines (30 days): access, rectification, erasure, restriction, portability, and objection. Create intake workflow for DSRs (form, email). Document internal process for verifying identity, locating data, and responding. Log all DSRs and outcomes. Ensure portability exports are machine-readable (JSON/CSV).",
+      "files": [
+        { "path": "/docs/gdpr/dsr-procedures.md", "template": "dsr-procedures.md" },
+        { "path": "/docs/gdpr/dsr-log.md", "template": "dsr-log.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "GDPR Chapter III rights are directly enforceable; failing to respond within 30 days triggers regulatory fines."
+  },
+
+  {
+    "id": "gdpr-impact-assessment",
+    "description": "GDPR Art.35: Data Protection Impact Assessment for high-risk processing",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "GDPR"
+      },
+      "precedenceWeight": 91
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Conduct a DPIA for processing activities that are high-risk (large-scale profiling, systematic monitoring, sensitive data categories, AI decision-making). Document: description of processing, necessity/proportionality assessment, risk assessment, and measures to address risks. Consult with DPO where required. Obtain prior supervisory authority consultation if residual risk remains high.",
+      "files": [
+        { "path": "/docs/gdpr/dpia-template.md", "template": "dpia-template.md" },
+        { "path": "/docs/gdpr/dpia-register.md", "template": "dpia-register.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "GDPR Art.35 mandates DPIA for high-risk processing; skipping DPIA is an independent violation regardless of other compliance."
+  },
+
+  {
+    "id": "gdpr-dpia-children-data",
+    "description": "GDPR Art.8: Special protections for processing children personal data",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "GDPR"
+      },
+      "precedenceWeight": 99
+    },
+    "action": {
+      "type": "hardening",
+      "recommendation": "If processing personal data of children under 16 (or lower age per member state law): obtain verifiable parental consent, design age-appropriate privacy notices using plain language, implement age verification mechanisms, restrict profiling and targeted advertising. Conduct mandatory DPIA. Apply data minimisation strictly. Document age thresholds per jurisdiction.",
+      "files": [
+        { "path": "/docs/gdpr/childrens-data-policy.md", "template": "childrens-data-policy.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Children's data receives the highest GDPR protection; regulatory fines for violations involving children are at maximum levels."
+  },
+
+  {
+    "id": "gdpr-cross-border-transfers",
+    "description": "GDPR Art.44-49: Lawful mechanism for cross-border personal data transfers",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "GDPR"
+      },
+      "precedenceWeight": 92
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Identify all personal data transfers to countries outside the EEA. For each transfer, document the lawful transfer mechanism: adequacy decision, Standard Contractual Clauses (SCCs), Binding Corporate Rules, or derogations. Conduct Transfer Impact Assessments (TIA) for transfers to non-adequate countries. Update documentation when Schrems-style invalidations occur.",
+      "files": [
+        { "path": "/docs/gdpr/cross-border-transfer-register.md", "template": "transfer-register.md" },
+        { "path": "/docs/gdpr/transfer-impact-assessment.md", "template": "tia-template.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "GDPR Chapter V prohibits transfers without adequate safeguards; SCCs invalidations (Schrems II) show this is actively litigated."
+  },
+
+  {
+    "id": "gdpr-breach-notification",
+    "description": "GDPR Art.33/34: Personal data breach detection, notification, and documentation",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "GDPR"
+      },
+      "precedenceWeight": 90
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Implement breach detection capabilities (anomaly alerting, SIEM). Document breach notification procedure: assess breach within 24h, notify supervisory authority within 72h if risk to individuals, notify affected individuals without undue delay if high risk. Maintain a breach register documenting all incidents (even those not requiring notification). Conduct post-breach review.",
+      "files": [
+        { "path": "/docs/gdpr/breach-notification-procedure.md", "template": "breach-notification.md" },
+        { "path": "/docs/gdpr/breach-register.md", "template": "breach-register.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "GDPR Art.33 72-hour notification window is strictly enforced; late notifications are penalised separately from the underlying breach."
+  }
+]

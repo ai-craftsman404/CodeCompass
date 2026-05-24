@@ -1,0 +1,200 @@
+[
+  {
+    "id": "iso27001-asset-management",
+    "description": "ISO27001 A.8: Maintain an inventory of information assets and assign ownership",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "ISO27001"
+      },
+      "precedenceWeight": 90
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Create an information asset register listing all data assets, their classification (public, internal, confidential, restricted), owner, and handling requirements. Define data classification policy. Label source repositories, databases, and storage buckets according to classification. Review and update asset register at least annually.",
+      "files": [
+        { "path": "/docs/iso27001/asset-register.md", "template": "asset-register.md" },
+        { "path": "/docs/iso27001/data-classification-policy.md", "template": "data-classification-policy.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "ISO27001 Annex A.8 requires systematic asset management; without an asset register, scope and controls cannot be defined."
+  },
+
+  {
+    "id": "iso27001-access-control",
+    "description": "ISO27001 A.9: Implement access control policy and user access management",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "ISO27001"
+      },
+      "precedenceWeight": 95
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Define and document access control policy (principle of least privilege). Implement formal user provisioning and deprovisioning procedures. Enforce MFA on all privileged accounts. Create and maintain CODEOWNERS to restrict code merge permissions. Review access rights at least every 6 months and document reviews.",
+      "files": [
+        { "path": "/docs/iso27001/access-control-policy.md", "template": "access-control-policy.md" },
+        { "path": "/.github/CODEOWNERS", "template": "codeowners.txt" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "ISO27001 A.9 is one of the most audited control areas; access rights must be formally managed and periodically reviewed."
+  },
+
+  {
+    "id": "iso27001-cryptography",
+    "description": "ISO27001 A.10: Cryptographic controls policy for data protection",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "ISO27001"
+      },
+      "precedenceWeight": 88
+    },
+    "action": {
+      "type": "hardening",
+      "recommendation": "Define cryptographic controls policy specifying approved algorithms (AES-256, RSA-2048+, TLS 1.2+), key management procedures, and key rotation schedules. Enforce HTTPS/TLS for all data in transit. Encrypt sensitive data at rest. Document key custodianship and escrow procedures. Prohibit use of deprecated algorithms (MD5, SHA-1, DES).",
+      "files": [
+        { "path": "/docs/iso27001/cryptography-policy.md", "template": "cryptography-policy.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "ISO27001 A.10 mandates cryptographic controls; weak or undocumented cryptography is a common audit finding."
+  },
+
+  {
+    "id": "iso27001-physical-security",
+    "description": "ISO27001 A.11: Physical and environmental security controls documentation",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "ISO27001"
+      },
+      "precedenceWeight": 85
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Document physical security perimeters and access controls for facilities housing information processing equipment. For cloud deployments, document the cloud provider's physical security certifications (ISO27001, SOC2, etc.) and include them as evidence. Define a clear desk and clear screen policy for on-premise workers. Document disposal and destruction procedures for physical media.",
+      "files": [
+        { "path": "/docs/iso27001/physical-security-policy.md", "template": "physical-security-policy.md" },
+        { "path": "/docs/iso27001/clear-desk-policy.md", "template": "clear-desk-policy.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "ISO27001 A.11 requires documented physical controls; cloud reliance must be evidenced through provider certifications."
+  },
+
+  {
+    "id": "iso27001-operations-security",
+    "description": "ISO27001 A.12: Operational procedures, malware protection, backup, and vulnerability management",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "ISO27001"
+      },
+      "precedenceWeight": 90
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Document operational procedures for all critical processes. Implement malware protection (dependency scanning, SAST, container scanning). Maintain backup procedures with tested recovery. Implement vulnerability management: scan dependencies weekly, patch critical CVEs within 14 days. Log all operational events and retain for minimum 12 months.",
+      "files": [
+        { "path": "/docs/iso27001/operational-procedures.md", "template": "operational-procedures.md" },
+        { "path": "/docs/iso27001/vulnerability-management.md", "template": "vulnerability-management.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "ISO27001 A.12 covers day-to-day operational security; documented procedures and vulnerability management are core controls."
+  },
+
+  {
+    "id": "iso27001-communications-security",
+    "description": "ISO27001 A.13: Network security and information transfer controls",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "ISO27001"
+      },
+      "precedenceWeight": 87
+    },
+    "action": {
+      "type": "hardening",
+      "recommendation": "Document network security controls: segment networks by trust zone, enforce TLS 1.2+ on all APIs, document data transfer agreements for third-party exchanges. Implement API security (authentication, rate limiting, input validation). Define acceptable use policy for information transfer channels. Document and approve all third-party service integrations.",
+      "files": [
+        { "path": "/docs/iso27001/network-security-policy.md", "template": "network-security-policy.md" },
+        { "path": "/docs/iso27001/information-transfer-policy.md", "template": "information-transfer-policy.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "ISO27001 A.13 requires documented network and communications controls; undocumented data flows are a common gap finding."
+  },
+
+  {
+    "id": "iso27001-incident-management",
+    "description": "ISO27001 A.16: Information security incident management procedures",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "ISO27001"
+      },
+      "precedenceWeight": 92
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Create incident response plan covering: detection, reporting, assessment, escalation, containment, eradication, recovery, and lessons-learned phases. Define incident severity classification. Establish 24-hour initial response SLA for high/critical incidents. Document post-incident review process. Test the plan annually with tabletop exercises. Maintain incident log.",
+      "files": [
+        { "path": "/docs/iso27001/incident-response-plan.md", "template": "incident-response-plan.md" },
+        { "path": "/docs/iso27001/incident-log.md", "template": "incident-log.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "ISO27001 A.16 requires a formal incident management capability; auditors look for evidence of tested response procedures."
+  },
+
+  {
+    "id": "iso27001-business-continuity",
+    "description": "ISO27001 A.17: Information security aspects of business continuity management",
+    "category": "process",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "ISO27001"
+      },
+      "precedenceWeight": 88
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Create Business Continuity Plan (BCP) covering critical information systems. Define Recovery Time Objectives (RTO) and Recovery Point Objectives (RPO) for each critical system. Test disaster recovery annually and document results. Implement redundancy for critical components. Document backup and restore procedures with tested recovery times.",
+      "files": [
+        { "path": "/docs/iso27001/business-continuity-plan.md", "template": "business-continuity-plan.md" },
+        { "path": "/docs/iso27001/disaster-recovery-runbook.md", "template": "disaster-recovery-runbook.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "ISO27001 A.17 requires continuity planning; untested recovery plans provide false assurance."
+  }
+]

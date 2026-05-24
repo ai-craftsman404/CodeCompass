@@ -1,0 +1,227 @@
+[
+  {
+    "id": "test-none-scaffold-unit",
+    "description": "Scaffold unit test framework immediately",
+    "category": "testing",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "TEST_MATURITY": "none"
+      },
+      "precedenceWeight": 70
+    },
+    "action": {
+      "type": "scaffold",
+      "recommendation": "Set up a unit testing framework for your project. For JavaScript/TypeScript: Jest or Vitest. For Python: pytest. For Go: built-in testing package. Write tests for at least the critical business logic paths. Aim for 60%+ coverage to start.",
+      "files": [],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "No tests means bugs are found by users. Even basic unit tests catch regressions and document expected behaviour."
+  },
+
+  {
+    "id": "test-unit-add-integration",
+    "description": "Add integration tests to unit test suite",
+    "category": "testing",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "TEST_MATURITY": "unit"
+      },
+      "precedenceWeight": 65
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Extend your unit tests with integration tests. Test database interactions, API endpoints, and external service integrations using real or containerised dependencies. Use tools like Testcontainers for database integration tests.",
+      "files": [],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Unit tests alone miss integration failures at boundaries between components and external systems."
+  },
+
+  {
+    "id": "test-integration-add-e2e",
+    "description": "Add end-to-end tests for critical user journeys",
+    "category": "testing",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "TEST_MATURITY": "unit+integration"
+      },
+      "precedenceWeight": 60
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Add E2E tests for your 3-5 most critical user journeys. Use Playwright, Cypress, or similar. Focus on happy paths and critical failure modes. Run E2E tests in CI on a schedule or before production deployments.",
+      "files": [],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Integration tests verify components; E2E tests verify that complete user journeys work as expected."
+  },
+
+  {
+    "id": "test-e2e-add-contract",
+    "description": "Add consumer-driven contract tests for API boundaries",
+    "category": "testing",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "TEST_MATURITY": "e2e"
+      },
+      "precedenceWeight": 65
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Implement consumer-driven contract tests (Pact, Spring Cloud Contract) for your API boundaries. Define consumer expectations, verify provider implementations, and integrate contract verification into your CI pipeline. This is especially valuable in microservice architectures.",
+      "files": [],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Contract tests catch API breaking changes before deployment, enabling independent service releases."
+  },
+
+  {
+    "id": "test-contract-chaos-resilience",
+    "description": "Add chaos and resilience testing for mature test suites",
+    "category": "testing",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "TEST_MATURITY": "contract"
+      },
+      "precedenceWeight": 60
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Introduce chaos and resilience testing for production confidence. Use tools like Chaos Monkey, Gremlin, or k6 for failure injection. Test: network partitions, dependency failures, resource exhaustion, and cascading failure scenarios.",
+      "files": [
+        { "path": "/docs/testing/chaos-testing-plan.md", "template": "chaos-testing-plan.md" }
+      ],
+      "enforcementLevel": "advisory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Contract tests verify correctness; chaos tests verify resilience under real-world failure conditions."
+  },
+
+  {
+    "id": "test-fixtures-and-mocks",
+    "description": "Maintain consistent test fixtures and mock strategies",
+    "category": "testing",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "TEST_MATURITY": ["unit", "unit+integration", "e2e", "contract"]
+      },
+      "precedenceWeight": 50
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Establish consistent fixture and mock strategies across your test suite. Use factory functions for test data (not random values), document mock contracts to match real APIs, centralise fixture management, and avoid over-mocking that hides integration issues.",
+      "files": [
+        { "path": "/docs/testing/test-fixtures-guide.md", "template": "test-fixtures-guide.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Inconsistent fixtures and mocks cause brittle tests that fail for wrong reasons, reducing trust in the test suite."
+  },
+
+  {
+    "id": "test-coverage-baseline",
+    "description": "Establish and enforce test coverage baseline",
+    "category": "testing",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "TEST_MATURITY": ["unit", "unit+integration", "e2e"]
+      },
+      "precedenceWeight": 60
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Set and enforce test coverage thresholds in your CI pipeline. Recommended minimums: 80% statement coverage, 70% branch coverage, 90% for security-critical modules. Use coverage reports to identify untested code paths and prioritise test writing.",
+      "files": [],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Coverage thresholds prevent test debt accumulation and highlight untested code paths before they become bugs."
+  },
+
+  {
+    "id": "test-performance-baselines",
+    "description": "Establish performance test baselines",
+    "category": "testing",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "TEST_MATURITY": ["unit+integration", "e2e", "contract"]
+      },
+      "precedenceWeight": 55
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Add performance tests for critical paths. Define SLOs (p95 latency, throughput), create performance test baselines, run load tests in CI pre-release, and alert when performance regresses beyond baseline thresholds.",
+      "files": [
+        { "path": "/docs/testing/performance-baselines.md", "template": "performance-baselines.md" }
+      ],
+      "enforcementLevel": "advisory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Performance regressions are invisible without baselines. Establishing them early prevents surprise performance failures in production."
+  },
+
+  {
+    "id": "test-mutation-testing",
+    "description": "Use mutation testing to validate test quality",
+    "category": "testing",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "TEST_MATURITY": ["e2e", "contract"]
+      },
+      "precedenceWeight": 45
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Apply mutation testing (Stryker, PITest, mutmut) to validate the quality of your test suite. Aim for 70%+ mutation score on critical modules. Low mutation scores indicate tests that pass without actually validating behaviour.",
+      "files": [],
+      "enforcementLevel": "advisory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "High coverage does not guarantee high quality tests. Mutation testing detects tests that pass without asserting anything meaningful."
+  },
+
+  {
+    "id": "test-automated-regression",
+    "description": "Automate regression test suite",
+    "category": "testing",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "TEST_MATURITY": ["e2e", "contract"]
+      },
+      "precedenceWeight": 70
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Build an automated regression test suite covering all known bug fixes. Document each regression test with the original bug reference, ensure regression tests run on every PR, and triage regression test failures as P1 issues.",
+      "files": [],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Automated regression tests ensure fixed bugs stay fixed as the codebase evolves."
+  }
+]

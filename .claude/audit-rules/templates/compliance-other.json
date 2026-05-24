@@ -1,0 +1,151 @@
+[
+  {
+    "id": "cyber-essentials-baseline",
+    "description": "UK Cyber Essentials: Five technical controls baseline for cyber hygiene",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "Cyber Essentials"
+      },
+      "precedenceWeight": 80
+    },
+    "action": {
+      "type": "hardening",
+      "recommendation": "Implement the five Cyber Essentials controls: (1) Boundary firewalls and internet gateways — restrict inbound/outbound traffic by default-deny. (2) Secure configuration — harden devices and software, change default credentials, disable unnecessary services. (3) Access control — limit admin accounts, enforce MFA for remote access. (4) Malware protection — install and maintain endpoint protection. (5) Patch management — apply security patches within 14 days of release. Document evidence for each control for certification assessment.",
+      "files": [
+        { "path": "/docs/cyber-essentials/controls-evidence.md", "template": "cyber-essentials-evidence.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "Cyber Essentials certification is required for UK government contracts; the five controls address 80% of commodity cyber attacks."
+  },
+
+  {
+    "id": "fedramp-itar-classified",
+    "description": "FedRAMP/ITAR: Federal security baseline for government cloud services and controlled data",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "FedRAMP"
+      },
+      "precedenceWeight": 95
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "For FedRAMP Authorization: select authorization path (Low/Moderate/High impact level), engage a Third-Party Assessment Organization (3PAO), implement NIST SP 800-53 controls, create System Security Plan (SSP). For ITAR-controlled technical data: implement access controls restricting foreign national access, document export control procedures, train staff on ITAR obligations, maintain export control management plan. Use FedRAMP-authorized cloud services only.",
+      "files": [
+        { "path": "/docs/fedramp/system-security-plan-outline.md", "template": "ssp-outline.md" },
+        { "path": "/docs/fedramp/export-control-procedures.md", "template": "export-control.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "FedRAMP is mandatory for cloud services provided to US federal agencies; ITAR violations carry criminal penalties."
+  },
+
+  {
+    "id": "hipaa-phi-protection",
+    "description": "HIPAA: Safeguards for Protected Health Information (PHI) under HIPAA Security Rule",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "HIPAA"
+      },
+      "precedenceWeight": 97
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Implement HIPAA Security Rule administrative, physical, and technical safeguards: (1) Conduct annual HIPAA risk analysis. (2) Encrypt PHI at rest (AES-256) and in transit (TLS 1.2+). (3) Implement access controls with unique user IDs and automatic logoff. (4) Maintain audit logs of PHI access for 6 years. (5) Execute Business Associate Agreements (BAAs) with all vendors who access PHI. (6) Develop and test incident response plan covering HIPAA Breach Notification Rule (60-day notification). (7) Train all workforce members annually on HIPAA policies.",
+      "files": [
+        { "path": "/docs/hipaa/risk-analysis.md", "template": "hipaa-risk-analysis.md" },
+        { "path": "/docs/hipaa/baa-register.md", "template": "baa-register.md" },
+        { "path": "/docs/hipaa/phi-access-controls.md", "template": "phi-access-controls.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "HIPAA violations carry civil and criminal penalties; OCR enforcement has resulted in multi-million dollar settlements for inadequate PHI safeguards."
+  },
+
+  {
+    "id": "nist-ai-rmf-governance",
+    "description": "NIST AI RMF: AI Risk Management Framework governance for AI system development",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "NIST-AI-RMF"
+      },
+      "precedenceWeight": 85
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Implement NIST AI RMF core functions: (1) GOVERN — establish AI risk governance policies, assign accountability, document AI use cases. (2) MAP — categorize AI risks (bias, safety, security, explainability) for each AI system. (3) MEASURE — define and track AI risk metrics, implement bias testing and model cards. (4) MANAGE — implement risk treatment plans, monitor deployed models for drift and performance degradation. Create AI system inventory with risk classification. Document model lineage and training data provenance.",
+      "files": [
+        { "path": "/docs/nist-ai-rmf/ai-system-inventory.md", "template": "ai-system-inventory.md" },
+        { "path": "/docs/nist-ai-rmf/risk-governance-policy.md", "template": "ai-risk-governance.md" }
+      ],
+      "enforcementLevel": "soft-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "NIST AI RMF provides a structured approach to AI governance; increasingly required for government AI procurement and referenced by regulators globally."
+  },
+
+  {
+    "id": "eu-ai-act-high-risk",
+    "description": "EU AI Act: Compliance obligations for high-risk AI systems",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "EU-AI-Act"
+      },
+      "precedenceWeight": 93
+    },
+    "action": {
+      "type": "audit",
+      "recommendation": "Classify AI system risk level per EU AI Act Annex III (high-risk categories include: biometrics, critical infrastructure, education, employment, essential services, law enforcement, migration, justice). For high-risk systems: (1) Implement risk management system per Art.9. (2) Maintain data governance documentation. (3) Produce technical documentation per Annex IV. (4) Enable human oversight mechanisms per Art.14. (5) Implement logging and traceability per Art.12. (6) Conduct conformity assessment. (7) Register in EU database if applicable. Assign AI compliance officer.",
+      "files": [
+        { "path": "/docs/eu-ai-act/risk-classification.md", "template": "eu-ai-risk-classification.md" },
+        { "path": "/docs/eu-ai-act/technical-documentation.md", "template": "eu-ai-technical-docs.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "EU AI Act entered into force August 2024; high-risk AI systems face fines up to 3% of global annual turnover for non-compliance."
+  },
+
+  {
+    "id": "pci-dss-card-data",
+    "description": "PCI DSS v4.0: Payment Card Industry Data Security Standard for cardholder data protection",
+    "category": "compliance",
+    "version": "1.0.0",
+    "condition": {
+      "contextVars": {
+        "COMPLIANCE_FRAMEWORK": "PCI-DSS"
+      },
+      "precedenceWeight": 97
+    },
+    "action": {
+      "type": "hardening",
+      "recommendation": "Implement PCI DSS v4.0 requirements: (1) Scope reduction — minimize cardholder data environment (CDE) scope, prefer tokenization and payment service providers. (2) Network security — firewall rules, network segmentation, no direct internet access to CDE. (3) Cardholder data protection — never store CVV/CVC, encrypt PAN at rest (AES-256), mask PAN in display. (4) Vulnerability management — quarterly ASV scans, annual penetration testing, patch within 1 month. (5) Access control — least privilege, MFA for all CDE access, unique accounts. (6) Monitoring — log all CDE access, 12-month retention, daily log review. Engage a QSA (Qualified Security Assessor) for Level 1 merchants.",
+      "files": [
+        { "path": "/docs/pci-dss/cde-scope-diagram.md", "template": "cde-scope.md" },
+        { "path": "/docs/pci-dss/pci-responsibility-matrix.md", "template": "pci-responsibility.md" }
+      ],
+      "enforcementLevel": "hard-mandatory"
+    },
+    "conflictsWith": [],
+    "overrides": [],
+    "rationale": "PCI DSS non-compliance results in card brand fines, increased transaction fees, and potential loss of payment processing privileges."
+  }
+]
