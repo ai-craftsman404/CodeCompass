@@ -129,7 +129,7 @@ export interface PhasingOutput {
  * @returns {PhasingOutput} Phase 1 (if phasing) + Phase 2 structure
  */
 export function determinePhasedRecommendations(
-  resolved: Array<{ id: string; category: string; action?: { enforcementLevel?: string } }>,
+  resolved: Array<{ id: string; category: string; status?: string; action?: { enforcementLevel?: string } }>,
   suggestPhasing: boolean
 ): PhasingOutput {
   if (suggestPhasing) {
