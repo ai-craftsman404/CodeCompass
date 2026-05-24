@@ -81,7 +81,7 @@
     "version": "1.0.0",
     "condition": {
       "contextVars": {
-        "COMPLIANCE_FRAMEWORK": "NIST-AI-RMF"
+        "COMPLIANCE_FRAMEWORK": "NIST AI RMF"
       },
       "precedenceWeight": 85
     },
@@ -106,7 +106,7 @@
     "version": "1.0.0",
     "condition": {
       "contextVars": {
-        "COMPLIANCE_FRAMEWORK": "EU-AI-Act"
+        "COMPLIANCE_FRAMEWORK": "EU AI Act"
       },
       "precedenceWeight": 93
     },
@@ -131,7 +131,7 @@
     "version": "1.0.0",
     "condition": {
       "contextVars": {
-        "COMPLIANCE_FRAMEWORK": "PCI-DSS"
+        "COMPLIANCE_FRAMEWORK": "PCI DSS"
       },
       "precedenceWeight": 97
     },

@@ -10,7 +10,7 @@ const ENUM_VALUES = {
   THREAT_LEVEL: ['none', 'low', 'medium', 'high', 'critical'],
   TEAM_SCALE: ['solo', 'pair-trio', 'small', 'multi-team', 'enterprise'],
   AI_PATTERN: ['none', 'LLM API', 'RAG', 'fine-tuning', 'agentic', 'training'],
-  COMPLIANCE_FRAMEWORK: ['none', 'GDPR', 'ISO27001', 'Cyber Essentials', 'SOC2', 'FedRAMP', 'HIPAA'],
+  COMPLIANCE_FRAMEWORK: ['none', 'GDPR', 'ISO27001', 'Cyber Essentials', 'SOC2', 'FedRAMP', 'HIPAA', 'EU AI Act', 'NIST AI RMF', 'PCI DSS'],
   TEST_MATURITY: ['none', 'unit', 'unit+integration', 'unit+integration+E2E', 'contract', 'chaos'],
   CI_MATURITY: ['none', 'basic', 'full', 'GitOps', 'ADO'],
   DEPLOYMENT_TARGET: ['local-dev', 'cloud', 'on-prem', 'edge', 'hybrid', 'air-gapped']
