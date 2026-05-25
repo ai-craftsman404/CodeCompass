@@ -3,7 +3,13 @@
 
   <br/>
 
-  **The audit skill for Claude Code that tells you exactly what your project needs — and why.**
+  ## CodeCompass
+
+  **A custom skill for [Claude Code](https://claude.ai/code) that audits your project against 110+ context-aware rules — and only shows you the ones that actually apply.**
+
+  Most audit tools give every project the same checklist. CodeCompass doesn't. You tell it your project's stage, team size, compliance requirements, and threat level — it filters, scores, and ranks exactly what needs fixing, in priority order. A solo developer on a PoC gets 5 targeted rules. A regulated enterprise shipping to production gets a phased plan covering security, compliance, and operations gaps.
+
+  You add it once to your project. Then any time you're in Claude Code, type `/audit` — and in under 60 seconds you have a prioritised, rationale-backed recommendation set built for your specific situation.
 
   <br/>
 
@@ -16,7 +22,7 @@
 
   <br/>
 
-  **[▶ See real output](#see-real-output)  ·  [⚡ Try in 2 minutes](#try-in-2-minutes)  ·  [📖 Docs](#how-it-works)**
+  **[▶ See real output](#see-real-output)  ·  [⚡ Install in 2 minutes](#install-in-2-minutes)  ·  [📖 Docs](#how-it-works)**
 
 </div>
 
@@ -85,9 +91,11 @@ Rationale provided for every rule · Conflicts resolved · Artifact paths listed
 
 ---
 
-## Try in 2 minutes
+## Install in 2 minutes
 
 **You need:** [Node.js 18+](https://nodejs.org) and [Claude Code](https://claude.ai/code)
+
+**Step 1 — Clone and build CodeCompass:**
 
 ```bash
 git clone https://github.com/ai-craftsman404/CodeCompass.git
@@ -95,13 +103,25 @@ cd CodeCompass
 npm install && npm run build
 ```
 
-Open **any project** in Claude Code, then type:
+**Step 2 — Add the skill to your project:**
+
+Copy the `.claude/` directory from CodeCompass into the root of the project you want to audit:
+
+```bash
+cp -r /path/to/CodeCompass/.claude /path/to/your-project/
+```
+
+This gives your project the `/audit` skill and its rule library.
+
+**Step 3 — Run it:**
+
+Open your project in Claude Code and type:
 
 ```
 /audit
 ```
 
-That's it. Claude asks 3–4 questions, infers context from your repo, and returns a prioritised recommendation set. Expect results in under 60 seconds.
+Claude asks 3–4 questions, infers context from your repo, and returns a prioritised recommendation set. Expect results in under 60 seconds.
 
 > **Skip the questions** — if you already know your context, pass flags directly and go straight to results (see [expert flags](#expert-flags-reference)).
 
