@@ -22,9 +22,79 @@
 
   <br/>
 
-  **[▶ See real output](#see-real-output)  ·  [⚡ Install in 2 minutes](#install-in-2-minutes)  ·  [📖 Docs](#how-it-works)**
+  **[⚡ Install in 2 minutes](#install-in-2-minutes)  ·  [▶ See real output](#see-real-output)  ·  [📖 Docs](#how-it-works)**
 
 </div>
+
+---
+
+## What is CodeCompass?
+
+CodeCompass is a **Claude Code skill** that audits any software project against 110+ contextual rules — and only surfaces the ones that apply to your specific situation.
+
+Most audit tools give every project the same advice. CodeCompass doesn't. It scores rules against your project's **stage, team size, compliance obligations, AI patterns, and threat level**, then resolves conflicts between competing rules using a weighted precedence engine.
+
+A solo developer building a PoC gets different advice from a regulated enterprise shipping to production — and rightly so.
+
+**What sets it apart:**
+
+| | |
+|---|---|
+| 🎯 **Context-filtered** | 110+ rules — only relevant ones surface |
+| ⚖️ **Precedence-scored** | Critical rules always win; no recommendation buries another |
+| 📋 **Compliance-ready** | GDPR, ISO 27001, SOC2, HIPAA, PCI DSS, FedRAMP, EU AI Act, NIST AI RMF, Cyber Essentials |
+| 🤖 **AI-native** | Dedicated rules for LLM APIs, RAG pipelines, agentic systems, fine-tuning |
+| 📅 **Phase-aware** | Large high-threat projects split into Triage (1–2 h) + Comprehensive (1–3 d) |
+| 🔧 **Extensible** | Add a rule in 5 minutes — pure JSON, no code required |
+
+---
+
+## Who is it for?
+
+| You are… | CodeCompass helps you… |
+|---|---|
+| 🧑‍💻 **Solo developer** on an MVP or PoC | Get the minimum viable rules — nothing overwhelming |
+| 👥 **Small team** shipping to production | Catch CI/CD gaps, test blind spots, and observability failures before they become incidents |
+| 🏢 **Enterprise engineering team** | Enforce compliance frameworks and multi-team governance at scale |
+| 🤖 **AI / LLM application builder** | Catch prompt injection, RAG leakage, agentic safety gaps, and cost runaway before deployment |
+| 🔒 **Security-conscious team** | Threat-weighted recommendations with hard-mandatory rules that cannot be skipped |
+| 📋 **Tech lead or architect** | Phased audits that separate "fix in 2 hours" from "tackle over 3 days" |
+
+---
+
+## Install in 2 minutes
+
+**You need:** [Node.js 18+](https://nodejs.org) and [Claude Code](https://claude.ai/code)
+
+**Step 1 — Clone and build CodeCompass:**
+
+```bash
+git clone https://github.com/ai-craftsman404/CodeCompass.git
+cd CodeCompass
+npm install && npm run build
+```
+
+**Step 2 — Add the skill to your project:**
+
+Copy the `.claude/` directory from CodeCompass into the root of the project you want to audit:
+
+```bash
+cp -r /path/to/CodeCompass/.claude /path/to/your-project/
+```
+
+This gives your project the `/audit` skill and its rule library.
+
+**Step 3 — Run it:**
+
+Open your project in Claude Code and type:
+
+```
+/audit
+```
+
+Claude asks 3–4 questions, infers context from your repo, and returns a prioritised recommendation set. Expect results in under 60 seconds.
+
+> **Skip the questions** — if you already know your context, pass flags directly and go straight to results (see [expert flags](#expert-flags-reference)).
 
 ---
 
@@ -88,76 +158,6 @@ Rationale provided for every rule · Conflicts resolved · Artifact paths listed
 # Enterprise system, ISO 27001
 /audit PROFILE_STAGE=production TEAM_SCALE=enterprise COMPLIANCE_FRAMEWORK=ISO27001
 ```
-
----
-
-## Install in 2 minutes
-
-**You need:** [Node.js 18+](https://nodejs.org) and [Claude Code](https://claude.ai/code)
-
-**Step 1 — Clone and build CodeCompass:**
-
-```bash
-git clone https://github.com/ai-craftsman404/CodeCompass.git
-cd CodeCompass
-npm install && npm run build
-```
-
-**Step 2 — Add the skill to your project:**
-
-Copy the `.claude/` directory from CodeCompass into the root of the project you want to audit:
-
-```bash
-cp -r /path/to/CodeCompass/.claude /path/to/your-project/
-```
-
-This gives your project the `/audit` skill and its rule library.
-
-**Step 3 — Run it:**
-
-Open your project in Claude Code and type:
-
-```
-/audit
-```
-
-Claude asks 3–4 questions, infers context from your repo, and returns a prioritised recommendation set. Expect results in under 60 seconds.
-
-> **Skip the questions** — if you already know your context, pass flags directly and go straight to results (see [expert flags](#expert-flags-reference)).
-
----
-
-## What is CodeCompass?
-
-CodeCompass is a **Claude Code skill** that audits any software project against 110+ contextual rules — and only surfaces the ones that apply to your specific situation.
-
-Most audit tools give every project the same advice. CodeCompass doesn't. It scores rules against your project's **stage, team size, compliance obligations, AI patterns, and threat level**, then resolves conflicts between competing rules using a weighted precedence engine.
-
-A solo developer building a PoC gets different advice from a regulated enterprise shipping to production — and rightly so.
-
-**What sets it apart:**
-
-| | |
-|---|---|
-| 🎯 **Context-filtered** | 110+ rules — only relevant ones surface |
-| ⚖️ **Precedence-scored** | Critical rules always win; no recommendation buries another |
-| 📋 **Compliance-ready** | GDPR, ISO 27001, SOC2, HIPAA, PCI DSS, FedRAMP, EU AI Act, NIST AI RMF, Cyber Essentials |
-| 🤖 **AI-native** | Dedicated rules for LLM APIs, RAG pipelines, agentic systems, fine-tuning |
-| 📅 **Phase-aware** | Large high-threat projects split into Triage (1–2 h) + Comprehensive (1–3 d) |
-| 🔧 **Extensible** | Add a rule in 5 minutes — pure JSON, no code required |
-
----
-
-## Who is it for?
-
-| You are… | CodeCompass helps you… |
-|---|---|
-| 🧑‍💻 **Solo developer** on an MVP or PoC | Get the minimum viable rules — nothing overwhelming |
-| 👥 **Small team** shipping to production | Catch CI/CD gaps, test blind spots, and observability failures before they become incidents |
-| 🏢 **Enterprise engineering team** | Enforce compliance frameworks and multi-team governance at scale |
-| 🤖 **AI / LLM application builder** | Catch prompt injection, RAG leakage, agentic safety gaps, and cost runaway before deployment |
-| 🔒 **Security-conscious team** | Threat-weighted recommendations with hard-mandatory rules that cannot be skipped |
-| 📋 **Tech lead or architect** | Phased audits that separate "fix in 2 hours" from "tackle over 3 days" |
 
 ---
 
