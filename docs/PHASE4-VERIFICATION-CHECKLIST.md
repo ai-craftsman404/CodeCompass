@@ -450,7 +450,7 @@ Phase 4 deliverables meet all requirements and are ready for production deployme
 ## Appendix A: File Locations
 
 ```
-C:\Users\georg\claude-code-project\CodeCompass\
+CodeCompass/
 ├── docs/
 │   ├── rule-format.md (121 lines)
 │   ├── phasing-guide.md (73 lines)
