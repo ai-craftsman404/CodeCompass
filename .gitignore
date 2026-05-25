@@ -4,3 +4,23 @@ coverage/
 *.js.map
 *.d.ts.map
 .claude/worktrees/
+
+# Test output logs
+test-output.log
+test-unit-output.log
+*.log
+
+# Session / development artifacts (not for public repo)
+.claude/SESSION_HANDOVER*.md
+ALGORITHM_PSEUDOCODE.md
+AUDIT_SKILL_IMPLEMENTATION_COMPLETE.md
+CHALLENGE_REPORT_ROUND_*.md
+E2E_TEST_SUITE_SUMMARY.md
+MANIFEST.md
+QUESTIONNAIRE_ANALYSIS.json
+REMEDIATION_ROUND_*.md
+ROUND_*_SUMMARY.txt
+TECHNICAL_IMPLEMENTATION_ANALYSIS.md
+TEST_PATTERN_REFERENCE.md
+VERIFICATION_CHECKLIST.md
+claude_code_audit_skill_design_session.md
