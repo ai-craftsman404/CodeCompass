@@ -22,7 +22,7 @@
 
   <br/>
 
-  **[⚡ Install in 2 minutes](#install-in-2-minutes)  ·  [▶ See real output](#see-real-output)  ·  [📖 Docs](#how-it-works)**
+  **[⚡ Install in 2 minutes](#install-in-2-minutes)  ·  [📖 How it works](#how-it-works)  ·  [▶ See real output](#see-real-output)**
 
 </div>
 
@@ -98,6 +98,32 @@ Claude asks 3–4 questions, infers context from your repo, and returns a priori
 
 ---
 
+## How it works
+
+```
+Repo scan → Questionnaire → Filter 110+ rules → Score & rank → Resolve conflicts → Phase → Output
+```
+
+| Step | What happens |
+|------|-------------|
+| **Repo scan** | Detects CI, tests, compliance markers, AI patterns, team signals |
+| **Questionnaire** | 3-tier questions routed to novice / intermediate / expert cohort |
+| **Rule filtering** | 110+ rules filtered by your context (AND/OR logic across 15 variables) |
+| **Precedence scoring** | `weight × (security×0.35 + compliance×0.25 + threat×0.20)` |
+| **Conflict resolution** | Hard-mandatory rules always win; soft-mandatory defer with justification |
+| **Phasing** | Score > 0.65 → Triage phase (1–2 h) + Comprehensive phase (1–3 d) |
+| **Output** | Per-rule explanation, score, phase assignment, artifact paths |
+
+### Questionnaire tiers
+
+| Tier | When | Covers |
+|------|------|--------|
+| **Tier 1** | Always | Stage, team size, AI pattern, compliance |
+| **Tier 2** | Unlocked by Tier 1 | CI maturity, test maturity, observability |
+| **Tier 3** | Expert / high-signal | Threat level, scoring weights, reuse intent |
+
+---
+
 ## See real output
 
 This is genuine output from the recommendation engine — not a mockup.
@@ -158,32 +184,6 @@ Rationale provided for every rule · Conflicts resolved · Artifact paths listed
 # Enterprise system, ISO 27001
 /audit PROFILE_STAGE=production TEAM_SCALE=enterprise COMPLIANCE_FRAMEWORK=ISO27001
 ```
-
----
-
-## How it works
-
-```
-Repo scan → Questionnaire → Filter 110+ rules → Score & rank → Resolve conflicts → Phase → Output
-```
-
-| Step | What happens |
-|------|-------------|
-| **Repo scan** | Detects CI, tests, compliance markers, AI patterns, team signals |
-| **Questionnaire** | 3-tier questions routed to novice / intermediate / expert cohort |
-| **Rule filtering** | 110+ rules filtered by your context (AND/OR logic across 15 variables) |
-| **Precedence scoring** | `weight × (security×0.35 + compliance×0.25 + threat×0.20)` |
-| **Conflict resolution** | Hard-mandatory rules always win; soft-mandatory defer with justification |
-| **Phasing** | Score > 0.65 → Triage phase (1–2 h) + Comprehensive phase (1–3 d) |
-| **Output** | Per-rule explanation, score, phase assignment, artifact paths |
-
-### Questionnaire tiers
-
-| Tier | When | Covers |
-|------|------|--------|
-| **Tier 1** | Always | Stage, team size, AI pattern, compliance |
-| **Tier 2** | Unlocked by Tier 1 | CI maturity, test maturity, observability |
-| **Tier 3** | Expert / high-signal | Threat level, scoring weights, reuse intent |
 
 ---
 
