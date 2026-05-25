@@ -3,109 +3,128 @@
 
   <br/>
 
-  **Stop guessing what your project needs. Get a prioritised, context-aware audit in one command.**
+  **The audit skill for Claude Code that tells you exactly what your project needs — and why.**
 
   <br/>
 
+  [![CI](https://github.com/ai-craftsman404/CodeCompass/actions/workflows/ci.yml/badge.svg)](https://github.com/ai-craftsman404/CodeCompass/actions/workflows/ci.yml)
   [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
   [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
   [![Tests](https://img.shields.io/badge/tests-615%20passing-brightgreen)](src/tests/)
   [![Coverage](https://img.shields.io/badge/coverage-95%25-brightgreen)](jest.config.js)
   [![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 
+  <br/>
+
+  **[▶ See real output](#see-real-output)  ·  [⚡ Try in 2 minutes](#try-in-2-minutes)  ·  [📖 Docs](#how-it-works)**
+
 </div>
 
 ---
 
-## See it in action
+## See real output
 
-Run one command in Claude Code. Get a prioritised audit tailored to your exact project:
+This is genuine output from the recommendation engine — not a mockup.
 
-```
-/audit PROFILE_STAGE=production COMPLIANCE_FRAMEWORK=GDPR TEAM_SCALE=small THREAT_LEVEL=high
-```
+**Scenario:** production app, small team, GDPR compliance required, high threat exposure.
 
 ```
-╔══════════════════════════════════════════════════════════════════╗
-║  CodeCompass — Audit Results                                     ║
-║  Context: production · small team · GDPR · threat: high         ║
-║  Rules matched: 23 of 110+   Phasing triggered (score: 0.72)    ║
-╚══════════════════════════════════════════════════════════════════╝
+$ /audit PROFILE_STAGE=production COMPLIANCE_FRAMEWORK=GDPR TEAM_SCALE=small THREAT_LEVEL=critical
 
-PHASE 1 — Triage  (complete in 1–2 hours)
-──────────────────────────────────────────
-🔴 gdpr-breach-notification          [hard-mandatory]  score: 96
-   Establish GDPR Art.33/34 breach response plan with 72-hour
-   supervisory notification procedure.
-   → Create: /docs/compliance/breach-notification.md
+Context : production · small team · GDPR · threat: critical
+Matched : 32 rules from 110+
+Phasing : YES  (score 0.72 — above 0.65 threshold)
 
-🔴 generic-env-config                [hard-mandatory]  score: 88
-   All secrets must move to environment variables immediately.
-   → Create: /.env.example  |  Verify: .gitignore covers .env
+══════════════════════════════════════════════════════════════
+ PHASE 1 — Triage                                  1–2 hours
+══════════════════════════════════════════════════════════════
 
-🔴 gdpr-data-processing-agreement    [hard-mandatory]  score: 85
-   Document lawful processing basis for each data category.
-   → Create: /docs/compliance/data-processing-register.md
+🔴 gdpr-data-processing-agreement    [hard-mandatory]  score: 100
+   GDPR Art.28: Data Processing Agreements required for all processors
+   → Create: /docs/gdpr/processor-register.md
 
-PHASE 2 — Comprehensive  (complete in 1–3 days)
-─────────────────────────────────────────────────
-🟡 production-sre-runbooks           [soft-mandatory]  score: 78
-🟡 ci-security-scanning              [soft-mandatory]  score: 74
-🟡 gdpr-privacy-notice               [soft-mandatory]  score: 71
-🟢 test-coverage-baseline            [advisory]        score: 65
-   … 16 more recommendations
+🔴 gdpr-privacy-policy               [hard-mandatory]  score: 100
+   GDPR Art.13/14: Privacy notice required for personal data collection
+   → Create: /docs/gdpr/privacy-notice.md
 
-Rationale logged for each rule · Conflicts resolved · Artifacts listed
+🔴 gdpr-data-retention-deletion      [hard-mandatory]  score: 100
+   GDPR Art.5(1)(e): Data minimisation and storage limitation policy
+   → Create: /docs/gdpr/data-retention-schedule.md
+
+🔴 gdpr-data-subject-rights          [hard-mandatory]  score: 100
+   GDPR Art.15-22: Workflows for all data subject rights requests
+   → Create: /docs/gdpr/dsr-procedures.md
+
+══════════════════════════════════════════════════════════════
+ PHASE 2 — Comprehensive                           1–3 days
+══════════════════════════════════════════════════════════════
+
+🔴 gdpr-breach-notification          [hard-mandatory]  score: 97
+🔴 production-sre-runbooks           [hard-mandatory]  score: 94
+🟡 ci-security-scanning              [soft-mandatory]  score: 78
+🟡 production-disaster-recovery      [soft-mandatory]  score: 74
+🟡 test-integration-add-e2e          [soft-mandatory]  score: 68
+🟢 obs-structured-metrics-alerts     [advisory]        score: 61
+   … 26 more recommendations
+
+Rationale provided for every rule · Conflicts resolved · Artifact paths listed
 ```
 
-No noise. No generic checklists. Only what applies to *your* project.
+**Change one flag, get a completely different set of recommendations:**
+
+```bash
+# Solo developer, early stage — minimal rules, no overwhelm
+/audit PROFILE_STAGE=PoC TEAM_SCALE=solo
+
+# LLM application going to production
+/audit PROFILE_STAGE=production AI_PATTERN="LLM API" THREAT_LEVEL=high
+
+# Enterprise system, ISO 27001
+/audit PROFILE_STAGE=production TEAM_SCALE=enterprise COMPLIANCE_FRAMEWORK=ISO27001
+```
 
 ---
 
-## Try it in 2 minutes
+## Try in 2 minutes
 
-**Prerequisites:** [Node.js 18+](https://nodejs.org) · [Claude Code](https://claude.ai/code)
+**You need:** [Node.js 18+](https://nodejs.org) and [Claude Code](https://claude.ai/code)
 
 ```bash
-# 1. Clone and install
 git clone https://github.com/ai-craftsman404/CodeCompass.git
-cd CodeCompass && npm install && npm run build
+cd CodeCompass
+npm install && npm run build
+```
 
-# 2. Open any project in Claude Code, then run:
+Open **any project** in Claude Code, then type:
+
+```
 /audit
 ```
 
-Claude walks you through 3–4 questions, infers context from your codebase, and returns a prioritised recommendation set in under a minute.
+That's it. Claude asks 3–4 questions, infers context from your repo, and returns a prioritised recommendation set. Expect results in under 60 seconds.
 
-**Already know your context? Skip the questions entirely:**
-
-```bash
-# Solo developer, MVP stage
-/audit PROFILE_STAGE=MVP TEAM_SCALE=solo
-
-# LLM app going to production
-/audit PROFILE_STAGE=production AI_PATTERN=LLM API THREAT_LEVEL=high
-
-# Regulated enterprise system
-/audit PROFILE_STAGE=production TEAM_SCALE=enterprise COMPLIANCE_FRAMEWORK=ISO27001 THREAT_LEVEL=critical
-```
+> **Skip the questions** — if you already know your context, pass flags directly and go straight to results (see [expert flags](#expert-flags-reference)).
 
 ---
 
 ## What is CodeCompass?
 
-CodeCompass is a **Claude Code skill** that audits any software project against a library of 110+ contextual rules — and only shows you the ones that matter for your specific situation.
+CodeCompass is a **Claude Code skill** that audits any software project against 110+ contextual rules — and only surfaces the ones that apply to your specific situation.
 
-Most audit tools give every project the same advice. CodeCompass doesn't. It scores rules against your project's **stage, team size, compliance obligations, AI patterns, and threat level**, then resolves conflicts between competing rules using a weighted precedence engine. A solo PoC gets different advice from a regulated enterprise production system — and it should.
+Most audit tools give every project the same advice. CodeCompass doesn't. It scores rules against your project's **stage, team size, compliance obligations, AI patterns, and threat level**, then resolves conflicts between competing rules using a weighted precedence engine.
+
+A solo developer building a PoC gets different advice from a regulated enterprise shipping to production — and rightly so.
 
 **What sets it apart:**
 
-- 🎯 **Context-filtered** — 110+ rules, only relevant ones surface
-- ⚖️ **Precedence-scored** — critical rules always win; no recommendation buries another
-- 📋 **Compliance-ready** — GDPR, ISO 27001, SOC2, HIPAA, PCI DSS, FedRAMP, EU AI Act, NIST AI RMF, Cyber Essentials
-- 🤖 **AI-native** — dedicated rule sets for LLM APIs, RAG, agentic systems, fine-tuning
-- 📅 **Phase-aware** — large high-threat projects automatically split into Triage + Comprehensive phases
-- 🔧 **Extensible** — add a rule in 5 minutes, pure JSON, no code required
+| | |
+|---|---|
+| 🎯 **Context-filtered** | 110+ rules — only relevant ones surface |
+| ⚖️ **Precedence-scored** | Critical rules always win; no recommendation buries another |
+| 📋 **Compliance-ready** | GDPR, ISO 27001, SOC2, HIPAA, PCI DSS, FedRAMP, EU AI Act, NIST AI RMF, Cyber Essentials |
+| 🤖 **AI-native** | Dedicated rules for LLM APIs, RAG pipelines, agentic systems, fine-tuning |
+| 📅 **Phase-aware** | Large high-threat projects split into Triage (1–2 h) + Comprehensive (1–3 d) |
+| 🔧 **Extensible** | Add a rule in 5 minutes — pure JSON, no code required |
 
 ---
 
@@ -117,8 +136,8 @@ Most audit tools give every project the same advice. CodeCompass doesn't. It sco
 | 👥 **Small team** shipping to production | Catch CI/CD gaps, test blind spots, and observability failures before they become incidents |
 | 🏢 **Enterprise engineering team** | Enforce compliance frameworks and multi-team governance at scale |
 | 🤖 **AI / LLM application builder** | Catch prompt injection, RAG leakage, agentic safety gaps, and cost runaway before deployment |
-| 🔒 **Security-conscious team** | Get threat-weighted recommendations with hard-mandatory rules that cannot be skipped |
-| 📋 **Tech lead or architect** | Run phased audits that separate "fix in 2 hours" from "tackle over 3 days" |
+| 🔒 **Security-conscious team** | Threat-weighted recommendations with hard-mandatory rules that cannot be skipped |
+| 📋 **Tech lead or architect** | Phased audits that separate "fix in 2 hours" from "tackle over 3 days" |
 
 ---
 
@@ -128,15 +147,15 @@ Most audit tools give every project the same advice. CodeCompass doesn't. It sco
 Repo scan → Questionnaire → Filter 110+ rules → Score & rank → Resolve conflicts → Phase → Output
 ```
 
-CodeCompass runs a 7-step pipeline every time `/audit` is invoked:
-
-1. **Repo scan** — detects CI, tests, compliance markers, AI patterns, team signals
-2. **Questionnaire** — 3-tier questions routed to novice / intermediate / expert cohort
-3. **Rule filtering** — 110+ rules filtered by your context (AND/OR logic across 15 variables)
-4. **Precedence scoring** — `weight × (security×0.35 + compliance×0.25 + threat×0.20)`
-5. **Conflict resolution** — hard-mandatory rules always win; soft-mandatory defer with justification
-6. **Phasing decision** — score > 0.65 → Triage phase (1–2 h) + Comprehensive phase (1–3 d)
-7. **Rendered output** — per-rule explanation, score, phase, artifact paths
+| Step | What happens |
+|------|-------------|
+| **Repo scan** | Detects CI, tests, compliance markers, AI patterns, team signals |
+| **Questionnaire** | 3-tier questions routed to novice / intermediate / expert cohort |
+| **Rule filtering** | 110+ rules filtered by your context (AND/OR logic across 15 variables) |
+| **Precedence scoring** | `weight × (security×0.35 + compliance×0.25 + threat×0.20)` |
+| **Conflict resolution** | Hard-mandatory rules always win; soft-mandatory defer with justification |
+| **Phasing** | Score > 0.65 → Triage phase (1–2 h) + Comprehensive phase (1–3 d) |
+| **Output** | Per-rule explanation, score, phase assignment, artifact paths |
 
 ### Questionnaire tiers
 
@@ -152,8 +171,6 @@ CodeCompass runs a 7-step pipeline every time `/audit` is invoked:
 
 Drive the engine directly — useful for CI pipelines, scripted audits, or when you already know your context.
 
-### Project flags
-
 | Flag | Values |
 |------|--------|
 | `PROFILE_STAGE` | `sandbox` `PoC` `MVP` `beta` `production` `sunset-legacy` |
@@ -164,14 +181,9 @@ Drive the engine directly — useful for CI pipelines, scripted audits, or when 
 | `CI_MATURITY` | `none` `basic` `full` `GitOps` `ADO` |
 | `TEST_MATURITY` | `none` `unit` `unit+integration` `unit+integration+E2E` `contract` `chaos` |
 | `DEPLOYMENT_TARGET` | `local-dev` `cloud` `on-prem` `edge` `hybrid` `air-gapped` |
-
-### Scoring weight flags (0–100)
-
-| Flag | Effect | Default |
-|------|--------|---------|
-| `SECURITY_WEIGHT` | Amplifies security rule scores | 60 |
-| `COMPLIANCE_WEIGHT` | Amplifies compliance rule scores | 50 |
-| `THREAT_WEIGHT` | Amplifies threat-related rule scores | 40 |
+| `SECURITY_WEIGHT` | 0–100 (default: 60) |
+| `COMPLIANCE_WEIGHT` | 0–100 (default: 50) |
+| `THREAT_WEIGHT` | 0–100 (default: 40) |
 
 ---
 
@@ -216,21 +228,6 @@ src/
 .claude/audit-rules/
 ├── index.json                   # Rule catalogue (category → rule-id mappings)
 └── templates/                   # 15 JSON rule files, 110+ rules
-    ├── generic.json             # Universal rules (fire for every project)
-    ├── compliance-gdpr.json
-    ├── compliance-iso27001.json
-    ├── compliance-soc2.json
-    ├── compliance-other.json    # FedRAMP, HIPAA, PCI DSS, EU AI Act, NIST AI RMF, Cyber Essentials
-    ├── llm-api.json
-    ├── agentic.json
-    ├── rag.json
-    ├── profile-stage.json
-    ├── team-scale.json
-    ├── ci-maturity.json
-    ├── test-maturity.json
-    ├── observability.json
-    ├── documentation.json
-    └── reuse-intent.json
 ```
 
 ---
@@ -241,7 +238,6 @@ src/
 npm run test:unit     # 493 unit tests across 8 suites
 npm run test:e2e      # 122 end-to-end scenario tests (real rule files, no mocks)
 npm run test:all      # Full suite with coverage report
-npm run test:watch    # Watch mode for development
 ```
 
 | Metric | Coverage | Threshold |
@@ -255,7 +251,7 @@ npm run test:watch    # Watch mode for development
 
 ## Extending CodeCompass
 
-### Add a rule (no code required)
+### Add a rule (pure JSON, no code required)
 
 ```json
 {
@@ -279,11 +275,10 @@ npm run test:watch    # Watch mode for development
 }
 ```
 
-1. Add to the relevant file in `.claude/audit-rules/templates/`
-2. Register the `id` in `.claude/audit-rules/index.json`
-3. Write a test · run `npm run test:all` · all 615 tests must pass
+1. Add to `.claude/audit-rules/templates/` · Register in `index.json` · Write a test
+2. Run `npm run test:all` — all 615 tests must pass
 
-Full guide: [docs/rule-format.md](docs/rule-format.md) · [docs/phasing-guide.md](docs/phasing-guide.md) · [docs/precedence-matrix-reference.md](docs/precedence-matrix-reference.md)
+Guides: [rule-format.md](docs/rule-format.md) · [phasing-guide.md](docs/phasing-guide.md) · [precedence-matrix-reference.md](docs/precedence-matrix-reference.md)
 
 ---
 
