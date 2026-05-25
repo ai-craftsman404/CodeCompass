@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="assets/codecompass-logo.png" alt="CodeCompass — Navigate Your Project Architecture" width="520"/>
+  <img src="assets/CodeCompass.png" alt="CodeCompass — Navigate Your Project Architecture" width="520"/>
 
   <br/>
 
